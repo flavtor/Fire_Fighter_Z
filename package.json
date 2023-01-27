@@ -1,0 +1,23 @@
+{
+  "name": "fire_fighter_z",
+  "version": "1.0.0",
+  "description": "",
+  "source": "src/index.html",
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flavtor/Fire_Fighter_Z.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flavtor/Fire_Fighter_Z/issues"
+  },
+  "homepage": "https://github.com/flavtor/Fire_Fighter_Z#readme",
+  "devDependencies": {
+    "parcel": "^2.8.3"
+  }
+}
