@@ -17,6 +17,11 @@ pip install flask
 ```
 pip install firebase_admin
 ```
+- Flask-CORS
+- - You can install Flask-CORS using the following command:
+```
+pip install flask_cors
+```
 
 ## Key Configuration
 In addition to the above requirements, you also need to set up the key.json file. This file contains the credentials for accessing your Firebase project, and is required for the database to connect to Firebase.
