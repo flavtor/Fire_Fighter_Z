@@ -3,12 +3,15 @@
 # Required imports
 import os
 from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 from firebase_admin import credentials, firestore, initialize_app
 import json
 import random
 
 # Initialize Flask app
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 # Initialize Firestore DB
 cred = credentials.Certificate('key.json')
@@ -19,6 +22,7 @@ player_ref = db.collection('player')
 
 
 @app.route('/init', methods=['GET'])
+@cross_origin()
 def init():
     """
         init() : create cards and get 5 random cards
@@ -77,6 +81,7 @@ def init():
 
 
 @app.route('/drawcard', methods=['GET'])
+@cross_origin()
 def drawcard():
 
     try:
@@ -89,6 +94,7 @@ def drawcard():
         return f"An Error Occurred: {e}"
 
 @app.route('/drawcards', methods=['GET'])
+@cross_origin()
 def drawcards():
 
     try:
@@ -102,6 +108,7 @@ def drawcards():
         return f"An Error Occurred: {e}"
 
 @app.route('/listcards', methods=['GET'])
+@cross_origin()
 def get_listcards():
     try:
         all_cards = [doc.to_dict() for doc in cards_ref.stream()]
@@ -111,6 +118,7 @@ def get_listcards():
         return f"An Error Occurred: {e}"
 
 @app.route('/listplayercards', methods=['GET'])
+@cross_origin()
 def get_listplayercards():
     try:
         all_cards = [doc.to_dict() for doc in player_ref.stream()]
@@ -119,7 +127,19 @@ def get_listplayercards():
     except Exception as e:
         return f"An Error Occurred: {e}"
 
+
+
+#*****************************************************************************************************
+"""
+Example:
+http://localhost:8080/playcard?id=19
+
+
+"""
+
+
 @app.route('/playcard', methods=['GET', 'PUT'])
+@cross_origin()
 def playcard():
 
     try:
@@ -129,8 +149,31 @@ def playcard():
         return jsonify(all_cards), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
+        
+
+@app.route('/play_drawcard', methods=['GET', 'PUT'])
+@cross_origin()
+def play_drawcard():
+
+    try:
+        card_id = request.args.get('id')
+        player_ref.document(str(card_id)).delete()
+        
+        list_cards = [doc.to_dict() for doc in cards_ref.stream()]
+        if list_cards:
+            my_card = random.choice(list_cards)
+            cards_ref.document(str(my_card["id"])).delete()
+            player_ref.document(str(my_card["id"])).set(my_card)
+        
+
+        all_cards = [doc.to_dict() for doc in player_ref.stream()]
+        return jsonify(all_cards), 200
+    except Exception as e:
+        return f"An Error Occurred: {e}"
+ 
 
 @app.route('/deletecard', methods=['GET', 'DELETE'])
+@cross_origin()
 def deletecard():
     """
         delete() : Delete a document from Firestore collection.
@@ -144,6 +187,7 @@ def deletecard():
         return f"An Error Occurred: {e}"
         
 @app.route('/deleteplayer', methods=['GET', 'DELETE'])
+@cross_origin()
 def deleteplayer():
     """
         delete() : Delete a document from Firestore collection.
