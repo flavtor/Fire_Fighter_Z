@@ -14,7 +14,7 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 # Initialize Firestore DB
-cred = credentials.Certificate('key.json')
+cred = credentials.Certificate('server/key.json')
 default_app = initialize_app(cred)
 db = firestore.client()
 cards_ref = db.collection('cards')
