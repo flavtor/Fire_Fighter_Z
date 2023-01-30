@@ -52,3 +52,40 @@
   scale: 1.8;
   opacity: 0;
 }
+
+.loading{
+  position: absolute;
+  display: flex;
+  align-items: center;
+  font-size: 3rem;
+  font-weight: bold;
+  bottom: 80px;
+  right: 50%;
+  transform: translate(50%, 50%);
+}
+
+.loader {
+  width: 60px;
+  height: 60px;
+  margin-left: 25px;
+  border: 5px solid;
+  border-color: #db1b0a transparent;
+  border-radius: 100%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 300;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 
