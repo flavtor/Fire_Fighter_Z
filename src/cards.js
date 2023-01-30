@@ -1,10 +1,9 @@
 export default class Card {
   constructor() {
-    this.cards = document.querySelectorAll(".cards__item");
-    this.initEvents();
   }
 
   initEvents() {
+    this.cards = document.querySelectorAll(".cards__item")
     this.cards.forEach((card) => {
       card.addEventListener("click", function () {
         this.classList.add("selected");
@@ -33,26 +32,19 @@ export default class Card {
 
     const cardsContainer = document.querySelector(".cards");
 
-    // for (const cardsData of this.json_obj) {
-    //   const cardElement = document.createElement("div");
-    //   cardElement.classList.add("cards__item");
-    //   // cardElement.classList.add(`card-${card.id}`);
-    //   cardElement.innerHTML = `
-    //     <img src="./assets/Cards${cardsData.Path}">
-    //   `;
-    //   cardsContainer.appendChild(cardElement);
-    // }
-
     for (let i = 0; i < this.json_obj.length; i++) {
       const cardsData = this.json_obj[i];
-      console.log(cardsData);
       const cardElement = document.createElement("div");
+      cardElement.setAttribute("card_id", cardsData.id)
       cardElement.classList.add("cards__item");
       cardElement.classList.add(`card-${i + 1}`);
+
       cardElement.innerHTML = `
-        <img src="./assets/Cards/${cardsData.Path}">
+        <img src="./Cards/${cardsData.Path}">
       `;
       cardsContainer.appendChild(cardElement);
     }
+
+    this.initEvents()
   }
 }
