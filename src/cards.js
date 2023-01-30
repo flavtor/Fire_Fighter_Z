@@ -1,3 +1,5 @@
+import { API_URL } from "./game";
+
 export default class Card {
   constructor() {
     this.cards = [];
@@ -8,19 +10,20 @@ export default class Card {
     this.cards.forEach((card) => {
       card.addEventListener("click", () => {
         const tab_id = card.getAttribute("tab_id");
+        const card_id = card.getAttribute("card_id");
         const activeCard = data[tab_id];
-        console.log(activeCard)
         data.splice(tab_id, 1);
-        console.log(activeCard)
         card.classList.add("selected");
-        card.parentNode.removeChild(card);
-        this.createCards(data);
+        setTimeout(() => {
+          card.parentNode.removeChild(card);
+          this.playDrawcard(card_id);
+        }, 700);
       });
     });
   }
 
   async fetchCards() {
-    let response = await fetch("http://localhost:8080/listplayercards", {
+    let response = await fetch(`${API_URL}/init`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -57,5 +60,19 @@ export default class Card {
   async getCards() {
     const data = await this.fetchCards();
     this.createCards(data);
+  }
+
+  async playDrawcard(id) {
+    let response = await fetch(`${API_URL}/play_drawcard?id=` + id, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    let data = await response.json();
+    localStorage.setItem("listPlayerCards", JSON.stringify(data));
+    const listCards = localStorage.getItem("listPlayerCards");
+    this.json_obj = JSON.parse(listCards);
+    this.createCards(this.json_obj);
   }
 }
