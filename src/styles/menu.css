@@ -30,8 +30,11 @@
   cursor: pointer;
   font-size: 3rem;
   font-weight: bold;
+  transition: all 0.2s;
 }
 
 .options button:hover {
   background-image: url(../assets/Button/Button_Hover.png);
+  transform: scale(0.97);
+  transition: all 0.2s;
 }

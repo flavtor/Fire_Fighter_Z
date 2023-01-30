@@ -22,8 +22,10 @@ export default class GameMenu {
   gameLaunch() {
     const playButton = document.querySelector(".play");
     const menu = document.querySelector(".menu");
+    const game = document.querySelector(".game-ui")
     playButton.addEventListener("click", () => {
       menu.classList.add("disappear");
+      game.classList.remove("disappear");
       initGame();
     });
   }

@@ -3,6 +3,7 @@ body{
   padding: 0;
   overflow: hidden;
 }
+
 #game{
   position: relative;
   width: 100vw;
@@ -12,4 +13,8 @@ body{
 
 .disappear{
   display: none;
+}
+
+.appear{
+  display: block;
 }
