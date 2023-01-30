@@ -192,28 +192,34 @@ async function playcard(id){
 }
 
 // Service REST /play_drawcard parameter id of the card == return all player cards with drawn card
-async function play_drawcard(cardId) {
-	let listPlayerCards = JSON.parse(localStorage.getItem("listPlayerCards"));
-	let selectedCard;
-
-	// find the selected card
-	for (let card of listPlayerCards) {
-		if (card.id === cardId) {
-		selectedCard = card;
-		break;
+async function play_drawcard(id){
+	let response = await fetch('http://localhost:8080/play_drawcard?id='+id, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json'
 		}
+	});
+	let data = await response.json()
+	localStorage.setItem("listPlayerCards", JSON.stringify(data));
+	const listCards = localStorage.getItem("listPlayerCards");
+	const myJsonStr = JSON.stringify(data);
+	
+	json_obj = JSON.parse(myJsonStr)
+	for (var item in json_obj){
+		objCard = json_obj[item]
+		console.log("objCard", objCard);
+		console.log("name", objCard["Name"]);
+		console.log("id", objCard["id"]);
+		
 	}
+	
+	console.log('play_drawcard to json object: ', json_obj);
+	
+	document.getElementById('play_drawcard').innerHTML = listCards;
 
-	// update the health points of the enemy
-	let enemyHealthPoints = localStorage.getItem("enemyHealthPoints");
-	enemyHealthPoints -= selectedCard.Cost;
-	localStorage.setItem("enemyHealthPoints", enemyHealthPoints);
-
-	// update the display of enemy health points
-	document.getElementById("enemyHealthPoints").innerHTML = "Enemy Health Points: " + enemyHealthPoints;
+	// refresh displayed cards
+	await getPlayerCardsData();
 }
-
-localStorage.setItem("enemyHealthPoints", 100); // or any other starting value you want
 
 </script>
 
