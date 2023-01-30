@@ -1,0 +1,40 @@
+.menu {
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  background: url("Cover.3b062d0a.png") 0 0 / cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.options {
+  width: 100%;
+  justify-content: center;
+  gap: 35px;
+  display: flex;
+  position: absolute;
+  bottom: 80px;
+}
+
+button {
+  color: #fff;
+  width: 290px;
+  height: 120px;
+  cursor: pointer;
+  background-color: #0000;
+  background-image: url("Button_Classique.80b117d4.png");
+  background-size: cover;
+  border: none;
+  font-size: 3rem;
+  font-weight: bold;
+  transition: all .2s;
+}
+
+button:hover {
+  background-image: url("Button_Hover.d60fd290.png");
+  transition: all .2s;
+  transform: scale(.9);
+}
+
+/*# sourceMappingURL=index.e0a973c1.css.map */
