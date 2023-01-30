@@ -641,20 +641,25 @@ exports.export = function(dest, destName, get) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 class Card {
-    constructor(){}
-    initEvents(data) {
-        console.log(data);
-        this.cards = document.querySelectorAll(".cards__item");
+    constructor(){
+        this.cards = [];
+        this.json_obj = [];
+    }
+    initClickEvent(data) {
         this.cards.forEach((card)=>{
-            card.addEventListener("click", function() {
-                this.classList.add("selected");
-                setTimeout(()=>{
-                    this.classList.remove("selected");
-                }, 1000);
+            card.addEventListener("click", ()=>{
+                const tab_id = card.getAttribute("tab_id");
+                const activeCard = data[tab_id];
+                console.log(activeCard);
+                data.splice(tab_id, 1);
+                console.log(activeCard);
+                card.classList.add("selected");
+                card.parentNode.removeChild(card);
+                this.createCards(data);
             });
         });
     }
-    async getCards() {
+    async fetchCards() {
         let response = await fetch("http://localhost:8080/listplayercards", {
             method: "GET",
             headers: {
@@ -664,22 +669,30 @@ class Card {
         let data = await response.json();
         localStorage.setItem("listCards", JSON.stringify(data));
         const listCards = localStorage.getItem("listCards");
-        const myJsonStr = JSON.stringify(data);
-        this.json_obj = JSON.parse(myJsonStr);
-        for(var item in this.json_obj)this.objCard = this.json_obj[item];
+        this.json_obj = JSON.parse(listCards);
+        return this.json_obj;
+    }
+    createCards(data) {
         const cardsContainer = document.querySelector(".cards");
-        for(let i = 0; i < this.json_obj.length; i++){
-            const cardsData = this.json_obj[i];
+        cardsContainer.innerHTML = "";
+        for(let i = 0; i < data.length; i++){
+            const cardsData = data[i];
             const cardElement = document.createElement("div");
+            cardElement.setAttribute("tab_id", i);
             cardElement.setAttribute("card_id", cardsData.id);
             cardElement.classList.add("cards__item");
             cardElement.classList.add(`card-${i + 1}`);
             cardElement.innerHTML = `
-        <img src="./Cards/${cardsData.Path}">
-      `;
+      <img src="./Cards/${cardsData.Path}">
+    `;
             cardsContainer.appendChild(cardElement);
         }
-        this.initEvents(data);
+        this.cards = document.querySelectorAll(".cards__item");
+        this.initClickEvent(data);
+    }
+    async getCards() {
+        const data = await this.fetchCards();
+        this.createCards(data);
     }
 }
 exports.default = Card;
