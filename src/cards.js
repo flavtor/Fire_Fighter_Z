@@ -4,6 +4,7 @@ export default class Card {
   constructor() {
     this.cards = [];
     this.json_obj = [];
+    this.loading = false;
   }
 
   initClickEvent(data) {
@@ -29,6 +30,8 @@ export default class Card {
         "Content-Type": "application/json",
       },
     });
+    this.showLoading();
+
     let data = await response.json();
     localStorage.setItem("listCards", JSON.stringify(data));
     const listCards = localStorage.getItem("listCards");
@@ -74,5 +77,11 @@ export default class Card {
     const listCards = localStorage.getItem("listPlayerCards");
     this.json_obj = JSON.parse(listCards);
     this.createCards(this.json_obj);
+  }
+
+  showLoading() {
+    this.loading = true;
+    const loadingElement = document.querySelector(".loading");
+    loadingElement.classList.add("disappear");
   }
 }
