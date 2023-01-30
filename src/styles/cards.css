@@ -20,23 +20,23 @@
   margin-left: -100px;
 }
 
-.card-one {
+.card-1 {
   transform: translate(0, 45px) rotate(-12deg);
 }
 
-.card-two {
+.card-2 {
   transform: translate(0, 10px) rotate(-6deg);
 }
 
-.card-three {
+.card-3 {
   transform: rotate(0);
 }
 
-.card-four {
+.card-4 {
   transform: translate(0, 10px) rotate(6deg);
 }
 
-.card-five {
+.card-5 {
   transform: translate(0, 45px) rotate(12deg);
 }
 
@@ -45,4 +45,10 @@
   transform: translateY(-120px);
   transition: 0.2s all;
   scale: 1.2;
+}
+
+.cards__item.selected{
+  transform: translate(0%, -80%) rotate(0);
+  scale: 1.8;
+  opacity: 0;
 }
