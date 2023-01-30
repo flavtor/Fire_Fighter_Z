@@ -1,20 +1,25 @@
 export default class Card {
   constructor() {
+    this.cards = [];
+    this.json_obj = [];
   }
 
-  initEvents() {
-    this.cards = document.querySelectorAll(".cards__item")
+  initClickEvent(data) {
     this.cards.forEach((card) => {
-      card.addEventListener("click", function () {
-        this.classList.add("selected");
+      card.addEventListener("click", () => {
+        const card_id = card.getAttribute("card_id");
+        let filteredCards = data.filter(data => data.id !== card_id);
+        data = filteredCards;
+        console.log(data);
+        card.classList.add("selected");
         setTimeout(() => {
-          this.classList.remove("selected");
+          card.classList.remove("selected");
         }, 1000);
       });
     });
   }
 
-  async getCards() {
+  async fetchCards() {
     let response = await fetch("http://localhost:8080/listplayercards", {
       method: "GET",
       headers: {
@@ -24,18 +29,17 @@ export default class Card {
     let data = await response.json();
     localStorage.setItem("listCards", JSON.stringify(data));
     const listCards = localStorage.getItem("listCards");
-    const myJsonStr = JSON.stringify(data);
-    this.json_obj = JSON.parse(myJsonStr);
-    for (var item in this.json_obj) {
-      this.objCard = this.json_obj[item];
-    }
+    this.json_obj = JSON.parse(listCards);
+    return this.json_obj;
+  }
 
+  createCards(data) {
     const cardsContainer = document.querySelector(".cards");
 
-    for (let i = 0; i < this.json_obj.length; i++) {
-      const cardsData = this.json_obj[i];
+    for (let i = 0; i < data.length; i++) {
+      const cardsData = data[i];
       const cardElement = document.createElement("div");
-      cardElement.setAttribute("card_id", cardsData.id)
+      cardElement.setAttribute("card_id", cardsData.id);
       cardElement.classList.add("cards__item");
       cardElement.classList.add(`card-${i + 1}`);
 
@@ -44,7 +48,12 @@ export default class Card {
       `;
       cardsContainer.appendChild(cardElement);
     }
+    this.cards = document.querySelectorAll(".cards__item");
+    this.initClickEvent(data);
+  }
 
-    this.initEvents()
+  async getCards() {
+    const data = await this.fetchCards();
+    this.createCards(data);
   }
 }
