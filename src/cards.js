@@ -7,14 +7,14 @@ export default class Card {
   initClickEvent(data) {
     this.cards.forEach((card) => {
       card.addEventListener("click", () => {
-        const card_id = card.getAttribute("card_id");
-        let filteredCards = data.filter(data => data.id !== card_id);
-        data = filteredCards;
-        console.log(data);
+        const tab_id = card.getAttribute("tab_id");
+        const activeCard = data[tab_id];
+        console.log(activeCard)
+        data.splice(tab_id, 1);
+        console.log(activeCard)
         card.classList.add("selected");
-        setTimeout(() => {
-          card.classList.remove("selected");
-        }, 1000);
+        card.parentNode.removeChild(card);
+        this.createCards(data);
       });
     });
   }
@@ -35,17 +35,19 @@ export default class Card {
 
   createCards(data) {
     const cardsContainer = document.querySelector(".cards");
+    cardsContainer.innerHTML = "";
 
     for (let i = 0; i < data.length; i++) {
       const cardsData = data[i];
       const cardElement = document.createElement("div");
+      cardElement.setAttribute("tab_id", i);
       cardElement.setAttribute("card_id", cardsData.id);
       cardElement.classList.add("cards__item");
       cardElement.classList.add(`card-${i + 1}`);
 
       cardElement.innerHTML = `
-        <img src="./Cards/${cardsData.Path}">
-      `;
+      <img src="./Cards/${cardsData.Path}">
+    `;
       cardsContainer.appendChild(cardElement);
     }
     this.cards = document.querySelectorAll(".cards__item");
