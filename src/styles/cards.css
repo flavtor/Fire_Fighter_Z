@@ -1,0 +1,48 @@
+.cards {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  bottom: -150px;
+  z-index: 2;
+}
+
+.cards__item{
+  transition: 0.2s all;
+  cursor: pointer;
+}
+
+.cards__item img {
+  width: 300px;
+}
+
+.cards__item:not(:first-child) {
+  margin-left: -100px;
+}
+
+.card-one {
+  transform: translate(0, 45px) rotate(-12deg);
+}
+
+.card-two {
+  transform: translate(0, 10px) rotate(-6deg);
+}
+
+.card-three {
+  transform: rotate(0);
+}
+
+.card-four {
+  transform: translate(0, 10px) rotate(6deg);
+}
+
+.card-five {
+  transform: translate(0, 45px) rotate(12deg);
+}
+
+
+.cards__item:hover{
+  transform: translateY(-120px);
+  transition: 0.2s all;
+  scale: 1.2;
+}
