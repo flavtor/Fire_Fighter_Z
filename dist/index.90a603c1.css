@@ -1,0 +1,53 @@
+.cards {
+  width: 100%;
+  z-index: 2;
+  justify-content: center;
+  display: flex;
+  position: absolute;
+  bottom: -150px;
+}
+
+.cards__item {
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.cards__item img {
+  width: 300px;
+}
+
+.cards__item:not(:first-child) {
+  margin-left: -100px;
+}
+
+.card-1 {
+  transform: translate(0, 45px)rotate(-12deg);
+}
+
+.card-2 {
+  transform: translate(0, 10px)rotate(-6deg);
+}
+
+.card-3 {
+  transform: rotate(0);
+}
+
+.card-4 {
+  transform: translate(0, 10px)rotate(6deg);
+}
+
+.card-5 {
+  transform: translate(0, 45px)rotate(12deg);
+}
+
+.cards__item:hover {
+  transition: all .2s;
+  transform: translateY(-120px)scale3d(1.2, 1.2, 1);
+}
+
+.cards__item.selected {
+  opacity: 0;
+  transform: translate(0%, -80%)rotate(0)scale3d(1.8, 1.8, 1);
+}
+
+/*# sourceMappingURL=index.90a603c1.css.map */
