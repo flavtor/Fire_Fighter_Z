@@ -142,13 +142,13 @@
       this[globalName] = mainExports;
     }
   }
-})({"8HAIT":[function(require,module,exports) {
+})({"1GSTJ":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
-module.bundle.HMR_BUNDLE_ID = "48d4a72fc3fdd8eb";
+module.bundle.HMR_BUNDLE_ID = "65cf4c2f79cd6b1b";
 "use strict";
 /* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, globalThis, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
@@ -556,280 +556,32 @@ function hmrAccept(bundle, id) {
     });
 }
 
-},{}],"g9e9u":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "API_URL", ()=>API_URL);
-var _menu = require("./menu");
-var _menuDefault = parcelHelpers.interopDefault(_menu);
-var _cards = require("./cards");
-var _cardsDefault = parcelHelpers.interopDefault(_cards);
-const API_URL = "http://localhost:8080";
-const menu = new (0, _menuDefault.default)([
-    "Play"
-]);
-function initGame() {
-    const card = new (0, _cardsDefault.default)();
-    card.getCards();
-    console.log("game launch");
-}
-exports.default = initGame;
-
-},{"./menu":"frHky","./cards":"wDC3l","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"frHky":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _intro = require("./intro");
-var _introDefault = parcelHelpers.interopDefault(_intro);
-var _sound = require("./sound");
-var _soundDefault = parcelHelpers.interopDefault(_sound);
-class GameMenu {
-    constructor(options){
-        this.options = options;
-        this.play = false;
-        this.createMenu();
-        this.gameLaunch();
-    }
-    createMenu() {
-        this.optionsList = document.querySelector(".options");
-        for(let i = 0; i < this.options.length; i++){
-            const option = document.createElement("button");
-            option.classList.add(this.options[i].toLowerCase());
-            option.innerText = this.options[i];
-            this.optionsList.appendChild(option);
-        }
-    }
-    gameLaunch() {
-        const playButton = document.querySelector(".play");
-        const menu = document.querySelector(".menu");
-        const intro = document.querySelector(".intro");
-        playButton.addEventListener("click", ()=>{
-            menu.classList.add("disappear");
-            intro.classList.remove("disappear");
-            const audio = new (0, _soundDefault.default)();
-            //audio.PlayMusic();
-            (0, _introDefault.default)();
-        });
-    }
-}
-exports.default = GameMenu;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./intro":"knEUC","./sound":"lGmhX"}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"knEUC":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _game = require("./game");
-var _gameDefault = parcelHelpers.interopDefault(_game);
-function intro() {
-    const introSection = document.querySelector(".intro");
-    const game = document.querySelector(".game-ui");
-    const eventButton = document.querySelector(".place button.visited");
-    eventButton.addEventListener("click", ()=>{
-        introSection.classList.add("appear");
-        game.classList.remove("disappear");
-        (0, _gameDefault.default)();
-    });
-}
-exports.default = intro;
-
-},{"./game":"g9e9u","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lGmhX":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-class Sound {
-    constructor(){
-        this.music = new Audio("./Audio/Music.wav");
-    }
-}
-exports.default = Sound;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"wDC3l":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _game = require("./game");
-var _battle = require("./battle");
-var _battleDefault = parcelHelpers.interopDefault(_battle);
-class Card {
-    constructor(){
-        this.cards = [];
-        this.json_obj = [];
-    }
-    initClickEvent(data) {
-        this.cards.forEach((card)=>{
-            card.addEventListener("click", ()=>{
-                const tab_id = card.getAttribute("tab_id");
-                const card_id = card.getAttribute("card_id");
-                const activeCard = data[tab_id];
-                data.splice(tab_id, 1);
-                (0, _battleDefault.default)(activeCard);
-                card.classList.add("selected");
-                setTimeout(()=>{
-                    card.parentNode.removeChild(card);
-                    this.playDrawcard(card_id);
-                }, 700);
-            });
-        });
-    }
-    async fetchCards() {
-        let response = await fetch(`${(0, _game.API_URL)}/init`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-        let data = await response.json();
-        localStorage.setItem("listCards", JSON.stringify(data));
-        const listCards = localStorage.getItem("listCards");
-        this.json_obj = JSON.parse(listCards);
-        return this.json_obj;
-    }
-    createCards(data) {
-        const cardsContainer = document.querySelector(".cards");
-        cardsContainer.innerHTML = "";
-        for(let i = 0; i < data.length; i++){
-            const cardsData = data[i];
-            const cardElement = document.createElement("div");
-            cardElement.setAttribute("tab_id", i);
-            cardElement.setAttribute("card_id", cardsData.id);
-            cardElement.classList.add("cards__item");
-            cardElement.classList.add(`card-${i + 1}`);
-            cardElement.innerHTML = `
-      <img src="./Cards/${cardsData.Path}">
-    `;
-            cardsContainer.appendChild(cardElement);
-        }
-        this.cards = document.querySelectorAll(".cards__item");
-        this.initClickEvent(data);
-    }
-    async getCards() {
-        const data = await this.fetchCards();
-        this.createCards(data);
-    }
-    async playDrawcard(id) {
-        let response = await fetch(`${(0, _game.API_URL)}/play_drawcard?id=` + id, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-        let data = await response.json();
-        localStorage.setItem("listPlayerCards", JSON.stringify(data));
-        const listCards = localStorage.getItem("listPlayerCards");
-        this.json_obj = JSON.parse(listCards);
-        this.createCards(this.json_obj);
-    }
-}
-exports.default = Card;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./game":"g9e9u","./battle":"cHJbw"}],"cHJbw":[function(require,module,exports) {
+},{}],"cHJbw":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _allgo = require("./allgo");
 var _allgoDefault = parcelHelpers.interopDefault(_allgo);
+var hp_player;
+var hp_monster;
 var hp_p = 180;
 var hp_m = 100;
 let turn = 1;
 let iturn = 1;
 let defense = 0;
 function playerturn(activeCard) {
-    hp_monster = document.getElementById("monster_hp");
-    hp_player = document.getElementById("player_hp");
     let nbr = (0, _allgoDefault.default)(activeCard.Attack, activeCard.Defence, activeCard.Heal, false, false);
     console.log("test");
-    if (nbr >= 100) {
-        hp_p += nbr - 100;
-        hp_player.textContent = hp_p;
-        if (hp_p >= 180) {
-            hp_p = 180;
-            hp_player.textContent = hp_p;
-        }
-    }
-    hp_m -= nbr;
-    console.log("hp :", hp_m);
-    hp_monster.textContent = hp_m;
-    console.log("test", nbr);
-    //hp_monster.txt(hp_m);
-    if (hp_m <= 0) alert("You win!");
-    turn = 2;
-    iturn += 1;
+    if (nbr <= 100) {
+        hp_player += nbr - 100;
+        if (hp_player >= 180) hp_player = 180;
+    } else hp_m -= nbr;
+    hp_monster.txt(hp_m);
+    if (hp_monster <= 0) console.log("You win");
+//turn = 2;
+//iturn += 1;
 }
 exports.default = playerturn;
 
-},{"./allgo":"hRUZT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hRUZT":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-const MIN_DAMAGE = 1.3;
-const MAX_DAMAGE = 0.7;
-const CRITICAL_HIT_CHANCE = 0.1;
-const MISS_CHANCE = 0.05;
-const BUFF_MULTIPLIER = 1.5;
-const DEBUFF_MULTIPLIER = 0.5;
-const ATTACK_RANGE = [
-    1,
-    1
-];
-function calculateDamage(attack, defense, isBuff, isDeBuff) {
-    let damage = (Math.random() * (MIN_DAMAGE - MAX_DAMAGE) + MIN_DAMAGE) * attack;
-    let damageModifier = (isBuff ? BUFF_MULTIPLIER : 1) * (isDeBuff ? DEBUFF_MULTIPLIER : 1);
-    damage = Math.floor(damage * damageModifier);
-    let isCriticalHit = Math.random() < CRITICAL_HIT_CHANCE;
-    if (isCriticalHit) {
-        damage = damage * 2;
-        alert("critical hit!");
-    }
-    let isMiss = Math.random() < MISS_CHANCE;
-    if (isMiss) {
-        damage = 0;
-        alert("miss!");
-    } else damage = Math.max(Math.floor(damage - defense), 1);
-    return damage;
-}
-function finaledegat(attack, defense, isBuff, isDeBuff) {
-    let finalDamage = 0;
-    let attackCount = ATTACK_RANGE[1] - ATTACK_RANGE[0] + 1;
-    for(let i = 0; i < attackCount; i++)finalDamage += calculateDamage(attack, defense, isBuff, isDeBuff);
-    finalDamage = Math.floor(finalDamage / attackCount);
-    return finalDamage;
-}
-function allgo(attack, defense, heal, isBuff, isDeBuff) {
-    if (attack === 0 && defense === 0 && heal > 0) //let nbrheal = healcalculate(heal)
-    //return (nbrheal + 100);
-    return 0;
-    else if (attack > 0 && heal === 0) {
-        let nbrdegat = finaledegat(attack, defense, isBuff, isDeBuff);
-        return nbrdegat;
-    } else alert("cards error");
-    return 0;
-}
-exports.default = allgo;
+},{"./allgo":"hRUZT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["1GSTJ"], null, "parcelRequire4c95")
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["8HAIT","g9e9u"], "g9e9u", "parcelRequire4c95")
-
-//# sourceMappingURL=index.c3fdd8eb.js.map
+//# sourceMappingURL=index.79cd6b1b.js.map
