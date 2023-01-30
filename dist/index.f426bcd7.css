@@ -43,11 +43,28 @@
 .heart {
   color: #e90000;
   -webkit-text-stroke: 1.7px #444;
-  margin-left: 40px;
+  margin-left: -3100px;
   position: relative;
 }
 
 .heart:before {
+  content: "";
+  width: 30px;
+  height: 30px;
+  background-image: url("Icons_Heart.ec4ed2ef.png");
+  background-size: cover;
+  position: absolute;
+  left: -40px;
+}
+
+.heart-e {
+  color: #e90000;
+  -webkit-text-stroke: 1.7px #444;
+  margin-left: 1500px;
+  position: relative;
+}
+
+.heart-e:before {
   content: "";
   width: 30px;
   height: 30px;

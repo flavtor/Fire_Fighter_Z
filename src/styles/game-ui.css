@@ -41,12 +41,29 @@
 
 .heart {
   position: relative;
-  margin-left: 40px;
+  margin-left: -3100px;
   color: #E90000;
   -webkit-text-stroke: 1.7px #444444;
 }
 
 .heart::before {
+  content: "";
+  position: absolute;
+  left: -40px;
+  width: 30px;
+  height: 30px;
+  background-image: url(../assets//Icons/Icons_Heart.png);
+  background-size: cover;
+}
+
+.heart-e {
+  position: relative;
+  margin-left: 1500px;
+  color: #E90000;
+  -webkit-text-stroke: 1.7px #444444;
+}
+
+.heart-e::before {
   content: "";
   position: absolute;
   left: -40px;
