@@ -9,6 +9,7 @@
 
 .cards__item{
   transition: 0.2s all;
+  cursor: pointer;
 }
 
 .cards__item img {
