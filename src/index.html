@@ -6,10 +6,64 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fire Fighter Z</title>
-  <link rel="stylesheet" href="./styles/general.css">
+  <link rel="stylesheet" href="styles/general.css">
+  <link rel="stylesheet" href="styles/menu.css">
+  <link rel="stylesheet" href="styles/game-ui.css">
+  <link rel="stylesheet" href="styles/cards.css">
 </head>
 
 <body>
+  <section id="game">
+    <canvas class="game-canvas"></canvas>
+    <div class="menu">
+      <div class="options">
+      </div>
+    </div>
+    <div class="game-ui disappear">
+      <div class="top-bar">
+        <div class="heart">
+          180/180
+        </div>
+        <div class="area">
+          Area <span class="level">1</span>
+        </div>
+        <div class="settings">
+          <img src="../src/assets/Icons/Icons_Settings.png">
+        </div>
+      </div>
+      <div class="cards">
+        <div class="cards__item card-one">
+          <img src="./assets/Cards/Commun/Card_Commun_Ash_Storm.png">
+        </div>
+        <div class="cards__item card-two">
+          <img src="./assets/Cards/Legendary/Cards_Legendary_Deadly_flame.png">
+
+        </div>
+        <div class="cards__item card-three">
+          <img src="./assets/Cards/Commun/Card_Commun_Falling_gravel.png">
+
+        </div>
+        <div class="cards__item card-four">
+          <img src="./assets/Cards/Commun/Card_Commun_Water_of_fire.png">
+
+        </div>
+        <div class="cards__item card-five">
+          <img src="./assets/Cards/Rare/Card_Rare_Incendiary_bomb.png">
+
+        </div>
+      </div>
+
+      <div class="mana">
+        <span>3/3</span>
+      </div>
+      <div class="end-turn">
+        <button class="end-turn__button">End turn</button>
+      </div>
+      <div class="player">
+        <img src="./assets/Sprites/zombie_pixel 1.png">
+      </div>
+    </div>
+  </section>
   <script type="module" src="game.js"></script>
 </body>
 
