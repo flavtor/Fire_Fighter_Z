@@ -1,5 +1,5 @@
-import initGame from "./game";
-
+import Intro from "./intro";
+import Sound from "./sound";
 export default class GameMenu {
   constructor(options) {
     this.options = options;
@@ -22,11 +22,13 @@ export default class GameMenu {
   gameLaunch() {
     const playButton = document.querySelector(".play");
     const menu = document.querySelector(".menu");
-    const game = document.querySelector(".game-ui")
+    const intro = document.querySelector(".intro");
     playButton.addEventListener("click", () => {
       menu.classList.add("disappear");
-      game.classList.remove("disappear");
-      initGame();
+      intro.classList.remove("disappear");
+      const audio = new Sound();
+      audio.PlayMusic();
+      Intro();
     });
   }
 }
