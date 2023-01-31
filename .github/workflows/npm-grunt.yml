@@ -32,6 +32,7 @@ jobs:
     - name: Build Node
       run: npm run build
 
-    - name: Build Python
-      run: python setup.py build
+    - name: Version python
+      run: python -v
+    
 
