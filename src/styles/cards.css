@@ -5,6 +5,12 @@
   justify-content: center;
   bottom: -150px;
   z-index: 2;
+  transition: 0.7s ease-in all;
+}
+
+.cards.hidden{
+  transform: translateY(80%);
+  transition: 0.7s ease-in all;
 }
 
 .cards__item{
