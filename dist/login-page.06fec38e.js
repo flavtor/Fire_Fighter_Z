@@ -20,7 +20,7 @@ async function login() {
     console.log("data", data);
     if (data["status"] == "ok") {
         localStorage.setItem("username", data["username"]);
-        window.location.href = "http://localhost:1234/index.html";
+        window.location.href = "./index.html";
     } else // Otherwise, make the login error message show (change its oppacity)
     loginErrorMsg.style.opacity = 1;
 }

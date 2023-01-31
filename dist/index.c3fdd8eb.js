@@ -142,7 +142,7 @@
       this[globalName] = mainExports;
     }
   }
-})({"8HAIT":[function(require,module,exports) {
+})({"5LTrL":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -575,7 +575,7 @@ function initGame() {
 }
 exports.default = initGame;
 
-},{"./menu":"frHky","./cards":"wDC3l","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"frHky":[function(require,module,exports) {
+},{"./menu":"frHky","./cards":"wDC3l","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"frHky":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _intro = require("./intro");
@@ -613,7 +613,7 @@ class GameMenu {
 }
 exports.default = GameMenu;
 
-},{"./intro":"knEUC","./sound":"lGmhX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"knEUC":[function(require,module,exports) {
+},{"./intro":"knEUC","./sound":"lGmhX","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"knEUC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _game = require("./game");
@@ -630,7 +630,7 @@ function intro() {
 }
 exports.default = intro;
 
-},{"./game":"g9e9u","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+},{"./game":"g9e9u","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"4F77b":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -670,7 +670,7 @@ class Sound {
 }
 exports.default = Sound;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"wDC3l":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"wDC3l":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _game = require("./game");
@@ -699,7 +699,8 @@ class Card {
         });
     }
     async fetchCards() {
-        let response = await fetch(`${(0, _game.API_URL)}/init?username=coco`, {
+        let username = localStorage.getItem("username");
+        let response = await fetch(`${(0, _game.API_URL)}/init?username=` + username, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -735,7 +736,8 @@ class Card {
         this.createCards(data);
     }
     async playDrawcard(id) {
-        let response = await fetch(`${(0, _game.API_URL)}/play_drawcard?id=` + id + "&username=coco", {
+        let username = localStorage.getItem("username");
+        let response = await fetch(`${(0, _game.API_URL)}/play_drawcard?id=` + id + "&username=" + username, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -766,13 +768,14 @@ class Card {
 }
 exports.default = Card;
 
-},{"./game":"g9e9u","./battle":"cHJbw","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cHJbw":[function(require,module,exports) {
+},{"./game":"g9e9u","./battle":"cHJbw","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"cHJbw":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _animation = require("./animation");
 var _animationDefault = parcelHelpers.interopDefault(_animation);
 var _allgo = require("./allgo");
 var _allgoDefault = parcelHelpers.interopDefault(_allgo);
+const animation = new (0, _animationDefault.default)();
 // set up global variables
 let iturn = 1;
 let defence_p = 0;
@@ -847,6 +850,7 @@ function manage_LifeTheft(damage) {
 }
 // gestion of player turn
 function playerturn(activeCard) {
+    animation.animateSprite("firefighter", 1750);
     let nbr = 0;
     console.log(activeCard);
     if (manage_mana(activeCard.Cost) == 1) return;
@@ -921,7 +925,7 @@ function monsterdefence() {
 }
 // gestion of zombie turn
 function monsterturn(nbr) {
-    (0, _animationDefault.default)();
+    animation.animateSprite("zombie", 3500);
     alea = Math.floor(Math.random() * 10 + 1);
     manage_mana(0);
     switch(nbr){
@@ -962,7 +966,39 @@ function turngestion(activeCard) {
 }
 exports.default = turngestion;
 
-},{"./allgo":"hRUZT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./animation":"k5ez6"}],"hRUZT":[function(require,module,exports) {
+},{"./animation":"k5ez6","./allgo":"hRUZT","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"k5ez6":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class Animate {
+    constructor(){
+        this.position = 350; // Starting position for the animation, represent the first image
+        this.interval = 100; // Interval time for animation update
+        this.diff = 350; // Difference between each animation frame
+        this.tID = null;
+    }
+    // Function to stop the animation
+    stopAnimate() {
+        clearInterval(this.tID);
+    }
+    // Function to animate an sprite with the name in parameter and the imageSize of animation
+    // (interval parameter is as 100 by default)
+    animateSprite(sprite, imageSize, interval = this.interval) {
+        this.tID = setInterval(()=>{
+            const spriteSelector = document.querySelector(`.${sprite}`);
+            spriteSelector.classList.add("animation");
+            spriteSelector.style.backgroundPosition = `-${this.position}px 0px`;
+            if (this.position < imageSize) this.position += this.diff;
+            else {
+                this.position = 350;
+                spriteSelector.classList.remove("animation");
+                this.stopAnimate();
+            }
+        }, interval);
+    }
+}
+exports.default = Animate;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"hRUZT":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 const MIN_DAMAGE = 1.3;
@@ -1037,29 +1073,6 @@ function allgo(attack, defence, heal, isBuff, isDeBuff, CC, Miss, Multi) {
 }
 exports.default = allgo;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5ez6":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-let tID;
-function stopAnimate() {
-    clearInterval(tID);
-}
-exports.default = stopAnimate;
-function animateScript() {
-    let position = 538;
-    const interval = 100;
-    const diff = 538;
-    tID = setInterval(()=>{
-        document.getElementById("image").style.backgroundPosition = `-${position}px 0px`;
-        if (position < 5380) position += diff;
-        else {
-            position = 538;
-            stopAnimate();
-        }
-    }, interval);
-}
-exports.default = animateScript;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["8HAIT","g9e9u"], "g9e9u", "parcelRequire4c95")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}]},["5LTrL","g9e9u"], "g9e9u", "parcelRequire4c95")
 
 //# sourceMappingURL=index.c3fdd8eb.js.map
