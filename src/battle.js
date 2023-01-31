@@ -83,7 +83,7 @@ function manage_defence(activeCard) {
 }
 
 //gestion life left
-// function manage_LifeLeft(damage) {
+// function manage_LifeTheft(damage) {
 //     let regen = Math.random() * (0.5 - 0.3) + 0.3
 //     let hp_p = hp_player.textContent;
     
@@ -92,7 +92,7 @@ function manage_defence(activeCard) {
 //     hp_p >= 180 ? hp_player.textContent = 180 : hp_player.textContent = hp_p;
 //     hp_player.textContent -= damage;
 //     check_death();
-//     action.innerHTML = `Pompier :  uses steal life attack and inflicts ${Math.floor(damage)} damage and recover ${regen} hp`
+//     action.innerHTML = `Pompier :  uses steal life attack and inflicts ${damage} damage and recover ${regen} hp`
 // }
 
 // gestion of player turn
@@ -109,13 +109,13 @@ function playerturn(activeCard) {
     
     manage_defence(activeCard);
     manage_heal(activeCard, nbr);
-    if (activeCard.Attack > 0 /* && activeCard.LifeLeft === true */) {
+    if (activeCard.Attack > 0 /* && activeCard.LifeTheft === true */) {
         hp_monster.textContent -= nbr;
         action.innerHTML = `You : uses a skill and inflicts ${Math.floor(nbr)} damage`
         check_death();
     }
-    // else if (activeCard.LigeLeft === true) {
-    //     manage_LigeLeft(nbr);
+    // else if (activeCard.LifeTheft === true) {
+    //     manage_LifeTheft(nbr);
     // }
     turndef_m <= 0 ? defence_m = 0 : null;
     turndef_m = Math.abs(turndef_m - 1);
@@ -133,14 +133,14 @@ function monsterattack(alea) {
         damage = allgo(10, defence_p, 0, false, false);
         hp_player.textContent -= damage;
         check_death();
-        action.innerHTML = `Zombie :  uses basic attack and inflicts ${Math.floor(damage)} damage`
+        action.innerHTML = `Zombie :  uses basic attack and inflicts ${damage} damage`
 
     //strong attack
     } else if (alea >= 7 && alea <= 9) {
         damage = allgo(11, defence_p, 0, true, false);
         hp_player.textContent -= damage;
         check_death();
-        action.innerHTML = `Zombie :  uses strong attack and inflicts ${Math.floor(damage)} damage`
+        action.innerHTML = `Zombie :  uses strong attack and inflicts ${damage} damage`
     }
     //steal life attack
     else if (alea == 10) {
