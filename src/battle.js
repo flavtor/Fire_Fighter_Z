@@ -11,11 +11,15 @@ mana_points = document.getElementById("mana_p");
 
 import allgo from "./allgo";
 
+function check_death () {
+    (hp_monster.textContent <= 0) ? alert("You Win!") : (hp_player.textContent <= 0) ? alert("You Lose!") : null;
+  }
+
 function managestion(Cost){
 
     mana_points.textContent -= Cost;
     
-    if (mana_points.textContent < 0) {
+    if (mana_points.textContent < -50) {
         alert("no more mana, you must end turn");
         turndef_m -= 1;
         if (turndef_m <= 0) {
@@ -29,8 +33,8 @@ function managestion(Cost){
     return 0;
 }
 
-
 function playerturn(activeCard) {
+    let hp_p = hp_player.textContent;
     
     console.log(activeCard);
 
@@ -46,17 +50,17 @@ function playerturn(activeCard) {
     }
 
     if (nbr >= 100) {
-      hp_p += nbr - 100;
-      hp_player.textContent = hp_p;
+        hp_p = Math.floor((-hp_p - (nbr - 100)))*-1;
+        hp_player.textContent = hp_p;
+        console.log("le pombier utilise une competence et se soigne de %i pv", nbr-100);
       if (hp_p >= 180) {
         hp_p = 180;
-        hp_player.textContent = hp_p;
-      }
-    }
-    hp_monster.textContent -= nbr;
-    console.log("le pombier utilise une competence et inflige %i de degat", nbr);
-    if (hp_monster.textContent <= 0) {
-      alert("You win!");
+        hp_player.textContent = 180;
+      } 
+    } else if (nbr <= 99) {
+        hp_monster.textContent -= nbr;
+        console.log("le pombier utilise une competence et inflige %i de degat", nbr);
+        check_death();
     }
     turndef_m <= 0 ? defence_m = 0 : turndef_m;
     turn = 2;
@@ -72,14 +76,14 @@ function playerturn(activeCard) {
     if (alea >= 0 && alea <= 6) {
         damage = allgo(10, defence_p, 0, false, false);
         hp_player.textContent -= damage;
+        check_death();
         console.log("zombie utilise attaque basique est fait %i damage", damage);
-        return
     //strong attack
     } else if (alea >= 7 && alea <= 9) {
         damage = allgo(11, defence_p, 0, true, false);
         hp_player.textContent -= damage;
+        check_death();
         console.log("zombie utilise forte attack est fait %i damage", damage);
-        return
     }
     //steal life attack
     else if (alea == 10) {
@@ -88,8 +92,8 @@ function playerturn(activeCard) {
         hp_m = Math.floor((-regen - hp_m) * -1);
         hp_m >= 100 ? hp_monster.textContent = 100 : hp_monster.textContent = hp_m;
         hp_player.textContent -= damage;
+        check_death();
         console.log("zombie utilise steal life attack est fait %i dommage et recupere %i de vie", damage, regen);
-        return
     }
     
   }
@@ -104,25 +108,22 @@ function playerturn(activeCard) {
 
   function monsterturn(nbr) {
     alea = Math.floor(Math.random() * (10 - 1 + 1) + 1);
-    console.log("alea :" ,alea);
     
     switch (nbr) {
         //attack
         case 1:
         case 2:
         case 3:
-        case 4:
-        case 5:
             monsterattack(alea);
         break;
         //heal
-        //case 4:
-        //    monsterheal(alea);
-        //break;
+        case 4:
+            monsterheal(alea);
+        break;
         //defence
-        //case 5:
-        //    monsterdefence();
-        //break;
+        case 5:
+            monsterdefence();
+        break;
     }
     turndef_p -= 1;
     if (turndef_p <= 0) {
@@ -134,11 +135,13 @@ function playerturn(activeCard) {
 
 export default function turngestion(activeCard)
   {
-    console.log(turn);
+    console.log("tour de jeu: %i", iturn);
     if (turn === 1) {
+        console.log("Tour du joueur");
         playerturn(activeCard);
     }
     else if (turn === 2) {
+        console.log("Tour du zombie");
         monsterturn(Math.floor(Math.random() * (5 - 1 + 1) + 1));
     } else
     alert("error");

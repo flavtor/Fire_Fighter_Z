@@ -769,9 +769,12 @@ let turndef_m = 0;
 hp_monster = document.getElementById("monster_hp");
 hp_player = document.getElementById("player_hp");
 mana_points = document.getElementById("mana_p");
+function check_death() {
+    hp_monster.textContent <= 0 ? alert("You Win!") : hp_player.textContent <= 0 && alert("You Lose!");
+}
 function managestion(Cost) {
     mana_points.textContent -= Cost;
-    if (mana_points.textContent < 0) {
+    if (mana_points.textContent < -50) {
         alert("no more mana, you must end turn");
         turndef_m -= 1;
         if (turndef_m <= 0) defence_m = 0;
@@ -783,22 +786,25 @@ function managestion(Cost) {
     return 0;
 }
 function playerturn(activeCard) {
+    let hp_p = hp_player.textContent;
     console.log(activeCard);
     if (managestion(activeCard.Cost) == 1) return;
     let nbr = (0, _allgoDefault.default)(activeCard.Attack, defence_m, activeCard.Heal, false, false);
     defence_p += activeCard.Defence;
     if (defence_p > 0 && turndef_p == 0) turndef_p = 2;
     if (nbr >= 100) {
-        hp_p += nbr - 100;
+        hp_p = Math.floor(-hp_p - (nbr - 100)) * -1;
         hp_player.textContent = hp_p;
+        console.log("le pombier utilise une competence et se soigne de %i pv", nbr - 100);
         if (hp_p >= 180) {
             hp_p = 180;
-            hp_player.textContent = hp_p;
+            hp_player.textContent = 180;
         }
+    } else if (nbr <= 99) {
+        hp_monster.textContent -= nbr;
+        console.log("le pombier utilise une competence et inflige %i de degat", nbr);
+        check_death();
     }
-    hp_monster.textContent -= nbr;
-    console.log("le pombier utilise une competence et inflige %i de degat", nbr);
-    if (hp_monster.textContent <= 0) alert("You win!");
     turndef_m <= 0 ? defence_m = 0 : turndef_m;
     turn = 2;
     iturn += 1;
@@ -811,22 +817,22 @@ function monsterattack(alea1) {
     if (alea1 >= 0 && alea1 <= 6) {
         damage = (0, _allgoDefault.default)(10, defence_p, 0, false, false);
         hp_player.textContent -= damage;
+        check_death();
         console.log("zombie utilise attaque basique est fait %i damage", damage);
-        return;
     //strong attack
     } else if (alea1 >= 7 && alea1 <= 9) {
         damage = (0, _allgoDefault.default)(11, defence_p, 0, true, false);
         hp_player.textContent -= damage;
+        check_death();
         console.log("zombie utilise forte attack est fait %i damage", damage);
-        return;
     } else if (alea1 == 10) {
         damage = (0, _allgoDefault.default)(10, defence_p, 0, false, false);
         regen = damage * regen;
         hp_m = Math.floor((-regen - hp_m) * -1);
         hp_m >= 100 ? hp_monster.textContent = 100 : hp_monster.textContent = hp_m;
         hp_player.textContent -= damage;
+        check_death();
         console.log("zombie utilise steal life attack est fait %i dommage et recupere %i de vie", damage, regen);
-        return;
     }
 }
 function monsterheal(alea1) {
@@ -837,15 +843,20 @@ function monsterdefence() {
 }
 function monsterturn(nbr) {
     alea = Math.floor(Math.random() * 10 + 1);
-    console.log("alea :", alea);
     switch(nbr){
         //attack
         case 1:
         case 2:
         case 3:
-        case 4:
-        case 5:
             monsterattack(alea);
+            break;
+        //heal
+        case 4:
+            monsterheal(alea);
+            break;
+        //defence
+        case 5:
+            monsterdefence();
             break;
     }
     turndef_p -= 1;
@@ -854,10 +865,14 @@ function monsterturn(nbr) {
     iturn += 1;
 }
 function turngestion(activeCard) {
-    console.log(turn);
-    if (turn === 1) playerturn(activeCard);
-    else if (turn === 2) monsterturn(Math.floor(Math.random() * 5 + 1));
-    else alert("error");
+    console.log("tour de jeu: %i", iturn);
+    if (turn === 1) {
+        console.log("Tour du joueur");
+        playerturn(activeCard);
+    } else if (turn === 2) {
+        console.log("Tour du zombie");
+        monsterturn(Math.floor(Math.random() * 5 + 1));
+    } else alert("error");
 }
 exports.default = turngestion;
 
@@ -897,11 +912,24 @@ function finaledegat(attack, defence, isBuff, isDeBuff) {
     finalDamage = Math.floor(finalDamage / attackCount);
     return finalDamage;
 }
+function healcalculate(heal) {
+    heal *= Math.random() * (MIN_DAMAGE - MAX_DAMAGE) + MIN_DAMAGE;
+    let isCriticalHeal = Math.random() < CRITICAL_HIT_CHANCE;
+    if (isCriticalHeal) {
+        heal = heal * 2;
+        alert("critical heal!");
+    }
+    let isMiss = Math.random() < MISS_CHANCE;
+    if (isMiss) {
+        heal = 0;
+        alert("miss!");
+    } else return heal;
+}
 function allgo(attack, defence, heal, isBuff, isDeBuff) {
-    if (attack === 0 && heal > 0) //let nbrheal = healcalculate(heal)
-    //return (nbrheal + 100);
-    return 0;
-    else if (attack > 0 && heal === 0) {
+    if (attack === 0 && heal > 0) {
+        let nbrheal = healcalculate(heal);
+        return nbrheal + 100;
+    } else if (attack > 0 && heal === 0) {
         let nbrdegat = finaledegat(attack, defence, isBuff, isDeBuff);
         return nbrdegat;
     } else console.log("cards de defense ou cards inutile");
