@@ -786,20 +786,17 @@ function managestion(Cost) {
     return 0;
 }
 function playerturn(activeCard) {
-    let hp_p = hp_player.textContent;
+    let hp_p1 = hp_player.textContent;
     console.log(activeCard);
     if (managestion(activeCard.Cost) == 1) return;
     let nbr = (0, _allgoDefault.default)(activeCard.Attack, defence_m, activeCard.Heal, false, false);
     defence_p += activeCard.Defence;
     if (defence_p > 0 && turndef_p == 0) turndef_p = 2;
     if (nbr >= 100) {
-        hp_p = Math.floor(-hp_p - (nbr - 100)) * -1;
-        hp_player.textContent = hp_p;
+        hp_p1 = Math.floor(-hp_p1 - (nbr - 100)) * -1;
+        hp_player.textContent = hp_p1;
         console.log("le pombier utilise une competence et se soigne de %i pv", nbr - 100);
-        if (hp_p >= 180) {
-            hp_p = 180;
-            hp_player.textContent = 180;
-        }
+        if (hp_p1 >= 180) hp_player.textContent = 180;
     } else if (nbr <= 99) {
         hp_monster.textContent -= nbr;
         console.log("le pombier utilise une competence et inflige %i de degat", nbr);
@@ -836,10 +833,29 @@ function monsterattack(alea1) {
     }
 }
 function monsterheal(alea1) {
-    return;
+    let heal = 0;
+    let hp_m = hp_monster.textContent;
+    //heal basic
+    if (alea1 >= 0 && alea1 <= 8) {
+        heal = (0, _allgoDefault.default)(0, 0, 10, false, false);
+        hp_m = Math.floor(-hp_p - (heal - 100)) * -1;
+        hp_monster.textContent = hp_m;
+        console.log("le zombie utilise une competence de soin basique et r\xe9cup\xe9re %i pv", heal - 100);
+        if (hp_p >= 180) hp_player.textContent = 180;
+        //strong heal
+        if (alea1 >= 9 && alea1 <= 10) {
+            heal = (0, _allgoDefault.default)(0, 0, 13, false, false);
+            hp_m = Math.floor(-hp_p - (heal - 100)) * -1;
+            hp_monster.textContent = hp_m;
+            console.log("le zombie utilise une forte competence de soin et recup\xe9re %i pv", heal - 100);
+            if (hp_p >= 180) hp_player.textContent = 180;
+        }
+    }
 }
 function monsterdefence() {
-    return;
+    defence_m += 15;
+    turndef_m = 2;
+    console.log("le zombie se renforce et augmente sa defense");
 }
 function monsterturn(nbr) {
     alea = Math.floor(Math.random() * 10 + 1);

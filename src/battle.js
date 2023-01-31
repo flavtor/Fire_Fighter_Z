@@ -54,7 +54,6 @@ function playerturn(activeCard) {
         hp_player.textContent = hp_p;
         console.log("le pombier utilise une competence et se soigne de %i pv", nbr-100);
       if (hp_p >= 180) {
-        hp_p = 180;
         hp_player.textContent = 180;
       } 
     } else if (nbr <= 99) {
@@ -67,7 +66,7 @@ function playerturn(activeCard) {
     iturn += 1;
   }
 
-  function monsterattack(alea) {
+function monsterattack(alea) {
     let damage = 0;
     let regen = Math.random() * (0.5 - 0.3) + 0.3
     let hp_m = hp_monster.textContent;
@@ -96,17 +95,42 @@ function playerturn(activeCard) {
         console.log("zombie utilise steal life attack est fait %i dommage et recupere %i de vie", damage, regen);
     }
     
-  }
+}
 
-  function monsterheal(alea) {
-    return
-  }
+function monsterheal(alea) {
+    let heal = 0
+    let hp_m = hp_monster.textContent;
 
-  function monsterdefence() {
-    return
-  }
+    //heal basic
+    if (alea >= 0 && alea <= 8) {
+        heal = allgo(0,0,10,false,false);
+        hp_m = Math.floor((-hp_p - (heal - 100)))*-1;
+        hp_monster.textContent = hp_m;
+        console.log("le zombie utilise une competence de soin basique et récupére %i pv", heal-100);
+        if (hp_p >= 180) {
+            hp_player.textContent = 180;
+        }
+    //strong heal
+    if (alea >= 9 && alea <= 10){
+        heal = allgo(0,0,13,false,false);
+        hp_m = Math.floor((-hp_p - (heal - 100)))*-1;
+        hp_monster.textContent = hp_m;
+        console.log("le zombie utilise une forte competence de soin et recupére %i pv", heal-100);
+        if (hp_p >= 180) {
+            hp_player.textContent = 180;
+            }
+        }
+    }
+}
 
-  function monsterturn(nbr) {
+function monsterdefence() {
+    defence_m += 15;
+    turndef_m = 2;
+    
+    console.log("le zombie se renforce et augmente sa defense");
+}
+
+function monsterturn(nbr) {
     alea = Math.floor(Math.random() * (10 - 1 + 1) + 1);
     
     switch (nbr) {
@@ -133,8 +157,7 @@ function playerturn(activeCard) {
     iturn += 1;
 }
 
-export default function turngestion(activeCard)
-  {
+export default function turngestion(activeCard) {
     console.log("tour de jeu: %i", iturn);
     if (turn === 1) {
         console.log("Tour du joueur");
