@@ -13,7 +13,7 @@ body {
 }
 
 .disappear {
-  display: none;
+  display: none !important;
 }
 
 .appear {
