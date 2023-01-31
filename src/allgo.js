@@ -1,10 +1,10 @@
 const MIN_DAMAGE = 1.3;
 const MAX_DAMAGE = 0.7;
-const CRITICAL_HIT_CHANCE = 0.1;
-const MISS_CHANCE = 0.05;
 const BUFF_MULTIPLIER = 1.5;
 const DEBUFF_MULTIPLIER = 0.5;
-const ATTACK_RANGE = [1, 1];
+let CRITICAL_HIT_CHANCE = 0.1;
+let MISS_CHANCE = 0.05;
+let ATTACK_RANGE = [1, 1];
 
 // calculate damage
 function calculateDamage(attack, defence, isBuff, isDeBuff) {
@@ -37,6 +37,7 @@ function finaledegat(attack, defence, isBuff, isDeBuff) {
     let attackCount = ATTACK_RANGE[1] - ATTACK_RANGE[0] + 1;
   
     for (let i = 0; i < attackCount; i++) {
+        console.log("nombre d'attaque : ", i);
         finalDamage += calculateDamage(attack, defence, isBuff, isDeBuff);
     }
     finalDamage = Math.floor(finalDamage / attackCount);
@@ -59,16 +60,18 @@ function healcalculate(heal) {
       alert("miss!");
     } else 
     return heal;
-
 }
 
 // check if is attack card or heal card
-export default function allgo(attack, defence, heal, isBuff, isDeBuff) {
-    if (attack === 0 && heal > 0) {
-        let nbrheal = healcalculate(heal)
-        return (nbrheal + 100);
+export default function allgo(attack, defence, heal, isBuff, isDeBuff, CC, Miss, Multi) {
+    CRITICAL_HIT_CHANCE = CC;
+    MISS_CHANCE = Miss;
+    ATTACK_RANGE = [1, Multi];
 
-    } else if (attack > 0 && heal === 0) {
+    if (heal > 0) {
+        let nbrheal = healcalculate(heal)
+        return (nbrheal);
+    } else if (attack > 0) {
         let nbrdegat = finaledegat(attack, defence, isBuff, isDeBuff)
         return (nbrdegat);
     } else

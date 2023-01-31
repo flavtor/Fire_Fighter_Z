@@ -564,8 +564,6 @@ var _menu = require("./menu");
 var _menuDefault = parcelHelpers.interopDefault(_menu);
 var _cards = require("./cards");
 var _cardsDefault = parcelHelpers.interopDefault(_cards);
-var _animation = require("./animation");
-var _animationDefault = parcelHelpers.interopDefault(_animation);
 const API_URL = "http://localhost:8080";
 const menu = new (0, _menuDefault.default)([
     "Play"
@@ -574,11 +572,10 @@ function initGame() {
     const card = new (0, _cardsDefault.default)();
     card.getCards();
     console.log("game launch");
-    (0, _animationDefault.default)();
 }
 exports.default = initGame;
 
-},{"./menu":"frHky","./cards":"wDC3l","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./animation":"k5ez6"}],"frHky":[function(require,module,exports) {
+},{"./menu":"frHky","./cards":"wDC3l","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"frHky":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _intro = require("./intro");
@@ -616,7 +613,24 @@ class GameMenu {
 }
 exports.default = GameMenu;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./intro":"knEUC","./sound":"lGmhX"}],"gkKU3":[function(require,module,exports) {
+},{"./intro":"knEUC","./sound":"lGmhX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"knEUC":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _game = require("./game");
+var _gameDefault = parcelHelpers.interopDefault(_game);
+function intro() {
+    const introSection = document.querySelector(".intro");
+    const game = document.querySelector(".game-ui");
+    const eventButton = document.querySelector(".place button.visited");
+    eventButton.addEventListener("click", ()=>{
+        introSection.classList.add("appear");
+        game.classList.remove("disappear");
+        (0, _gameDefault.default)();
+    });
+}
+exports.default = intro;
+
+},{"./game":"g9e9u","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -646,24 +660,7 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"knEUC":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _game = require("./game");
-var _gameDefault = parcelHelpers.interopDefault(_game);
-function intro() {
-    const introSection = document.querySelector(".intro");
-    const game = document.querySelector(".game-ui");
-    const eventButton = document.querySelector(".place button.visited");
-    eventButton.addEventListener("click", ()=>{
-        introSection.classList.add("appear");
-        game.classList.remove("disappear");
-        (0, _gameDefault.default)();
-    });
-}
-exports.default = intro;
-
-},{"./game":"g9e9u","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lGmhX":[function(require,module,exports) {
+},{}],"lGmhX":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 class Sound {
@@ -702,7 +699,7 @@ class Card {
         });
     }
     async fetchCards() {
-        let response = await fetch(`${(0, _game.API_URL)}/init`, {
+        let response = await fetch(`${(0, _game.API_URL)}/init?username=coco`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -738,7 +735,7 @@ class Card {
         this.createCards(data);
     }
     async playDrawcard(id) {
-        let response = await fetch(`${(0, _game.API_URL)}/play_drawcard?id=` + id, {
+        let response = await fetch(`${(0, _game.API_URL)}/play_drawcard?id=` + id + "&username=coco", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -753,66 +750,118 @@ class Card {
     showLoading() {
         this.loading = true;
         const loadingElement = document.querySelector(".loading");
+        const cardsElement = document.querySelector(".cards");
+        const boxElement = document.querySelector(".box-content");
         loadingElement.classList.add("disappear");
+        this.showElements([
+            cardsElement,
+            boxElement
+        ]);
+    }
+    showElements(elements) {
+        elements.forEach((element)=>{
+            element.classList.remove("hidden");
+        });
     }
 }
 exports.default = Card;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./game":"g9e9u","./battle":"cHJbw"}],"cHJbw":[function(require,module,exports) {
-// set up global variables
+},{"./game":"g9e9u","./battle":"cHJbw","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cHJbw":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+var _animation = require("./animation");
+var _animationDefault = parcelHelpers.interopDefault(_animation);
 var _allgo = require("./allgo");
 var _allgoDefault = parcelHelpers.interopDefault(_allgo);
-let turn = 1;
+// set up global variables
 let iturn = 1;
 let defence_p = 0;
 let turndef_p = 0;
 let defence_m = 0;
 let turndef_m = 0;
+let buff = false;
+let turn_buff = 0;
 // recover html id
 hp_monster = document.getElementById("monster_hp");
 hp_player = document.getElementById("player_hp");
 mana_points = document.getElementById("mana_p");
+const action = document.querySelector(".action");
 // check if player or zombie are dead
 function check_death() {
     hp_monster.textContent <= 0 ? alert("You Win!") : hp_player.textContent <= 0 && alert("You Lose!");
 }
 // gestion of mana points
-function managestion(Cost) {
+function manage_mana(Cost) {
     mana_points.textContent -= Cost;
-    if (mana_points.textContent < -1) {
-        alert("no more mana, you must end turn");
+    if (mana_points.textContent < 0) {
+        alert("vous n'avez plus assez de mana pour lanc\xe9 votre competence vous pass\xe9 votre tour");
         turndef_m = Math.abs(turndef_m - 1);
         if (turndef_m <= 0) defence_m = 0;
-        turn = 2;
-        iturn += 1;
         mana_points.textContent = 3;
+        iturn += 1;
         return 1;
     }
+    if (iturn % 4 == 1) mana_points.textContent = 4;
     return 0;
+}
+// gestion attaque buff
+function manage_buff(activeCard) {
+    console.log("Buff is :", buff);
+    if (activeCard.Buff === true || buff === true) {
+        buff = true;
+        turn_buff += 1;
+        if (turn_buff === 1) buff = true;
+        else if (turn_buff === 3) {
+            buff = false;
+            turn_buff = 0;
+        }
+    }
+}
+//gestion heal
+function manage_heal(activeCard, heal) {
+    let hp_p = hp_player.textContent;
+    if (activeCard.Heal > 0) {
+        hp_p = Math.floor(-hp_p - heal) * -1;
+        hp_player.textContent = hp_p;
+        action.innerHTML = `You : uses a skill and heals ${Math.floor(heal)} hp`;
+        if (hp_p >= 180) hp_player.textContent = 180;
+    }
+}
+// gestion defence
+function manage_defence(activeCard) {
+    defence_p += activeCard.Defence;
+    console.log("defence du perso :", defence_p);
+    if (defence_p > 0 && turndef_p == 0) turndef_p = 3;
+}
+//gestion life left
+function manage_LifeTheft(damage) {
+    let regen = Math.random() * 0.2 + 0.3;
+    let hp_p = hp_player.textContent;
+    regen = damage * regen;
+    hp_p = Math.floor((-regen - hp_p) * -1);
+    hp_p >= 180 ? hp_player.textContent = 180 : hp_player.textContent = hp_p;
+    hp_monster.textContent -= damage;
+    check_death();
+    console.log("LifeTheft: dammage : %i, regen : %1", damage, regen);
+    action.innerHTML = `Pompier :  uses steal life attack and inflicts ${Math.floor(damage)} damage and recover ${Math.floor(regen)} hp`;
 }
 // gestion of player turn
 function playerturn(activeCard) {
-    let hp_p1 = hp_player.textContent;
+    let nbr = 0;
     console.log(activeCard);
-    if (managestion(activeCard.Cost) == 1) return;
-    let nbr = (0, _allgoDefault.default)(activeCard.Attack, defence_m, activeCard.Heal, false, false);
-    defence_p += activeCard.Defence;
-    if (defence_p > 0 && turndef_p == 0) turndef_p = 3;
-    if (nbr >= 100) {
-        hp_p1 = Math.floor(-hp_p1 - (nbr - 100)) * -1;
-        hp_player.textContent = hp_p1;
-        console.log("le pombier utilise une competence et se soigne de %i pv", nbr - 100);
-        if (hp_p1 >= 180) hp_player.textContent = 180;
-    } else if (nbr <= 99) {
+    if (manage_mana(activeCard.Cost) == 1) return;
+    manage_buff(activeCard);
+    nbr = (0, _allgoDefault.default)(activeCard.Attack, defence_m, activeCard.Heal, buff, false, activeCard.CC, activeCard.Miss, activeCard.Multi);
+    manage_defence(activeCard);
+    manage_heal(activeCard, nbr);
+    if (activeCard.Attack > 0 && activeCard.LifeTheft != true) {
         hp_monster.textContent -= nbr;
-        console.log("le pombier utilise une competence et inflige %i de degat", nbr);
+        console.log("Attack: ", nbr);
+        action.innerHTML = `You : uses a skill and inflicts ${Math.floor(nbr)} damage`;
         check_death();
-    }
+    } else if (activeCard.LifeTheft === true) manage_LifeTheft(nbr);
     turndef_m <= 0 && (defence_m = 0);
     turndef_m = Math.abs(turndef_m - 1);
-    turn = 2;
     iturn += 1;
 }
 // gestion of all zombie attack
@@ -822,24 +871,25 @@ function monsterattack(alea1) {
     let hp_m = hp_monster.textContent;
     //attack basic
     if (alea1 >= 0 && alea1 <= 6) {
-        damage = (0, _allgoDefault.default)(10, defence_p, 0, false, false);
+        damage = (0, _allgoDefault.default)(10, defence_p, 0, false, false, 0.05, 0.02, 1);
         hp_player.textContent -= damage;
+        console.log("DamageZomvie: ", damage);
         check_death();
-        console.log("zombie utilise attaque basique est fait %i damage", damage);
+        action.innerHTML = `Zombie :  uses basic attack and inflicts ${damage} damage`;
     //strong attack
     } else if (alea1 >= 7 && alea1 <= 9) {
-        damage = (0, _allgoDefault.default)(11, defence_p, 0, true, false);
+        damage = (0, _allgoDefault.default)(11, defence_p, 0, true, false, 0.05, 0.02, 1);
         hp_player.textContent -= damage;
         check_death();
-        console.log("zombie utilise forte attack est fait %i damage", damage);
+        action.innerHTML = `Zombie :  uses strong attack and inflicts ${damage} damage`;
     } else if (alea1 == 10) {
-        damage = (0, _allgoDefault.default)(10, defence_p, 0, false, false);
+        damage = (0, _allgoDefault.default)(10, defence_p, 0, false, false, 0.05, 0.02, 1);
         regen = damage * regen;
         hp_m = Math.floor((-regen - hp_m) * -1);
         hp_m >= 100 ? hp_monster.textContent = 100 : hp_monster.textContent = hp_m;
         hp_player.textContent -= damage;
         check_death();
-        console.log("zombie utilise steal life attack est fait %i dommage et recupere %i de vie", damage, regen);
+        action.innerHTML = `Zombie :  uses steal life attack and inflicts ${Math.floor(damage)} damage and recover ${Math.floor(regen)} hp`;
     }
 }
 // gestion of all zombie heal
@@ -849,17 +899,17 @@ function monsterheal(alea1) {
     //heal basic
     if (alea1 >= 0 && alea1 <= 8) {
         heal = (0, _allgoDefault.default)(0, 0, 10, false, false);
-        hp_m = Math.floor(-hp_m - (heal - 100)) * -1;
+        hp_m = Math.floor(-hp_m - heal) * -1;
         hp_monster.textContent = hp_m;
-        console.log("le zombie utilise une competence de soin basique et r\xe9cup\xe9re %i pv", heal - 100);
-        if (hp_p >= 180) hp_player.textContent = 180;
+        action.innerHTML = `Zombie :  uses a basic healing skill and recovers ${Math.floor(heal)} hp`;
+        if (hp_m >= 100) hp_monster.textContent = 100;
         //strong heal
         if (alea1 >= 9 && alea1 <= 10) {
             heal = (0, _allgoDefault.default)(0, 0, 13, false, false);
-            hp_m = Math.floor(-hp_p - (heal - 100)) * -1;
+            hp_m = Math.floor(-hp_m - heal) * -1;
             hp_monster.textContent = hp_m;
-            console.log("le zombie utilise une forte competence de soin et recup\xe9re %i pv", heal - 100);
-            if (hp_p >= 180) hp_player.textContent = 180;
+            action.innerHTML = `Zombie :  uses a strong healing skill and recovers ${Math.floor(heal)} hp`;
+            if (hp_m >= 100) hp_monster.textContent = 100;
         }
     }
 }
@@ -867,11 +917,13 @@ function monsterheal(alea1) {
 function monsterdefence() {
     defence_m += 15;
     turndef_m = 3;
-    console.log("le zombie se renforce et augmente sa defense");
+    action.innerHTML = `Zombie :  gets stronger and increases its defense`;
 }
 // gestion of zombie turn
 function monsterturn(nbr) {
+    (0, _animationDefault.default)();
     alea = Math.floor(Math.random() * 10 + 1);
+    manage_mana(0);
     switch(nbr){
         //attack
         case 1:
@@ -890,33 +942,36 @@ function monsterturn(nbr) {
     }
     turndef_p = Math.abs(turndef_p - 1);
     if (turndef_p <= 0) defence_p = 0;
-    turn = 1;
     iturn += 1;
 }
 function turngestion(activeCard) {
     console.log("tour avant la baisse de d\xe9fense du joueur: %i", turndef_p);
     console.log("tour avant la baisse de d\xe9fense du zombie: %i", turndef_m);
     console.log("tour de jeu: %i", iturn);
-    if (turn === 1) {
+    if (iturn % 2 == 1) {
         console.log("Tour du joueur");
         playerturn(activeCard);
-    } else if (turn === 2) {
+    } else if (iturn % 2 == 0) {
         console.log("Tour du zombie");
+        document.querySelector(".cards").classList.add("hidden");
         monsterturn(Math.floor(Math.random() * 5 + 1));
-    } else alert("error");
+        setTimeout(()=>{
+            document.querySelector(".cards").classList.remove("hidden");
+        }, 1000);
+    } else console.log("error");
 }
 exports.default = turngestion;
 
-},{"./allgo":"hRUZT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hRUZT":[function(require,module,exports) {
+},{"./allgo":"hRUZT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./animation":"k5ez6"}],"hRUZT":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 const MIN_DAMAGE = 1.3;
 const MAX_DAMAGE = 0.7;
-const CRITICAL_HIT_CHANCE = 0.1;
-const MISS_CHANCE = 0.05;
 const BUFF_MULTIPLIER = 1.5;
 const DEBUFF_MULTIPLIER = 0.5;
-const ATTACK_RANGE = [
+let CRITICAL_HIT_CHANCE = 0.1;
+let MISS_CHANCE = 0.05;
+let ATTACK_RANGE = [
     1,
     1
 ];
@@ -943,7 +998,10 @@ function calculateDamage(attack, defence, isBuff, isDeBuff) {
 function finaledegat(attack, defence, isBuff, isDeBuff) {
     let finalDamage = 0;
     let attackCount = ATTACK_RANGE[1] - ATTACK_RANGE[0] + 1;
-    for(let i = 0; i < attackCount; i++)finalDamage += calculateDamage(attack, defence, isBuff, isDeBuff);
+    for(let i = 0; i < attackCount; i++){
+        console.log("nombre d'attaque : ", i);
+        finalDamage += calculateDamage(attack, defence, isBuff, isDeBuff);
+    }
     finalDamage = Math.floor(finalDamage / attackCount);
     return finalDamage;
 }
@@ -961,11 +1019,17 @@ function healcalculate(heal) {
         alert("miss!");
     } else return heal;
 }
-function allgo(attack, defence, heal, isBuff, isDeBuff) {
-    if (attack === 0 && heal > 0) {
+function allgo(attack, defence, heal, isBuff, isDeBuff, CC, Miss, Multi) {
+    CRITICAL_HIT_CHANCE = CC;
+    MISS_CHANCE = Miss;
+    ATTACK_RANGE = [
+        1,
+        Multi
+    ];
+    if (heal > 0) {
         let nbrheal = healcalculate(heal);
-        return nbrheal + 100;
-    } else if (attack > 0 && heal === 0) {
+        return nbrheal;
+    } else if (attack > 0) {
         let nbrdegat = finaledegat(attack, defence, isBuff, isDeBuff);
         return nbrdegat;
     } else console.log("cards de defense ou cards inutile");
@@ -976,19 +1040,22 @@ exports.default = allgo;
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5ez6":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var tID;
+let tID;
 function stopAnimate() {
     clearInterval(tID);
 }
 exports.default = stopAnimate;
 function animateScript() {
-    var position = 538;
+    let position = 538;
     const interval = 100;
     const diff = 538;
     tID = setInterval(()=>{
         document.getElementById("image").style.backgroundPosition = `-${position}px 0px`;
-        if (position < 5380) position = position + diff;
-        else position = 538;
+        if (position < 5380) position += diff;
+        else {
+            position = 538;
+            stopAnimate();
+        }
     }, interval);
 }
 exports.default = animateScript;

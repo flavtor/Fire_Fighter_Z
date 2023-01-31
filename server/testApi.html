@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html>
 <body>
-	<head>
-		<link href="style.css" rel="stylesheet">
-	</head>
 
 <h2>JavaScript Functions - REST API Services</h2>
 
@@ -25,7 +22,8 @@ const userAction = async () => {
 
 // Service REST /init
 async function init(){
-	let response = await fetch('http://localhost:8080/init', {
+	username = localStorage.getItem("username");
+	let response = await fetch('http://localhost:8080/init?username='+username, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'
@@ -40,7 +38,8 @@ async function init(){
 
 // Service REST /listcards
 async function getCards(){
-	let response = await fetch('http://localhost:8080/listcards', {
+	username = localStorage.getItem("username");
+	let response = await fetch('http://localhost:8080/listcards?username='+username, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'
@@ -64,7 +63,8 @@ async function getCards(){
 }
 // Service REST /listplayercards
 async function getPlayerCards(){
-	let response = await fetch('http://localhost:8080/listplayercards', {
+	username = localStorage.getItem("username");
+	let response = await fetch('http://localhost:8080/listplayercards?username='+username, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'
@@ -87,44 +87,10 @@ async function getPlayerCards(){
 	document.getElementById('listplayercards').innerHTML = listCards;
 }
 
-window.onload = function() {
-  getPlayerCardsData();
-};
-
-async function getPlayerCardsData(){
-  let response = await fetch('http://localhost:8080/listplayercards', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-  let data = await response.json()
-  localStorage.setItem("listPlayerCards", JSON.stringify(data));
-  const myJsonStr = JSON.stringify(data);
-
-  json_obj = JSON.parse(myJsonStr)
-  let cards = ""
-  for (var item in json_obj){
-    objCard = json_obj[item]
-    cards += `<div class="card-container">
-                <p>Name: ${objCard["Name"]}</p>
-                <p>Cost: ${objCard["Cost"]}</p>
-                <p>Description: ${objCard["Description"]}</p>
-                <p>Type: ${objCard["type"]}</p>
-                <p>Rarity: ${objCard["rarity"]}</p>
-                <button onclick="play_drawcard(${objCard["id"]})">Draw Card</button>
-              </div>`
-  }
-
-  document.getElementById('listplayercardsData').innerHTML = cards;
-}
-
-
-
-
 // Service REST /drawcard == return a random card
 async function drawcard(){
-	let response = await fetch('http://localhost:8080/drawcard', {
+	username = localStorage.getItem("username");
+	let response = await fetch('http://localhost:8080/drawcard?username='+username, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'
@@ -142,7 +108,8 @@ async function drawcard(){
 
 // Service REST /drawcards == return all player cards with drawn card
 async function drawcards(){
-	let response = await fetch('http://localhost:8080/drawcards', {
+	username = localStorage.getItem("username");
+	let response = await fetch('http://localhost:8080/drawcards?username='+username, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'
@@ -167,7 +134,8 @@ async function drawcards(){
 
 // Service REST /playcard parameter id of the card == return all player cards with drawn card
 async function playcard(id){
-	let response = await fetch('http://localhost:8080/playcard?id='+id, {
+	username = localStorage.getItem("username");
+	let response = await fetch('http://localhost:8080/playcard?id='+id+'&username='+username, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'
@@ -177,6 +145,8 @@ async function playcard(id){
 	localStorage.setItem("listPlayerCards", JSON.stringify(data));
 	const listCards = localStorage.getItem("listPlayerCards");
 	const myJsonStr = JSON.stringify(data);
+	
+	console.log("playcard data",data);
 	
 	json_obj = JSON.parse(myJsonStr)
 	for (var item in json_obj){
@@ -191,9 +161,11 @@ async function playcard(id){
 	document.getElementById('playcard').innerHTML = listCards;
 }
 
+
 // Service REST /play_drawcard parameter id of the card == return all player cards with drawn card
 async function play_drawcard(id){
-	let response = await fetch('http://localhost:8080/play_drawcard?id='+id, {
+	username = localStorage.getItem("username");
+	let response = await fetch('http://localhost:8080/play_drawcard?id='+id+'&username='+username, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'
@@ -212,13 +184,9 @@ async function play_drawcard(id){
 		console.log("id", objCard["id"]);
 		
 	}
-	
 	console.log('play_drawcard to json object: ', json_obj);
 	
 	document.getElementById('play_drawcard').innerHTML = listCards;
-
-	// refresh displayed cards
-	await getPlayerCardsData();
 }
 
 </script>
@@ -236,12 +204,6 @@ async function play_drawcard(id){
 <p>listplayercards -------------------------------------------------------------------------</p>
 <button type="button" onclick="getPlayerCards()">getPlayerCards()</button>
 <div id="listplayercards"></div>
-<br/>
-
-<p>listplayercardsData -------------------------------------------------------------------------</p>
-<button type="button" onclick="getPlayerCardsData()">getPlayerCardsData()</button>
-<div id="enemyHealthPoints">Enemy Health Points: 100</div>
-<div id="listplayercardsData"></div>
 <br/>
 
 <p>drawcard -------------------------------------------------------------------------</p>
