@@ -1,0 +1,29 @@
+.zombie {
+  height: 350px;
+  width: 350px;
+  background: url(../assets/Sprites/zombie_sprite.png);
+  position: absolute;
+  bottom: 230px;
+  right: 300px;
+  transition: 0.7s right ease-in-out;
+}
+
+.firefighter {
+  height: 350px;
+  width: 350px;
+  background: url(../assets/Sprites/firefighter_sprite.png);
+  position: absolute;
+  bottom: 230px;
+  left: 300px;
+  transition: 0.9s left ease-in-out;
+}
+
+.zombie.animation {
+  right: 50%;
+  transition: 0.7s right ease-in-out;
+}
+
+.firefighter.animation {
+  left: 60%;
+  transition: 0.7s left ease-in-out;
+}

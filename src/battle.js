@@ -1,4 +1,6 @@
-import animateScript from "./animation";
+import Animate from "./animation";
+
+const animation = new Animate();
 
 // set up global variables
 let turn = 1;
@@ -39,9 +41,10 @@ function managestion(Cost){
     }
     return 0;
 }
-
 // gestion of player turn
 function playerturn(activeCard) {
+    animation.animateSprite('firefighter', 1750)
+
     let hp_p = hp_player.textContent;
     
     console.log(activeCard);
@@ -147,7 +150,7 @@ function monsterdefence() {
 
 // gestion of zombie turn
 function monsterturn(nbr) {
-    animateScript()
+    animation.animateSprite('zombie', 3500)
     alea = Math.floor(Math.random() * (10 - 1 + 1) + 1);
     
     switch (nbr) {
