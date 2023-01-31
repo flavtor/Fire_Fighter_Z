@@ -1,3 +1,4 @@
+// set up global variables
 let turn = 1;
 let iturn = 1;
 let defence_p = 0;
@@ -5,16 +6,19 @@ let turndef_p = 0;
 let defence_m = 0;
 let turndef_m = 0;
 
+// recover html id
 hp_monster = document.getElementById("monster_hp");
 hp_player = document.getElementById("player_hp");
 mana_points = document.getElementById("mana_p");
 
 import allgo from "./allgo";
 
+// check if player or zombie are dead
 function check_death () {
     (hp_monster.textContent <= 0) ? alert("You Win!") : (hp_player.textContent <= 0) ? alert("You Lose!") : null;
   }
 
+// gestion of mana points
 function managestion(Cost){
 
     mana_points.textContent -= Cost;
@@ -33,6 +37,7 @@ function managestion(Cost){
     return 0;
 }
 
+// gestion of player turn
 function playerturn(activeCard) {
     let hp_p = hp_player.textContent;
     
@@ -67,6 +72,7 @@ function playerturn(activeCard) {
     iturn += 1;
   }
 
+  // gestion of all zombie attack
 function monsterattack(alea) {
     let damage = 0;
     let regen = Math.random() * (0.5 - 0.3) + 0.3
@@ -98,6 +104,7 @@ function monsterattack(alea) {
     
 }
 
+// gestion of all zombie heal
 function monsterheal(alea) {
     let heal = 0
     let hp_m = hp_monster.textContent;
@@ -105,7 +112,7 @@ function monsterheal(alea) {
     //heal basic
     if (alea >= 0 && alea <= 8) {
         heal = allgo(0,0,10,false,false);
-        hp_m = Math.floor((-hp_p - (heal - 100)))*-1;
+        hp_m = Math.floor((-hp_m - (heal - 100)))*-1;
         hp_monster.textContent = hp_m;
         console.log("le zombie utilise une competence de soin basique et récupére %i pv", heal-100);
         if (hp_p >= 180) {
@@ -124,6 +131,7 @@ function monsterheal(alea) {
     }
 }
 
+// gestion of all zombie defence
 function monsterdefence() {
     defence_m += 15;
     turndef_m = 3;
@@ -131,6 +139,7 @@ function monsterdefence() {
     console.log("le zombie se renforce et augmente sa defense");
 }
 
+// gestion of zombie turn
 function monsterturn(nbr) {
     alea = Math.floor(Math.random() * (10 - 1 + 1) + 1);
     
@@ -158,6 +167,7 @@ function monsterturn(nbr) {
     iturn += 1;
 }
 
+// turn by turn gestion
 export default function turngestion(activeCard) {
     console.log("tour avant la baisse de défense du joueur: %i", turndef_p);
     console.log("tour avant la baisse de défense du zombie: %i", turndef_m);

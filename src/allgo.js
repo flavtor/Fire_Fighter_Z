@@ -6,17 +6,21 @@ const BUFF_MULTIPLIER = 1.5;
 const DEBUFF_MULTIPLIER = 0.5;
 const ATTACK_RANGE = [1, 1];
 
+// calculate damage
 function calculateDamage(attack, defence, isBuff, isDeBuff) {
     let damage = (Math.random() * (MIN_DAMAGE- MAX_DAMAGE) + MIN_DAMAGE)*attack;
     let damageModifier = (isBuff ? BUFF_MULTIPLIER : 1) * (isDeBuff ? DEBUFF_MULTIPLIER : 1);
    
     damage = Math.floor(damage * damageModifier);
+
+    // chance of critical hit
     let isCriticalHit = Math.random() < CRITICAL_HIT_CHANCE;
     if (isCriticalHit) {
       damage = damage * 2;
       alert("critical hit!");
     }
     
+    //chance of miss
     let isMiss = Math.random() < MISS_CHANCE;
     if (isMiss) {
       damage = 0;
@@ -27,6 +31,7 @@ function calculateDamage(attack, defence, isBuff, isDeBuff) {
     return damage;
 }
 
+// finale degat gestion
 function finaledegat(attack, defence, isBuff, isDeBuff) {
     let finalDamage = 0;
     let attackCount = ATTACK_RANGE[1] - ATTACK_RANGE[0] + 1;
@@ -38,6 +43,7 @@ function finaledegat(attack, defence, isBuff, isDeBuff) {
     return finalDamage;
 }
 
+//  calculate health
 function healcalculate(heal) {
     heal *= (Math.random() * (MIN_DAMAGE- MAX_DAMAGE) + MIN_DAMAGE);
 
@@ -56,6 +62,7 @@ function healcalculate(heal) {
 
 }
 
+// check if is attack card or heal card
 export default function allgo(attack, defence, heal, isBuff, isDeBuff) {
     if (attack === 0 && heal > 0) {
         let nbrheal = healcalculate(heal)
