@@ -3,7 +3,6 @@ import Animate from "./animation";
 const animation = new Animate();
 
 // set up global variables
-let turn = 1;
 let iturn = 1;
 let defence_p = 0;
 let turndef_p = 0;
@@ -28,13 +27,12 @@ function managestion(Cost){
 
     mana_points.textContent -= Cost;
     
-    if (mana_points.textContent < -1) {
+    if (mana_points.textContent < 0) {
         alert("no more mana, you must end turn");
         turndef_m = Math.abs(turndef_m - 1);
         if (turndef_m <= 0) {
             defence_m = 0;
         }
-        turn = 2;
         iturn += 1;
         mana_points.textContent = 3;
         return 1;
@@ -74,7 +72,6 @@ function playerturn(activeCard) {
     }
     turndef_m <= 0 ? defence_m = 0 : null;
     turndef_m = Math.abs(turndef_m - 1);
-    turn = 2;
     iturn += 1;
   }
 
@@ -173,7 +170,6 @@ function monsterturn(nbr) {
     if (turndef_p <= 0) {
         defence_p = 0;
     }
-    turn = 1;
     iturn += 1;
 }
 
@@ -182,11 +178,11 @@ export default function turngestion(activeCard) {
     console.log("tour avant la baisse de défense du joueur: %i", turndef_p);
     console.log("tour avant la baisse de défense du zombie: %i", turndef_m);
     console.log("tour de jeu: %i", iturn);
-    if (turn === 1) {
+    if (iturn %2 == 1) {
         console.log("Tour du joueur");
         playerturn(activeCard);
     }
-    else if (turn === 2) {
+    else if (iturn %2 == 0) {
         console.log("Tour du zombie");
         document.querySelector('.cards').classList.add('hidden')
         monsterturn(Math.floor(Math.random() * (5 - 1 + 1) + 1));
@@ -194,5 +190,5 @@ export default function turngestion(activeCard) {
             document.querySelector('.cards').classList.remove('hidden')
         }, 1000);
     } else
-    alert("error");
+    console.log("error");
 }
