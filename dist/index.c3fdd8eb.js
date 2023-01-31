@@ -142,7 +142,7 @@
       this[globalName] = mainExports;
     }
   }
-})({"5LTrL":[function(require,module,exports) {
+})({"8HAIT":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -575,7 +575,7 @@ function initGame() {
 }
 exports.default = initGame;
 
-},{"./menu":"frHky","./cards":"wDC3l","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"frHky":[function(require,module,exports) {
+},{"./menu":"frHky","./cards":"wDC3l","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"frHky":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _intro = require("./intro");
@@ -613,7 +613,7 @@ class GameMenu {
 }
 exports.default = GameMenu;
 
-},{"./intro":"knEUC","./sound":"lGmhX","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"knEUC":[function(require,module,exports) {
+},{"./intro":"knEUC","./sound":"lGmhX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"knEUC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _game = require("./game");
@@ -630,7 +630,7 @@ function intro() {
 }
 exports.default = intro;
 
-},{"./game":"g9e9u","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"4F77b":[function(require,module,exports) {
+},{"./game":"g9e9u","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -670,7 +670,7 @@ class Sound {
 }
 exports.default = Sound;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"wDC3l":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"wDC3l":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _game = require("./game");
@@ -699,7 +699,7 @@ class Card {
         });
     }
     async fetchCards() {
-        let username = localStorage.getItem("username");
+        let username = sessionStorage.getItem("username");
         let response = await fetch(`${(0, _game.API_URL)}/init?username=` + username, {
             method: "GET",
             headers: {
@@ -708,8 +708,8 @@ class Card {
         });
         this.showLoading();
         let data = await response.json();
-        localStorage.setItem("listCards", JSON.stringify(data));
-        const listCards = localStorage.getItem("listCards");
+        sessionStorage.setItem("listCards", JSON.stringify(data));
+        const listCards = sessionStorage.getItem("listCards");
         this.json_obj = JSON.parse(listCards);
         return this.json_obj;
     }
@@ -736,7 +736,7 @@ class Card {
         this.createCards(data);
     }
     async playDrawcard(id) {
-        let username = localStorage.getItem("username");
+        let username = sessionStorage.getItem("username");
         let response = await fetch(`${(0, _game.API_URL)}/play_drawcard?id=` + id + "&username=" + username, {
             method: "GET",
             headers: {
@@ -744,8 +744,8 @@ class Card {
             }
         });
         let data = await response.json();
-        localStorage.setItem("listPlayerCards", JSON.stringify(data));
-        const listCards = localStorage.getItem("listPlayerCards");
+        sessionStorage.setItem("listPlayerCards", JSON.stringify(data));
+        const listCards = sessionStorage.getItem("listPlayerCards");
         this.json_obj = JSON.parse(listCards);
         this.createCards(this.json_obj);
     }
@@ -768,7 +768,7 @@ class Card {
 }
 exports.default = Card;
 
-},{"./game":"g9e9u","./battle":"cHJbw","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"cHJbw":[function(require,module,exports) {
+},{"./game":"g9e9u","./battle":"cHJbw","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cHJbw":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _animation = require("./animation");
@@ -966,7 +966,7 @@ function turngestion(activeCard) {
 }
 exports.default = turngestion;
 
-},{"./animation":"k5ez6","./allgo":"hRUZT","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"k5ez6":[function(require,module,exports) {
+},{"./animation":"k5ez6","./allgo":"hRUZT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5ez6":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 class Animate {
@@ -998,7 +998,7 @@ class Animate {
 }
 exports.default = Animate;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"hRUZT":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hRUZT":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 const MIN_DAMAGE = 1.3;
@@ -1073,6 +1073,6 @@ function allgo(attack, defence, heal, isBuff, isDeBuff, CC, Miss, Multi) {
 }
 exports.default = allgo;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}]},["5LTrL","g9e9u"], "g9e9u", "parcelRequire4c95")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["8HAIT","g9e9u"], "g9e9u", "parcelRequire4c95")
 
 //# sourceMappingURL=index.c3fdd8eb.js.map
