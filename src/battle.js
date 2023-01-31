@@ -1,5 +1,3 @@
-var mana = 3;
-
 let turn = 1;
 let iturn = 1;
 let defence_p = 0;
@@ -56,7 +54,7 @@ function playerturn(activeCard) {
       }
     }
     hp_monster.textContent -= nbr;
-    console.log("test", nbr);
+    console.log("le pombier utilise une competence et inflige %i de degat", nbr);
     if (hp_monster.textContent <= 0) {
       alert("You win!");
     }
@@ -65,17 +63,34 @@ function playerturn(activeCard) {
     iturn += 1;
   }
 
-  function monsterattack(hp_player, alea) {
+  function monsterattack(alea) {
     let damage = 0;
+    let regen = Math.random() * (0.5 - 0.3) + 0.3
+    let hp_m = hp_monster.textContent;
 
     //attack basic
-    if (alea <= 4) {
+    if (alea >= 0 && alea <= 6) {
         damage = allgo(10, defence_p, 0, false, false);
         hp_player.textContent -= damage;
+        console.log("zombie utilise attaque basique est fait %i damage", damage);
         return
-
-
-       }
+    //strong attack
+    } else if (alea >= 7 && alea <= 9) {
+        damage = allgo(11, defence_p, 0, true, false);
+        hp_player.textContent -= damage;
+        console.log("zombie utilise forte attack est fait %i damage", damage);
+        return
+    }
+    //steal life attack
+    else if (alea == 10) {
+        damage = allgo(10, defence_p, 0, false, false);
+        regen = damage*regen;
+        hp_m = Math.floor((-regen - hp_m) * -1);
+        hp_m >= 100 ? hp_monster.textContent = 100 : hp_monster.textContent = hp_m;
+        hp_player.textContent -= damage;
+        console.log("zombie utilise steal life attack est fait %i dommage et recupere %i de vie", damage, regen);
+        return
+    }
     
   }
 
@@ -89,22 +104,25 @@ function playerturn(activeCard) {
 
   function monsterturn(nbr) {
     alea = Math.floor(Math.random() * (10 - 1 + 1) + 1);
-
+    console.log("alea :" ,alea);
+    
     switch (nbr) {
         //attack
         case 1:
         case 2:
         case 3:
-            monsterattack(hp_player, alea);
+        case 4:
+        case 5:
+            monsterattack(alea);
         break;
         //heal
-        case 4:
-            monsterheal(alea);
-        break;
+        //case 4:
+        //    monsterheal(alea);
+        //break;
         //defence
-        case 5:
-            monsterdefence();
-        break;
+        //case 5:
+        //    monsterdefence();
+        //break;
     }
     turndef_p -= 1;
     if (turndef_p <= 0) {
@@ -116,6 +134,7 @@ function playerturn(activeCard) {
 
 export default function turngestion(activeCard)
   {
+    console.log(turn);
     if (turn === 1) {
         playerturn(activeCard);
     }
