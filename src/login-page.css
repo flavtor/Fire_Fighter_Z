@@ -159,3 +159,16 @@ main grid */
   justify-items: center;
   align-items: center;
 }
+
+#register-success-msg {
+  width: 23%;
+  text-align: center;
+  margin: 0;
+  padding: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #008a12;
+  border: 1px solid #008a39;
+  background-color: #b1e58f;
+  opacity: 0;
+}
