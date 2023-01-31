@@ -34,24 +34,29 @@ async function login(){
     }
 }
 
-async function register(){
-	const username = registerForm.username.value;
-	const password = registerForm.password.value;
+async function register() {
+  const username = registerForm.username.value;
+  const password = registerForm.password.value;
 
-	let response = await fetch('http://localhost:8080/adduser?username='+username+'&password='+password, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	});
-	let data = await response.json()
-	
-	if (data["status"] == "ok") {
-		sessionStorage.setItem("username", data["username"]);
-		registerSuccessMsg.style.opacity = 1;
+  if (!username || !password) {
+    registerErrorMsg.textContent = "Please enter a username and password";
+    registerErrorMsg.style.opacity = 1;
+    return;
+  }
 
-	}
-	else {
-		registerErrorMsg.style.opacity = 1;
-	}
+  let response = await fetch('http://localhost:8080/adduser?username=' + username + '&password=' + password, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  let data = await response.json();
+
+  if (data["status"] === "ok") {
+    sessionStorage.setItem("username", data["username"]);
+    registerSuccessMsg.style.opacity = 1;
+  } else {
+    registerErrorMsg.textContent = "Username already exists";
+    registerErrorMsg.style.opacity = 1;
+  }
 }
