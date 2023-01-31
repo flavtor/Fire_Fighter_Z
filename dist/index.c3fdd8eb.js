@@ -780,13 +780,20 @@ function check_death() {
 // gestion of mana points
 function managestion(Cost) {
     mana_points.textContent -= Cost;
+    console.log("Mana: ", mana_points.textContent);
     if (mana_points.textContent < 0) {
-        alert("no more mana, you must end turn");
+        alert("vous n'avez plus assez de mana pour lanc\xe9 votre competence vous pass\xe9 votre tour");
         turndef_m = Math.abs(turndef_m - 1);
         if (turndef_m <= 0) defence_m = 0;
-        iturn += 1;
         mana_points.textContent = 3;
+        iturn += 1;
         return 1;
+    }
+    console.log("Mana2: ", mana_points.textContent);
+    console.log("iturn%3: ", iturn % 3);
+    if (iturn % 4 == 1) {
+        console.log("gain en mana : 4");
+        mana_points.textContent = 4;
     }
     return 0;
 }
@@ -849,7 +856,7 @@ function monsterheal(alea1) {
         hp_m = Math.floor(-hp_m - (heal - 100)) * -1;
         hp_monster.textContent = hp_m;
         console.log("le zombie utilise une competence de soin basique et r\xe9cup\xe9re %i pv", heal - 100);
-        if (hp_p >= 180) hp_player.textContent = 180;
+        if (hp_m >= 100) hp_monster.textContent = 100;
         //strong heal
         if (alea1 >= 9 && alea1 <= 10) {
             heal = (0, _allgoDefault.default)(0, 0, 13, false, false);
@@ -869,6 +876,7 @@ function monsterdefence() {
 // gestion of zombie turn
 function monsterturn(nbr) {
     alea = Math.floor(Math.random() * 10 + 1);
+    managestion(0);
     switch(nbr){
         //attack
         case 1:
