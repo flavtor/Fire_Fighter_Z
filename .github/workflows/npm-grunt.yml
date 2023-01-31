@@ -1,28 +1,40 @@
-name: NodeJS with Grunt
+name: Mon action avec JavaScript et Python
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.13.0]
-
     steps:
-    - uses: actions/checkout@v3
-
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+    - name: Configuration du environnement
+      uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 14
 
-    - name: Build
-      run: |
-        npm ci
-        npm start
+    - name: Installation de Python 3.7.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7.9
+
+    - name: Checkout du code
+      uses: actions/checkout@v2
+
+    - name: Installation des dépendances Node
+      run: npm ci
+
+    - name: Installation des dépendances Python
+      run: pip install -r requirements.txt
+
+    - name: Exécution des tests Node
+      run: npm test
+
+    - name: Exécution des tests Python
+      run: python -m pytest
+
+    - name: Build Node
+      run: npm run build
+
+    - name: Build Python
+      run: python setup.py build
+
