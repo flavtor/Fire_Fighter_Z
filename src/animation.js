@@ -1,4 +1,4 @@
-var tID;
+let tID;
 
 //stop animation
 export default function stopAnimate() {
@@ -7,17 +7,18 @@ export default function stopAnimate() {
 
 // animate script
 export default function animateScript() {
-    var position = 538;
+    let position = 538;
     const  interval = 100;
     const diff = 538;
 
     tID = setInterval ( () => {
         document.getElementById("image").style.backgroundPosition = 
         `-${position}px 0px`;
-        if (position < 5380)
-            { position = position + diff;}
-        else {
-           { position = 538; }
+        if (position < 5380) {
+            position += diff;
+        } else {
+            position = 538;
+            stopAnimate();
         }
     }
     , interval);

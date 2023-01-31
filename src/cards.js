@@ -84,6 +84,15 @@ export default class Card {
   showLoading() {
     this.loading = true;
     const loadingElement = document.querySelector(".loading");
+    const cardsElement = document.querySelector('.cards')
+    const boxElement = document.querySelector('.box-content')
     loadingElement.classList.add("disappear");
+    this.showElements([cardsElement, boxElement])
+  }
+
+  showElements(elements) {
+    elements.forEach(element => {
+      element.classList.remove("hidden");
+    });
   }
 }
