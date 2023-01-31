@@ -27,15 +27,22 @@ function managestion(Cost){
 
     mana_points.textContent -= Cost;
     
+    console.log("Mana: ", mana_points.textContent);
     if (mana_points.textContent < 0) {
-        alert("no more mana, you must end turn");
+        alert("vous n'avez plus assez de mana pour lancé votre competence vous passé votre tour");
         turndef_m = Math.abs(turndef_m - 1);
         if (turndef_m <= 0) {
             defence_m = 0;
         }
-        iturn += 1;
         mana_points.textContent = 3;
+        iturn += 1;
         return 1;
+    }
+    console.log("Mana2: ", mana_points.textContent);
+    console.log("iturn%3: ", iturn%3);
+    if (iturn % 4 == 1) {
+        console.log("gain en mana : 4");
+        mana_points.textContent = 4;
     }
     return 0;
 }
@@ -119,8 +126,8 @@ function monsterheal(alea) {
         hp_m = Math.floor((-hp_m - (heal - 100)))*-1;
         hp_monster.textContent = hp_m;
         action.innerHTML = `Zombie :  uses a basic healing skill and recovers ${heal-100} hp`
-        if (hp_p >= 180) {
-            hp_player.textContent = 180;
+        if (hp_m >= 100) {
+            hp_monster.textContent = 100;
         }
     //strong heal
     if (alea >= 9 && alea <= 10){
@@ -149,6 +156,7 @@ function monsterdefence() {
 function monsterturn(nbr) {
     animation.animateSprite('zombie', 3500)
     alea = Math.floor(Math.random() * (10 - 1 + 1) + 1);
+    managestion(0);
     
     switch (nbr) {
         //attack
