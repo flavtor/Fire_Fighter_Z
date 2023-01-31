@@ -829,7 +829,7 @@ function manage_heal(activeCard, heal) {
     if (activeCard.Heal > 0) {
         hp_p = Math.floor(-hp_p - heal) * -1;
         hp_player.textContent = hp_p;
-        action.innerHTML = `You : uses a skill and heals ${heal} hp`;
+        action.innerHTML = `You : uses a skill and heals ${Math.floor(heal)} hp`;
         if (hp_p >= 180) hp_player.textContent = 180;
     }
 }
@@ -847,7 +847,7 @@ function manage_defence(activeCard) {
 //     hp_p >= 180 ? hp_player.textContent = 180 : hp_player.textContent = hp_p;
 //     hp_player.textContent -= damage;
 //     check_death();
-//     action.innerHTML = `Pompier :  uses steal life attack and inflicts ${damage} damage and recover ${regen} hp`
+//     action.innerHTML = `Pompier :  uses steal life attack and inflicts ${Math.floor(damage)} damage and recover ${regen} hp`
 // }
 // gestion of player turn
 function playerturn(activeCard) {
@@ -860,7 +860,7 @@ function playerturn(activeCard) {
     manage_heal(activeCard, nbr);
     if (activeCard.Attack > 0 /* && activeCard.LifeLeft === true */ ) {
         hp_monster.textContent -= nbr;
-        action.innerHTML = `You : uses a skill and inflicts ${nbr} damage`;
+        action.innerHTML = `You : uses a skill and inflicts ${Math.floor(nbr)} damage`;
         check_death();
     }
     // else if (activeCard.LigeLeft === true) {
@@ -880,13 +880,13 @@ function monsterattack(alea1) {
         damage = (0, _allgoDefault.default)(10, defence_p, 0, false, false);
         hp_player.textContent -= damage;
         check_death();
-        action.innerHTML = `Zombie :  uses basic attack and inflicts ${damage} damage`;
+        action.innerHTML = `Zombie :  uses basic attack and inflicts ${Math.floor(damage)} damage`;
     //strong attack
     } else if (alea1 >= 7 && alea1 <= 9) {
         damage = (0, _allgoDefault.default)(11, defence_p, 0, true, false);
         hp_player.textContent -= damage;
         check_death();
-        action.innerHTML = `Zombie :  uses strong attack and inflicts ${damage} damage`;
+        action.innerHTML = `Zombie :  uses strong attack and inflicts ${Math.floor(damage)} damage`;
     } else if (alea1 == 10) {
         damage = (0, _allgoDefault.default)(10, defence_p, 0, false, false);
         regen = damage * regen;
@@ -894,7 +894,7 @@ function monsterattack(alea1) {
         hp_m >= 100 ? hp_monster.textContent = 100 : hp_monster.textContent = hp_m;
         hp_player.textContent -= damage;
         check_death();
-        action.innerHTML = `Zombie :  uses steal life attack and inflicts ${damage} damage and recover ${regen} hp`;
+        action.innerHTML = `Zombie :  uses steal life attack and inflicts ${Math.floor(damage)} damage and recover ${Math.floor(regen)} hp`;
     }
 }
 // gestion of all zombie heal
@@ -906,14 +906,14 @@ function monsterheal(alea1) {
         heal = (0, _allgoDefault.default)(0, 0, 10, false, false);
         hp_m = Math.floor(-hp_m - heal) * -1;
         hp_monster.textContent = hp_m;
-        action.innerHTML = `Zombie :  uses a basic healing skill and recovers ${heal} hp`;
+        action.innerHTML = `Zombie :  uses a basic healing skill and recovers ${Math.floor(heal)} hp`;
         if (hp_m >= 100) hp_monster.textContent = 100;
         //strong heal
         if (alea1 >= 9 && alea1 <= 10) {
             heal = (0, _allgoDefault.default)(0, 0, 13, false, false);
             hp_m = Math.floor(-hp_m - heal) * -1;
             hp_monster.textContent = hp_m;
-            action.innerHTML = `Zombie :  uses a strong healing skill and recovers ${heal} hp`;
+            action.innerHTML = `Zombie :  uses a strong healing skill and recovers ${Math.floor(heal)} hp`;
             if (hp_m >= 100) hp_monster.textContent = 100;
         }
     }
