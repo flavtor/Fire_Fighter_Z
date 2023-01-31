@@ -84,7 +84,7 @@ function playerturn(activeCard) {
     manage_heal(activeCard, nbr);
     if (activeCard.Attack > 0 /* && activeCard.LifeLeft === true */) {
         hp_monster.textContent -= nbr;
-        action.innerHTML = `You : uses a skill and inflicts ${nbr} damage`
+        action.innerHTML = `You : uses a skill and inflicts ${Math.floor(nbr)} damage`
         check_death();
     }
     // else if (activeCard.LigeLeft === true) {
@@ -106,14 +106,14 @@ function monsterattack(alea) {
         damage = allgo(10, defence_p, 0, false, false);
         hp_player.textContent -= damage;
         check_death();
-        action.innerHTML = `Zombie :  uses basic attack and inflicts ${damage} damage`
+        action.innerHTML = `Zombie :  uses basic attack and inflicts ${Math.floor(damage)} damage`
 
     //strong attack
     } else if (alea >= 7 && alea <= 9) {
         damage = allgo(11, defence_p, 0, true, false);
         hp_player.textContent -= damage;
         check_death();
-        action.innerHTML = `Zombie :  uses strong attack and inflicts ${damage} damage`
+        action.innerHTML = `Zombie :  uses strong attack and inflicts ${Math.floor(damage)} damage`
     }
     //steal life attack
     else if (alea == 10) {
@@ -123,7 +123,7 @@ function monsterattack(alea) {
         hp_m >= 100 ? hp_monster.textContent = 100 : hp_monster.textContent = hp_m;
         hp_player.textContent -= damage;
         check_death();
-        action.innerHTML = `Zombie :  uses steal life attack and inflicts ${damage} damage and recover ${regen} hp`
+        action.innerHTML = `Zombie :  uses steal life attack and inflicts ${Math.floor(damage)} damage and recover ${Math.floor(regen)} hp`
     }
     
 }
@@ -147,7 +147,7 @@ function monsterheal(alea) {
         heal = allgo(0,0,13,false,false);
         hp_m = Math.floor((-hp_m - heal))*-1;
         hp_monster.textContent = hp_m;
-        action.innerHTML = `Zombie :  uses a strong healing skill and recovers ${heal} hp`
+        action.innerHTML = `Zombie :  uses a strong healing skill and recovers ${Math.floor(heal)} hp`
 
         if (hp_m >= 100) {
             hp_monster.textContent = 100;
