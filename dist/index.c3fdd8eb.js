@@ -764,7 +764,6 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _allgo = require("./allgo");
 var _allgoDefault = parcelHelpers.interopDefault(_allgo);
-let turn = 1;
 let iturn = 1;
 let defence_p = 0;
 let turndef_p = 0;
@@ -781,11 +780,10 @@ function check_death() {
 // gestion of mana points
 function managestion(Cost) {
     mana_points.textContent -= Cost;
-    if (mana_points.textContent < -1) {
+    if (mana_points.textContent < 0) {
         alert("no more mana, you must end turn");
         turndef_m = Math.abs(turndef_m - 1);
         if (turndef_m <= 0) defence_m = 0;
-        turn = 2;
         iturn += 1;
         mana_points.textContent = 3;
         return 1;
@@ -812,7 +810,6 @@ function playerturn(activeCard) {
     }
     turndef_m <= 0 && (defence_m = 0);
     turndef_m = Math.abs(turndef_m - 1);
-    turn = 2;
     iturn += 1;
 }
 // gestion of all zombie attack
@@ -890,20 +887,19 @@ function monsterturn(nbr) {
     }
     turndef_p = Math.abs(turndef_p - 1);
     if (turndef_p <= 0) defence_p = 0;
-    turn = 1;
     iturn += 1;
 }
 function turngestion(activeCard) {
     console.log("tour avant la baisse de d\xe9fense du joueur: %i", turndef_p);
     console.log("tour avant la baisse de d\xe9fense du zombie: %i", turndef_m);
     console.log("tour de jeu: %i", iturn);
-    if (turn === 1) {
+    if (iturn % 2 == 1) {
         console.log("Tour du joueur");
         playerturn(activeCard);
-    } else if (turn === 2) {
+    } else if (iturn % 2 == 0) {
         console.log("Tour du zombie");
         monsterturn(Math.floor(Math.random() * 5 + 1));
-    } else alert("error");
+    } else console.log("error");
 }
 exports.default = turngestion;
 
