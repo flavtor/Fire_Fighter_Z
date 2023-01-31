@@ -81,6 +81,12 @@
   right: 300px;
 }
 
+#image {
+  height: 538px;
+  width: 538px;
+  background: url("zombie_sprite.4f7a1251.png");
+}
+
 .mana {
   width: 100px;
   height: 100px;

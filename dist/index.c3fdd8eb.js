@@ -564,6 +564,8 @@ var _menu = require("./menu");
 var _menuDefault = parcelHelpers.interopDefault(_menu);
 var _cards = require("./cards");
 var _cardsDefault = parcelHelpers.interopDefault(_cards);
+var _animation = require("./animation");
+var _animationDefault = parcelHelpers.interopDefault(_animation);
 const API_URL = "http://localhost:8080";
 const menu = new (0, _menuDefault.default)([
     "Play"
@@ -572,10 +574,11 @@ function initGame() {
     const card = new (0, _cardsDefault.default)();
     card.getCards();
     console.log("game launch");
+    (0, _animationDefault.default)();
 }
 exports.default = initGame;
 
-},{"./menu":"frHky","./cards":"wDC3l","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"frHky":[function(require,module,exports) {
+},{"./menu":"frHky","./cards":"wDC3l","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./animation":"k5ez6"}],"frHky":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _intro = require("./intro");
@@ -756,6 +759,7 @@ class Card {
 exports.default = Card;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./game":"g9e9u","./battle":"cHJbw"}],"cHJbw":[function(require,module,exports) {
+// set up global variables
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _allgo = require("./allgo");
@@ -766,12 +770,15 @@ let defence_p = 0;
 let turndef_p = 0;
 let defence_m = 0;
 let turndef_m = 0;
+// recover html id
 hp_monster = document.getElementById("monster_hp");
 hp_player = document.getElementById("player_hp");
 mana_points = document.getElementById("mana_p");
+// check if player or zombie are dead
 function check_death() {
     hp_monster.textContent <= 0 ? alert("You Win!") : hp_player.textContent <= 0 && alert("You Lose!");
 }
+// gestion of mana points
 function managestion(Cost) {
     mana_points.textContent -= Cost;
     if (mana_points.textContent < -1) {
@@ -785,6 +792,7 @@ function managestion(Cost) {
     }
     return 0;
 }
+// gestion of player turn
 function playerturn(activeCard) {
     let hp_p1 = hp_player.textContent;
     console.log(activeCard);
@@ -807,6 +815,7 @@ function playerturn(activeCard) {
     turn = 2;
     iturn += 1;
 }
+// gestion of all zombie attack
 function monsterattack(alea1) {
     let damage = 0;
     let regen = Math.random() * 0.2 + 0.3;
@@ -833,13 +842,14 @@ function monsterattack(alea1) {
         console.log("zombie utilise steal life attack est fait %i dommage et recupere %i de vie", damage, regen);
     }
 }
+// gestion of all zombie heal
 function monsterheal(alea1) {
     let heal = 0;
     let hp_m = hp_monster.textContent;
     //heal basic
     if (alea1 >= 0 && alea1 <= 8) {
         heal = (0, _allgoDefault.default)(0, 0, 10, false, false);
-        hp_m = Math.floor(-hp_p - (heal - 100)) * -1;
+        hp_m = Math.floor(-hp_m - (heal - 100)) * -1;
         hp_monster.textContent = hp_m;
         console.log("le zombie utilise une competence de soin basique et r\xe9cup\xe9re %i pv", heal - 100);
         if (hp_p >= 180) hp_player.textContent = 180;
@@ -853,11 +863,13 @@ function monsterheal(alea1) {
         }
     }
 }
+// gestion of all zombie defence
 function monsterdefence() {
     defence_m += 15;
     turndef_m = 3;
     console.log("le zombie se renforce et augmente sa defense");
 }
+// gestion of zombie turn
 function monsterturn(nbr) {
     alea = Math.floor(Math.random() * 10 + 1);
     switch(nbr){
@@ -908,15 +920,18 @@ const ATTACK_RANGE = [
     1,
     1
 ];
+// calculate damage
 function calculateDamage(attack, defence, isBuff, isDeBuff) {
     let damage = (Math.random() * (MIN_DAMAGE - MAX_DAMAGE) + MIN_DAMAGE) * attack;
     let damageModifier = (isBuff ? BUFF_MULTIPLIER : 1) * (isDeBuff ? DEBUFF_MULTIPLIER : 1);
     damage = Math.floor(damage * damageModifier);
+    // chance of critical hit
     let isCriticalHit = Math.random() < CRITICAL_HIT_CHANCE;
     if (isCriticalHit) {
         damage = damage * 2;
         alert("critical hit!");
     }
+    //chance of miss
     let isMiss = Math.random() < MISS_CHANCE;
     if (isMiss) {
         damage = 0;
@@ -924,6 +939,7 @@ function calculateDamage(attack, defence, isBuff, isDeBuff) {
     } else damage = Math.max(Math.floor(damage - defence * 0.7), 1);
     return damage;
 }
+// finale degat gestion
 function finaledegat(attack, defence, isBuff, isDeBuff) {
     let finalDamage = 0;
     let attackCount = ATTACK_RANGE[1] - ATTACK_RANGE[0] + 1;
@@ -931,6 +947,7 @@ function finaledegat(attack, defence, isBuff, isDeBuff) {
     finalDamage = Math.floor(finalDamage / attackCount);
     return finalDamage;
 }
+//  calculate health
 function healcalculate(heal) {
     heal *= Math.random() * (MIN_DAMAGE - MAX_DAMAGE) + MIN_DAMAGE;
     let isCriticalHeal = Math.random() < CRITICAL_HIT_CHANCE;
@@ -955,6 +972,26 @@ function allgo(attack, defence, heal, isBuff, isDeBuff) {
     return 0;
 }
 exports.default = allgo;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5ez6":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var tID;
+function stopAnimate() {
+    clearInterval(tID);
+}
+exports.default = stopAnimate;
+function animateScript() {
+    var position = 538;
+    const interval = 100;
+    const diff = 538;
+    tID = setInterval(()=>{
+        document.getElementById("image").style.backgroundPosition = `-${position}px 0px`;
+        if (position < 5380) position = position + diff;
+        else position = 538;
+    }, interval);
+}
+exports.default = animateScript;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["8HAIT","g9e9u"], "g9e9u", "parcelRequire4c95")
 
