@@ -24,7 +24,10 @@ jobs:
       run: npm ci
 
     - name: Installation des dépendances Python
-      run: pip install -r requirements.txt
+      run: |
+          pip install flask
+          pip install firebase_admin
+          pip install flask_cors
 
     - name: Exécution des tests Node
       run: npm test
