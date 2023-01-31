@@ -37,10 +37,11 @@ function finaledegat(attack, defence, isBuff, isDeBuff) {
     let attackCount = ATTACK_RANGE[1] - ATTACK_RANGE[0] + 1;
   
     for (let i = 0; i < attackCount; i++) {
-        console.log("nombre d'attaque : ", i);
+        console.log("nombre d'attaque : ", attackCount);
         finalDamage += calculateDamage(attack, defence, isBuff, isDeBuff);
     }
-    finalDamage = Math.floor(finalDamage / attackCount);
+    finalDamage = Math.floor(finalDamage);
+    console.log("----------------------------------------------------------------\n Final damage: %i\n---------------------------------------------------------------- ", finalDamage);
     return finalDamage;
 }
 

@@ -675,7 +675,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _game = require("./game");
 var _battle = require("./battle");
-var _battleDefault = parcelHelpers.interopDefault(_battle);
+let iturn = 0;
 class Card {
     constructor(){
         this.cards = [];
@@ -689,7 +689,7 @@ class Card {
                 const card_id = card.getAttribute("card_id");
                 const activeCard = data[tab_id];
                 data.splice(tab_id, 1);
-                (0, _battleDefault.default)(activeCard);
+                (0, _battle.turngestion)(activeCard);
                 card.classList.add("selected");
                 setTimeout(()=>{
                     card.parentNode.removeChild(card);
@@ -736,6 +736,8 @@ class Card {
         this.createCards(data);
     }
     async playDrawcard(id) {
+        console.log("55555555555555555555555555555555555555555555555555555555");
+        (0, _battle.manage_monster)();
         let username = sessionStorage.getItem("username");
         let response = await fetch(`${(0, _game.API_URL)}/play_drawcard?id=` + id + "&username=" + username, {
             method: "GET",
@@ -771,6 +773,9 @@ exports.default = Card;
 },{"./game":"g9e9u","./battle":"cHJbw","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cHJbw":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "manage_monster", ()=>manage_monster);
+// turn by turn gestion
+parcelHelpers.export(exports, "turngestion", ()=>turngestion);
 var _animation = require("./animation");
 var _animationDefault = parcelHelpers.interopDefault(_animation);
 var _allgo = require("./allgo");
@@ -804,7 +809,7 @@ function manage_mana(Cost) {
         iturn += 1;
         return 1;
     }
-    if (iturn % 4 == 1) mana_points.textContent = 4;
+    if (iturn % 5 == 1) mana_points.textContent = 4;
     return 0;
 }
 // gestion attaque buff
@@ -819,6 +824,7 @@ function manage_buff(activeCard) {
             turn_buff = 0;
         }
     }
+    return;
 }
 //gestion heal
 function manage_heal(activeCard, heal) {
@@ -829,12 +835,14 @@ function manage_heal(activeCard, heal) {
         action.innerHTML = `You : uses a skill and heals ${Math.floor(heal)} hp`;
         if (hp_p >= 180) hp_player.textContent = 180;
     }
+    return;
 }
 // gestion defence
 function manage_defence(activeCard) {
     defence_p += activeCard.Defence;
     console.log("defence du perso :", defence_p);
     if (defence_p > 0 && turndef_p == 0) turndef_p = 3;
+    return;
 }
 //gestion life left
 function manage_LifeTheft(damage) {
@@ -847,11 +855,13 @@ function manage_LifeTheft(damage) {
     check_death();
     console.log("LifeTheft: dammage : %i, regen : %1", damage, regen);
     action.innerHTML = `Pompier :  uses steal life attack and inflicts ${Math.floor(damage)} damage and recover ${Math.floor(regen)} hp`;
+    return;
 }
 // gestion of player turn
 function playerturn(activeCard) {
     animation.animateSprite("firefighter", 1750);
     let nbr = 0;
+    console.log("222222222222222222222222222");
     console.log(activeCard);
     if (manage_mana(activeCard.Cost) == 1) return;
     manage_buff(activeCard);
@@ -867,6 +877,7 @@ function playerturn(activeCard) {
     turndef_m <= 0 && (defence_m = 0);
     turndef_m = Math.abs(turndef_m - 1);
     iturn += 1;
+    return;
 }
 // gestion of all zombie attack
 function monsterattack(alea1) {
@@ -927,7 +938,6 @@ function monsterdefence() {
 function monsterturn(nbr) {
     animation.animateSprite("zombie", 3500);
     alea = Math.floor(Math.random() * 10 + 1);
-    manage_mana(0);
     switch(nbr){
         //attack
         case 1:
@@ -948,23 +958,24 @@ function monsterturn(nbr) {
     if (turndef_p <= 0) defence_p = 0;
     iturn += 1;
 }
+function manage_monster() {
+    console.log("11111111111111111111111111111");
+    console.log("Tour du zombie");
+    document.querySelector(".cards").classList.add("hidden");
+    monsterturn(Math.floor(Math.random() * 5 + 1));
+    setTimeout(()=>{
+        document.querySelector(".cards").classList.remove("hidden");
+    }, 1000);
+    return;
+}
 function turngestion(activeCard) {
     console.log("tour avant la baisse de d\xe9fense du joueur: %i", turndef_p);
     console.log("tour avant la baisse de d\xe9fense du zombie: %i", turndef_m);
     console.log("tour de jeu: %i", iturn);
-    if (iturn % 2 == 1) {
-        console.log("Tour du joueur");
-        playerturn(activeCard);
-    } else if (iturn % 2 == 0) {
-        console.log("Tour du zombie");
-        document.querySelector(".cards").classList.add("hidden");
-        monsterturn(Math.floor(Math.random() * 5 + 1));
-        setTimeout(()=>{
-            document.querySelector(".cards").classList.remove("hidden");
-        }, 1000);
-    } else console.log("error");
+    console.log("Tour du joueur");
+    playerturn(activeCard);
+    return;
 }
-exports.default = turngestion;
 
 },{"./animation":"k5ez6","./allgo":"hRUZT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5ez6":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -1035,10 +1046,11 @@ function finaledegat(attack, defence, isBuff, isDeBuff) {
     let finalDamage = 0;
     let attackCount = ATTACK_RANGE[1] - ATTACK_RANGE[0] + 1;
     for(let i = 0; i < attackCount; i++){
-        console.log("nombre d'attaque : ", i);
+        console.log("nombre d'attaque : ", attackCount);
         finalDamage += calculateDamage(attack, defence, isBuff, isDeBuff);
     }
-    finalDamage = Math.floor(finalDamage / attackCount);
+    finalDamage = Math.floor(finalDamage);
+    console.log("----------------------------------------------------------------\n Final damage: %i\n---------------------------------------------------------------- ", finalDamage);
     return finalDamage;
 }
 //  calculate health

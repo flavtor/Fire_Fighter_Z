@@ -1,5 +1,8 @@
 import { API_URL } from "./game";
-import turngestion from "./battle";
+import { turngestion } from "./battle";
+import { manage_monster } from "./battle";
+
+let iturn = 0;
 
 export default class Card {
   constructor() {
@@ -15,7 +18,7 @@ export default class Card {
         const card_id = card.getAttribute("card_id");
         const activeCard = data[tab_id];
         data.splice(tab_id, 1);
-        turngestion(activeCard);
+        turngestion(activeCard)
         card.classList.add("selected");
         setTimeout(() => {
           card.parentNode.removeChild(card);
@@ -45,7 +48,7 @@ export default class Card {
   createCards(data) {
     const cardsContainer = document.querySelector(".cards");
     cardsContainer.innerHTML = "";
-
+    
     for (let i = 0; i < data.length; i++) {
       const cardsData = data[i];
       const cardElement = document.createElement("div");
@@ -69,6 +72,8 @@ export default class Card {
   }
 
   async playDrawcard(id) {
+    console.log("55555555555555555555555555555555555555555555555555555555");
+    manage_monster();
     let username = sessionStorage.getItem("username");
     let response = await fetch(`${API_URL}/play_drawcard?id=`+id+'&username='+username, {
       method: "GET",

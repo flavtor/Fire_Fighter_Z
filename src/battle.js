@@ -40,7 +40,7 @@ function manage_mana(Cost){
         iturn += 1;
         return 1;
     }
-    if (iturn % 4 == 1)
+    if (iturn % 5 == 1)
         mana_points.textContent = 4;
     return 0;
 }
@@ -67,6 +67,7 @@ function playerturn(activeCard) {
     
     let nbr = 0;
 
+    console.log("222222222222222222222222222")
     console.log(activeCard);
     if (manage_mana(activeCard.Cost) == 1) {
         return;
@@ -88,6 +89,7 @@ function playerturn(activeCard) {
     turndef_m <= 0 ? defence_m = 0 : null;
     turndef_m = Math.abs(turndef_m - 1);
     iturn += 1;
+    return;
 }
 
   // gestion of all zombie attack
@@ -164,8 +166,7 @@ function monsterdefence() {
 function monsterturn(nbr) {
     animation.animateSprite('zombie', 3500)
     alea = Math.floor(Math.random() * (10 - 1 + 1) + 1);
-    manage_mana(0);
-    
+
     switch (nbr) {
         //attack
         case 1:
@@ -189,22 +190,23 @@ function monsterturn(nbr) {
     iturn += 1;
 }
 
+export function manage_monster() {
+    console.log("11111111111111111111111111111")
+    console.log("Tour du zombie");
+    document.querySelector('.cards').classList.add('hidden')
+    monsterturn(Math.floor(Math.random() * (5 - 1 + 1) + 1));
+    setTimeout(() => {
+        document.querySelector('.cards').classList.remove('hidden')
+    }, 1000);
+    return;
+}
+
 // turn by turn gestion
-export default function turngestion(activeCard) {
+export function turngestion(activeCard) {
     console.log("tour avant la baisse de défense du joueur: %i", turndef_p);
     console.log("tour avant la baisse de défense du zombie: %i", turndef_m);
     console.log("tour de jeu: %i", iturn);
-    if (iturn %2 == 1) {
         console.log("Tour du joueur");
         playerturn(activeCard);
+        return;
     }
-    else if (iturn %2 == 0) {
-        console.log("Tour du zombie");
-        document.querySelector('.cards').classList.add('hidden')
-        monsterturn(Math.floor(Math.random() * (5 - 1 + 1) + 1));
-        setTimeout(() => {
-            document.querySelector('.cards').classList.remove('hidden')
-        }, 1000);
-    } else
-    console.log("error");
-}
