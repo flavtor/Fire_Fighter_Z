@@ -26,7 +26,8 @@ export default class Card {
   }
 
   async fetchCards() {
-    let response = await fetch(`${API_URL}/init?username=coco`, {
+    let username = localStorage.getItem("username");
+    let response = await fetch(`${API_URL}/init?username=`+username, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -68,7 +69,8 @@ export default class Card {
   }
 
   async playDrawcard(id) {
-    let response = await fetch(`${API_URL}/play_drawcard?id=`+id+'&username=coco', {
+    let username = localStorage.getItem("username");
+    let response = await fetch(`${API_URL}/play_drawcard?id=`+id+'&username='+username, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
