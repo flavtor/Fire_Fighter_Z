@@ -2,7 +2,7 @@
   "name": "fire_fighter_z",
   "version": "1.0.0",
   "description": "",
-  "source": "src/index.html",
+  "source": "src/login-page.html",
   "scripts": {
     "start": "parcel",
     "build": "parcel build"
