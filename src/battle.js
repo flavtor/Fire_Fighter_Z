@@ -49,18 +49,18 @@ function manage_mana(Cost){
 }
 
 // gestion attaque buff
-// function manage_buff(activeCard) {
-//     if (activeCard.Buff === true || buff === true) {
-//         buff = true;
-//         turn_buff += 1;
-//         if (turn_buff === 1) {
-//             buff = true;
-//         } else if (turn_buff === 3) {
-//          buff = false;
-//          turn_buff = 0;
-//         }
-//     }
-// }
+function manage_buff(activeCard) {
+    if (activeCard.Buff === true || buff === true) {
+        buff = true;
+        turn_buff += 1;
+        if (turn_buff === 1) {
+            buff = true;
+        } else if (turn_buff === 3) {
+         buff = false;
+         turn_buff = 0;
+        }
+    }
+}
 
 //gestion heal
 function manage_heal(activeCard, heal) {
@@ -83,17 +83,17 @@ function manage_defence(activeCard) {
 }
 
 //gestion life left
-// function manage_LifeTheft(damage) {
-//     let regen = Math.random() * (0.5 - 0.3) + 0.3
-//     let hp_p = hp_player.textContent;
+function manage_LifeTheft(damage) {
+    let regen = Math.random() * (0.5 - 0.3) + 0.3
+    let hp_p = hp_player.textContent;
     
-//     regen = damage*regen;
-//     hp_p = Math.floor((-regen - hp_p) * -1);
-//     hp_p >= 180 ? hp_player.textContent = 180 : hp_player.textContent = hp_p;
-//     hp_player.textContent -= damage;
-//     check_death();
-//     action.innerHTML = `Pompier :  uses steal life attack and inflicts ${damage} damage and recover ${regen} hp`
-// }
+    regen = damage*regen;
+    hp_p = Math.floor((-regen - hp_p) * -1);
+    hp_p >= 180 ? hp_player.textContent = 180 : hp_player.textContent = hp_p;
+    hp_player.textContent -= damage;
+    check_death();
+    action.innerHTML = `Pompier :  uses steal life attack and inflicts ${damage} damage and recover ${regen} hp`
+}
 
 // gestion of player turn
 function playerturn(activeCard) {
@@ -103,7 +103,7 @@ function playerturn(activeCard) {
     if (manage_mana(activeCard.Cost) == 1) {
         return;
     }
-    //manage_buff(activeCard);
+    manage_buff(activeCard);
 
     nbr = allgo(activeCard.Attack, defence_m, activeCard.Heal, buff, false);
     
@@ -113,10 +113,9 @@ function playerturn(activeCard) {
         hp_monster.textContent -= nbr;
         action.innerHTML = `You : uses a skill and inflicts ${Math.floor(nbr)} damage`
         check_death();
+    } else if (activeCard.LifeTheft === true) {
+        manage_LifeTheft(nbr);
     }
-    // else if (activeCard.LifeTheft === true) {
-    //     manage_LifeTheft(nbr);
-    // }
     turndef_m <= 0 ? defence_m = 0 : null;
     turndef_m = Math.abs(turndef_m - 1);
     iturn += 1;
@@ -152,7 +151,6 @@ function monsterattack(alea) {
         check_death();
         action.innerHTML = `Zombie :  uses steal life attack and inflicts ${Math.floor(damage)} damage and recover ${Math.floor(regen)} hp`
     }
-    
 }
 
 // gestion of all zombie heal
