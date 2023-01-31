@@ -6,7 +6,7 @@ const BUFF_MULTIPLIER = 1.5;
 const DEBUFF_MULTIPLIER = 0.5;
 const ATTACK_RANGE = [1, 1];
 
-function calculateDamage(attack, defense, isBuff, isDeBuff) {
+function calculateDamage(attack, defence, isBuff, isDeBuff) {
     let damage = (Math.random() * (MIN_DAMAGE- MAX_DAMAGE) + MIN_DAMAGE)*attack;
     let damageModifier = (isBuff ? BUFF_MULTIPLIER : 1) * (isDeBuff ? DEBUFF_MULTIPLIER : 1);
    
@@ -22,32 +22,32 @@ function calculateDamage(attack, defense, isBuff, isDeBuff) {
       damage = 0;
       alert("miss!");
     } else {
-      damage = Math.max(Math.floor(damage - defense), 1);
+      damage = Math.max(Math.floor(damage - defence * 0.7), 1);
     }
     return damage;
 }
 
-function finaledegat(attack, defense, isBuff, isDeBuff) {
+function finaledegat(attack, defence, isBuff, isDeBuff) {
     let finalDamage = 0;
     let attackCount = ATTACK_RANGE[1] - ATTACK_RANGE[0] + 1;
   
     for (let i = 0; i < attackCount; i++) {
-        finalDamage += calculateDamage(attack, defense, isBuff, isDeBuff);
+        finalDamage += calculateDamage(attack, defence, isBuff, isDeBuff);
     }
     finalDamage = Math.floor(finalDamage / attackCount);
     return finalDamage;
 }
 
-export default function allgo(attack, defense, heal, isBuff, isDeBuff) {
-    if (attack === 0 && defense === 0 && heal > 0) {
+export default function allgo(attack, defence, heal, isBuff, isDeBuff) {
+    if (attack === 0 && heal > 0) {
         //let nbrheal = healcalculate(heal)
         //return (nbrheal + 100);
         return 0;
 
     } else if (attack > 0 && heal === 0) {
-        let nbrdegat = finaledegat(attack, defense, isBuff, isDeBuff)
+        let nbrdegat = finaledegat(attack, defence, isBuff, isDeBuff)
         return (nbrdegat);
     } else
-    alert("cards error");
+    console.log("cards de defense ou cards inutile");
     return 0;
 }

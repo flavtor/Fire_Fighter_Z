@@ -1,5 +1,5 @@
 import { API_URL } from "./game";
-import playerturn from "./battle";
+import turngestion from "./battle";
 
 export default class Card {
   constructor() {
@@ -15,7 +15,7 @@ export default class Card {
         const card_id = card.getAttribute("card_id");
         const activeCard = data[tab_id];
         data.splice(tab_id, 1);
-        playerturn(activeCard);
+        turngestion(activeCard);
         card.classList.add("selected");
         setTimeout(() => {
           card.parentNode.removeChild(card);
