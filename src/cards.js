@@ -26,7 +26,7 @@ export default class Card {
   }
 
   async fetchCards() {
-    let response = await fetch(`${API_URL}/init`, {
+    let response = await fetch(`${API_URL}/init?username=coco`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -68,7 +68,7 @@ export default class Card {
   }
 
   async playDrawcard(id) {
-    let response = await fetch(`${API_URL}/play_drawcard?id=` + id, {
+    let response = await fetch(`${API_URL}/play_drawcard?id=`+id+'&username=coco', {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
