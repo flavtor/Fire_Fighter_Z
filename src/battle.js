@@ -66,12 +66,11 @@ function playerturn(activeCard) {
     let hp_p = hp_player.textContent;
     
     let nbr = 0;
-
-    console.log("222222222222222222222222222")
+    
+    animation.animateSprite('firefighter', 1750);
     console.log(activeCard);
-    if (manage_mana(activeCard.Cost) == 1) {
+    if (manage_mana(activeCard.Cost) == 1)
         return;
-    }
     manage_buff(activeCard);
 
     nbr = allgo(activeCard.Attack, defence_m, activeCard.Heal, buff, false, activeCard.CC, activeCard.Miss, activeCard.Multi);
@@ -83,9 +82,8 @@ function playerturn(activeCard) {
         console.log("Attack: ", nbr);
         action.innerHTML = `You : uses a skill and inflicts ${Math.floor(nbr)} damage`
         check_death();
-    } else if (activeCard.LifeTheft === true) {
+    } else if (activeCard.LifeTheft === true)
         manage_LifeTheft(nbr);
-    }
     turndef_m <= 0 ? defence_m = 0 : null;
     turndef_m = Math.abs(turndef_m - 1);
     iturn += 1;
@@ -159,11 +157,10 @@ function monsterdefence() {
     turndef_m = 3;
     
     action.innerHTML = `Zombie :  gets stronger and increases its defense`
-
 }
 
 // gestion of zombie turn
-function monsterturn(nbr) {
+function monsterskill(nbr) {
     animation.animateSprite('zombie', 3500)
     alea = Math.floor(Math.random() * (10 - 1 + 1) + 1);
 
@@ -190,23 +187,14 @@ function monsterturn(nbr) {
     iturn += 1;
 }
 
-export function manage_monster() {
-    console.log("11111111111111111111111111111")
+// gestion of zombie turn
+export function zombieturn() {
+
     console.log("Tour du zombie");
     document.querySelector('.cards').classList.add('hidden')
-    monsterturn(Math.floor(Math.random() * (5 - 1 + 1) + 1));
+    monsterskill(Math.floor(Math.random() * (5 - 1 + 1) + 1));
     setTimeout(() => {
         document.querySelector('.cards').classList.remove('hidden')
     }, 1000);
     return;
 }
-
-// turn by turn gestion
-export function turngestion(activeCard) {
-    console.log("tour avant la baisse de défense du joueur: %i", turndef_p);
-    console.log("tour avant la baisse de défense du zombie: %i", turndef_m);
-    console.log("tour de jeu: %i", iturn);
-        console.log("Tour du joueur");
-        playerturn(activeCard);
-        return;
-    }
