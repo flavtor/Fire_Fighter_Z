@@ -76,7 +76,7 @@ function playerturn(activeCard) {
     if (manage_mana(activeCard.Cost) == 1) {
         return;
     }
-    //manage_buff(activeCard);
+    manage_buff(activeCard);
 
     nbr = allgo(activeCard.Attack, defence_m, activeCard.Heal, buff, false);
     
@@ -86,10 +86,9 @@ function playerturn(activeCard) {
         hp_monster.textContent -= nbr;
         action.innerHTML = `You : uses a skill and inflicts ${Math.floor(nbr)} damage`
         check_death();
+    } else if (activeCard.LifeTheft === true) {
+        manage_LifeTheft(nbr);
     }
-    // else if (activeCard.LifeTheft === true) {
-    //     manage_LifeTheft(nbr);
-    // }
     turndef_m <= 0 ? defence_m = 0 : null;
     turndef_m = Math.abs(turndef_m - 1);
     iturn += 1;
@@ -125,7 +124,6 @@ function monsterattack(alea) {
         check_death();
         action.innerHTML = `Zombie :  uses steal life attack and inflicts ${Math.floor(damage)} damage and recover ${Math.floor(regen)} hp`
     }
-    
 }
 
 // gestion of all zombie heal

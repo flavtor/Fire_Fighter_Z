@@ -699,7 +699,7 @@ class Card {
         });
     }
     async fetchCards() {
-        let response = await fetch(`${(0, _game.API_URL)}/init`, {
+        let response = await fetch(`${(0, _game.API_URL)}/init?username=coco`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -735,7 +735,7 @@ class Card {
         this.createCards(data);
     }
     async playDrawcard(id) {
-        let response = await fetch(`${(0, _game.API_URL)}/play_drawcard?id=` + id, {
+        let response = await fetch(`${(0, _game.API_URL)}/play_drawcard?id=` + id + "&username=coco", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -811,18 +811,17 @@ function manage_mana(Cost) {
     return 0;
 }
 // gestion attaque buff
-// function manage_buff(activeCard) {
-//     if (activeCard.Buff === true || buff === true) {
-//         buff = true;
-//         turn_buff += 1;
-//         if (turn_buff === 1) {
-//             buff = true;
-//         } else if (turn_buff === 3) {
-//          buff = false;
-//          turn_buff = 0;
-//         }
-//     }
-// }
+function manage_buff(activeCard) {
+    if (activeCard.Buff === true || buff === true) {
+        buff = true;
+        turn_buff += 1;
+        if (turn_buff === 1) buff = true;
+        else if (turn_buff === 3) {
+            buff = false;
+            turn_buff = 0;
+        }
+    }
+}
 //gestion heal
 function manage_heal(activeCard, heal) {
     let hp_p = hp_player.textContent;
@@ -839,33 +838,30 @@ function manage_defence(activeCard) {
     if (defence_p > 0 && turndef_p == 0) turndef_p = 3;
 }
 //gestion life left
-// function manage_LifeLeft(damage) {
-//     let regen = Math.random() * (0.5 - 0.3) + 0.3
-//     let hp_p = hp_player.textContent;
-//     regen = damage*regen;
-//     hp_p = Math.floor((-regen - hp_p) * -1);
-//     hp_p >= 180 ? hp_player.textContent = 180 : hp_player.textContent = hp_p;
-//     hp_player.textContent -= damage;
-//     check_death();
-//     action.innerHTML = `Pompier :  uses steal life attack and inflicts ${Math.floor(damage)} damage and recover ${regen} hp`
-// }
+function manage_LifeTheft(damage) {
+    let regen = Math.random() * 0.2 + 0.3;
+    let hp_p = hp_player.textContent;
+    regen = damage * regen;
+    hp_p = Math.floor((-regen - hp_p) * -1);
+    hp_p >= 180 ? hp_player.textContent = 180 : hp_player.textContent = hp_p;
+    hp_player.textContent -= damage;
+    check_death();
+    action.innerHTML = `Pompier :  uses steal life attack and inflicts ${damage} damage and recover ${regen} hp`;
+}
 // gestion of player turn
 function playerturn(activeCard) {
     let nbr = 0;
     console.log(activeCard);
     if (manage_mana(activeCard.Cost) == 1) return;
-    //manage_buff(activeCard);
+    manage_buff(activeCard);
     nbr = (0, _allgoDefault.default)(activeCard.Attack, defence_m, activeCard.Heal, buff, false);
     manage_defence(activeCard);
     manage_heal(activeCard, nbr);
-    if (activeCard.Attack > 0 /* && activeCard.LifeLeft === true */ ) {
+    if (activeCard.Attack > 0 /* && activeCard.LifeTheft === true */ ) {
         hp_monster.textContent -= nbr;
         action.innerHTML = `You : uses a skill and inflicts ${Math.floor(nbr)} damage`;
         check_death();
-    }
-    // else if (activeCard.LigeLeft === true) {
-    //     manage_LigeLeft(nbr);
-    // }
+    } else if (activeCard.LifeTheft === true) manage_LifeTheft(nbr);
     turndef_m <= 0 && (defence_m = 0);
     turndef_m = Math.abs(turndef_m - 1);
     iturn += 1;
@@ -880,13 +876,13 @@ function monsterattack(alea1) {
         damage = (0, _allgoDefault.default)(10, defence_p, 0, false, false);
         hp_player.textContent -= damage;
         check_death();
-        action.innerHTML = `Zombie :  uses basic attack and inflicts ${Math.floor(damage)} damage`;
+        action.innerHTML = `Zombie :  uses basic attack and inflicts ${damage} damage`;
     //strong attack
     } else if (alea1 >= 7 && alea1 <= 9) {
         damage = (0, _allgoDefault.default)(11, defence_p, 0, true, false);
         hp_player.textContent -= damage;
         check_death();
-        action.innerHTML = `Zombie :  uses strong attack and inflicts ${Math.floor(damage)} damage`;
+        action.innerHTML = `Zombie :  uses strong attack and inflicts ${damage} damage`;
     } else if (alea1 == 10) {
         damage = (0, _allgoDefault.default)(10, defence_p, 0, false, false);
         regen = damage * regen;
