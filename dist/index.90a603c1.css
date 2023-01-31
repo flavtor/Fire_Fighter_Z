@@ -2,9 +2,15 @@
   width: 100%;
   z-index: 2;
   justify-content: center;
+  transition: all .7s ease-in;
   display: flex;
   position: absolute;
   bottom: -150px;
+}
+
+.cards.hidden {
+  transition: all .7s ease-in;
+  transform: translateY(80%);
 }
 
 .cards__item {

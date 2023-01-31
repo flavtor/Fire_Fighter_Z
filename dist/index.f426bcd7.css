@@ -19,20 +19,40 @@
 .top-bar {
   justify-content: space-between;
   align-items: center;
-  padding: 20px 50px;
+  padding: 30px 70px 0;
   font-size: 2rem;
   font-weight: bold;
   display: flex;
 }
 
-.top-bar .area {
-  font-size: 3rem;
-}
-
-.area {
+.box-content {
+  width: 456px;
+  height: 100px;
+  background-image: url("Action_Box.fc4b6dad.png");
+  background-size: cover;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 15px;
+  font-size: 1rem;
+  transition: all .7s ease-in;
+  display: flex;
   position: absolute;
+  top: 0;
   left: 50%;
   transform: translate(-50%);
+}
+
+.box-content.hidden {
+  top: -150px;
+}
+
+.turn-container {
+  font-size: 1.2rem;
+}
+
+.action-container {
+  margin-top: 10px;
+  padding: 0 50px;
 }
 
 .settings img {
@@ -43,7 +63,6 @@
 .heart {
   color: #e90000;
   -webkit-text-stroke: 1.7px #444;
-  margin-left: -3100px;
   position: relative;
 }
 
@@ -60,7 +79,7 @@
 .heart-e {
   color: #e90000;
   -webkit-text-stroke: 1.7px #444;
-  margin-left: 1500px;
+  margin-right: -35px;
   position: relative;
 }
 

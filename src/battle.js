@@ -24,7 +24,7 @@ function check_death () {
   }
 
 // gestion of mana points
-function managestion(Cost){
+function manage_mana(Cost){
 
     mana_points.textContent -= Cost;
     
@@ -62,40 +62,65 @@ function managestion(Cost){
 //     }
 // }
 
+//gestion heal
+function manage_heal(activeCard, heal) {
+    let hp_p = hp_player.textContent;
+
+    if (activeCard.Heal > 0) {
+        hp_p = Math.floor((-hp_p - heal))*-1;
+        hp_player.textContent = hp_p;
+        action.innerHTML = `You : uses a skill and heals ${heal} hp`
+      if (hp_p >= 180)
+        hp_player.textContent = 180;
+    }
+}
+
+// gestion defence
+function manage_defence(activeCard) {
+    defence_p += activeCard.Defence;
+    if (defence_p > 0 && turndef_p == 0)
+        turndef_p = 3;
+}
+
+//gestion life left
+// function manage_LifeLeft(damage) {
+//     let regen = Math.random() * (0.5 - 0.3) + 0.3
+//     let hp_p = hp_player.textContent;
+    
+//     regen = damage*regen;
+//     hp_p = Math.floor((-regen - hp_p) * -1);
+//     hp_p >= 180 ? hp_player.textContent = 180 : hp_player.textContent = hp_p;
+//     hp_player.textContent -= damage;
+//     check_death();
+//     action.innerHTML = `Pompier :  uses steal life attack and inflicts ${damage} damage and recover ${regen} hp`
+// }
+
 // gestion of player turn
 function playerturn(activeCard) {
-    let hp_p = hp_player.textContent;
-    
+    let nbr = 0;
+
     console.log(activeCard);
-    
-    if (managestion(activeCard.Cost) == 1) {
+    if (manage_mana(activeCard.Cost) == 1) {
         return;
     }
     //manage_buff(activeCard);
 
-    let nbr = allgo(activeCard.Attack, defence_m, activeCard.Heal, buff, false);
-    defence_p += activeCard.Defence;
-
-    if (defence_p > 0 && turndef_p == 0) {
-        turndef_p = 3;
-    }
-
-    if (nbr >= 100) {
-        hp_p = Math.floor((-hp_p - (nbr - 100)))*-1;
-        hp_player.textContent = hp_p;
-        action.innerHTML = `You : uses a skill and heals ${nbr-100} hp`
-      if (hp_p >= 180) {
-        hp_player.textContent = 180;
-      } 
-    } else if (nbr <= 99) {
+    nbr = allgo(activeCard.Attack, defence_m, activeCard.Heal, buff, false);
+    
+    manage_defence(activeCard);
+    manage_heal(activeCard, nbr);
+    if (activeCard.Attack > 0 /* && activeCard.LifeLeft === true */) {
         hp_monster.textContent -= nbr;
         action.innerHTML = `You : uses a skill and inflicts ${nbr} damage`
         check_death();
     }
+    // else if (activeCard.LigeLeft === true) {
+    //     manage_LigeLeft(nbr);
+    // }
     turndef_m <= 0 ? defence_m = 0 : null;
     turndef_m = Math.abs(turndef_m - 1);
     iturn += 1;
-  }
+}
 
   // gestion of all zombie attack
 function monsterattack(alea) {
@@ -138,22 +163,22 @@ function monsterheal(alea) {
     //heal basic
     if (alea >= 0 && alea <= 8) {
         heal = allgo(0,0,10,false,false);
-        hp_m = Math.floor((-hp_m - (heal - 100)))*-1;
+        hp_m = Math.floor((-hp_m - heal))*-1;
         hp_monster.textContent = hp_m;
 
-        action.innerHTML = `Zombie :  uses a basic healing skill and recovers ${heal-100} hp`
+        action.innerHTML = `Zombie :  uses a basic healing skill and recovers ${heal} hp`
         if (hp_m >= 100) {
             hp_monster.textContent = 100;
         }
     //strong heal
     if (alea >= 9 && alea <= 10){
         heal = allgo(0,0,13,false,false);
-        hp_m = Math.floor((-hp_p - (heal - 100)))*-1;
+        hp_m = Math.floor((-hp_m - heal))*-1;
         hp_monster.textContent = hp_m;
-        action.innerHTML = `Zombie :  uses a strong healing skill and recovers ${heal-100} hp`
+        action.innerHTML = `Zombie :  uses a strong healing skill and recovers ${heal} hp`
 
-        if (hp_p >= 180) {
-            hp_player.textContent = 180;
+        if (hp_m >= 100) {
+            hp_monster.textContent = 100;
             }
         }
     }
@@ -172,7 +197,7 @@ function monsterdefence() {
 function monsterturn(nbr) {
     animateScript()
     alea = Math.floor(Math.random() * (10 - 1 + 1) + 1);
-    managestion(0);
+    manage_mana(0);
     
     switch (nbr) {
         //attack

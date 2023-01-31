@@ -63,11 +63,10 @@ function healcalculate(heal) {
 
 // check if is attack card or heal card
 export default function allgo(attack, defence, heal, isBuff, isDeBuff) {
-    if (attack === 0 && heal > 0) {
+    if (heal > 0) {
         let nbrheal = healcalculate(heal)
-        return (nbrheal + 100);
-
-    } else if (attack > 0 && heal === 0) {
+        return (nbrheal);
+    } else if (attack > 0) {
         let nbrdegat = finaledegat(attack, defence, isBuff, isDeBuff)
         return (nbrdegat);
     } else
