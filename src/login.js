@@ -25,7 +25,7 @@ async function login(){
 	console.log("data", data);
 	
 	if (data["status"] == "ok"){
-		localStorage.setItem("username", data["username"]);
+		sessionStorage.setItem("username", data["username"]);
 		window.location.href = "./index.html";
 	}
 	else {
@@ -47,7 +47,7 @@ async function register(){
 	let data = await response.json()
 	
 	if (data["status"] == "ok") {
-		localStorage.setItem("username", data["username"]);
+		sessionStorage.setItem("username", data["username"]);
 		registerSuccessMsg.style.opacity = 1;
 
 	}
