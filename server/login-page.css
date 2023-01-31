@@ -105,3 +105,63 @@ main grid */
   cursor: pointer;
   outline: none;
 }
+
+/* */
+
+/* Style the registration form */
+#register-form {
+  align-self: flex-start;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+/* Style the registration form fields' placeholders */
+.register-form-field::placeholder {
+  color: #3a3a3a;
+}
+
+/* Style the registration form fields (username and password) */
+.register-form-field {
+  border: none;
+  border-bottom: 1px solid #3a3a3a;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  outline: none;
+  padding: 0px 0px 5px 5px;
+}
+
+/* Style the register button */
+#register-form-submit {
+  width: 100%;
+  padding: 7px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  background-color: #3a3a3a;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Error message for registration form. By default it's transparent, but the opacity is controlled by JavaScript */
+#register-error-msg {
+  width: 23%;
+  text-align: center;
+  margin: 0;
+  padding: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #8a0000;
+  border: 1px solid #8a0000;
+  background-color: #e58f8f;
+  opacity: 0;
+}
+
+#register-error-msg-holder {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
