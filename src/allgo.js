@@ -1,10 +1,10 @@
 const MIN_DAMAGE = 1.3;
 const MAX_DAMAGE = 0.7;
-const CRITICAL_HIT_CHANCE = 0.1;
-const MISS_CHANCE = 0.05;
 const BUFF_MULTIPLIER = 1.5;
 const DEBUFF_MULTIPLIER = 0.5;
-const ATTACK_RANGE = [1, 1];
+let CRITICAL_HIT_CHANCE = 0.1;
+let MISS_CHANCE = 0.05;
+let ATTACK_RANGE = [1, 1];
 
 // calculate damage
 function calculateDamage(attack, defence, isBuff, isDeBuff) {
@@ -59,7 +59,6 @@ function healcalculate(heal) {
       alert("miss!");
     } else 
     return heal;
-
 }
 
 // check if is attack card or heal card
