@@ -13,7 +13,7 @@ jobs:
         node-version: 14
 
     - name: Installation de Python 3.7.9
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4.5.0
       with:
         python-version: 3.7.9
 
