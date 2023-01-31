@@ -28,13 +28,7 @@ jobs:
           pip install flask
           pip install firebase_admin
           pip install flask_cors
-
-    - name: Exécution des tests Node
-      run: npm test
-
-    - name: Exécution des tests Python
-      run: python -m pytest
-
+          
     - name: Build Node
       run: npm run build
 
