@@ -38,11 +38,28 @@ function finaledegat(attack, defence, isBuff, isDeBuff) {
     return finalDamage;
 }
 
+function healcalculate(heal) {
+    heal *= (Math.random() * (MIN_DAMAGE- MAX_DAMAGE) + MIN_DAMAGE);
+
+    let isCriticalHeal = Math.random() < CRITICAL_HIT_CHANCE;
+    if (isCriticalHeal) {
+      heal = heal * 2;
+      alert("critical heal!");
+    }
+    
+    let isMiss = Math.random() < MISS_CHANCE;
+    if (isMiss) {
+      heal = 0;
+      alert("miss!");
+    } else 
+    return heal;
+
+}
+
 export default function allgo(attack, defence, heal, isBuff, isDeBuff) {
     if (attack === 0 && heal > 0) {
-        //let nbrheal = healcalculate(heal)
-        //return (nbrheal + 100);
-        return 0;
+        let nbrheal = healcalculate(heal)
+        return (nbrheal + 100);
 
     } else if (attack > 0 && heal === 0) {
         let nbrdegat = finaledegat(attack, defence, isBuff, isDeBuff)
