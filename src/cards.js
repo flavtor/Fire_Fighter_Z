@@ -26,7 +26,7 @@ export default class Card {
   }
 
   async fetchCards() {
-    let username = localStorage.getItem("username");
+    let username = sessionStorage.getItem("username");
     let response = await fetch(`${API_URL}/init?username=`+username, {
       method: "GET",
       headers: {
@@ -36,8 +36,8 @@ export default class Card {
     this.showLoading();
 
     let data = await response.json();
-    localStorage.setItem("listCards", JSON.stringify(data));
-    const listCards = localStorage.getItem("listCards");
+    sessionStorage.setItem("listCards", JSON.stringify(data));
+    const listCards = sessionStorage.getItem("listCards");
     this.json_obj = JSON.parse(listCards);
     return this.json_obj;
   }
@@ -69,7 +69,7 @@ export default class Card {
   }
 
   async playDrawcard(id) {
-    let username = localStorage.getItem("username");
+    let username = sessionStorage.getItem("username");
     let response = await fetch(`${API_URL}/play_drawcard?id=`+id+'&username='+username, {
       method: "GET",
       headers: {
@@ -77,8 +77,8 @@ export default class Card {
       },
     });
     let data = await response.json();
-    localStorage.setItem("listPlayerCards", JSON.stringify(data));
-    const listCards = localStorage.getItem("listPlayerCards");
+    sessionStorage.setItem("listPlayerCards", JSON.stringify(data));
+    const listCards = sessionStorage.getItem("listPlayerCards");
     this.json_obj = JSON.parse(listCards);
     this.createCards(this.json_obj);
   }
