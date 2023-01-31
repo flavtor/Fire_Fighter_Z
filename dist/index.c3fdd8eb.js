@@ -760,8 +760,6 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _allgo = require("./allgo");
 var _allgoDefault = parcelHelpers.interopDefault(_allgo);
-var hp_p = 180;
-var hp_m = 100;
 var mana = 3;
 let turn = 1;
 let iturn = 1;
@@ -769,23 +767,25 @@ let defence_p = 0;
 let turndef_p = 0;
 let defence_m = 0;
 let turndef_m = 0;
-function playerturn(activeCard) {
-    hp_monster = document.getElementById("monster_hp");
-    hp_player = document.getElementById("player_hp");
-    mana_points = document.getElementById("mana_p");
-    console.log(activeCard);
-    mana -= activeCard.Cost;
-    mana_points.textContent = mana;
-    if (mana <= 0) {
+hp_monster = document.getElementById("monster_hp");
+hp_player = document.getElementById("player_hp");
+mana_points = document.getElementById("mana_p");
+function managestion(Cost) {
+    mana_points.textContent -= Cost;
+    if (mana_points.textContent < 0) {
         alert("no more mana, you must end turn");
         turndef_m -= 1;
         if (turndef_m <= 0) defence_m = 0;
         turn = 2;
         iturn += 1;
-        mana = 3;
-        mana_points.textContent = mana;
-        return;
+        mana_points.textContent = 3;
+        return 1;
     }
+    return 0;
+}
+function playerturn(activeCard) {
+    console.log(activeCard);
+    if (managestion(activeCard.Cost) == 1) return;
     let nbr = (0, _allgoDefault.default)(activeCard.Attack, defence_m, activeCard.Heal, false, false);
     defence_p += activeCard.Defence;
     if (defence_p > 0 && turndef_p == 0) turndef_p = 2;
@@ -797,38 +797,43 @@ function playerturn(activeCard) {
             hp_player.textContent = hp_p;
         }
     }
-    hp_m -= nbr;
-    console.log("hp :", hp_m);
-    hp_monster.textContent = hp_m;
+    hp_monster.textContent -= nbr;
     console.log("test", nbr);
-    if (hp_m <= 0) alert("You win!");
-    turndef_m -= 1;
-    if (turndef_m <= 0) defence_m = 0;
+    if (hp_monster.textContent <= 0) alert("You win!");
+    turndef_m <= 0 ? defence_m = 0 : turndef_m;
     turn = 2;
     iturn += 1;
 }
-function monsterattack(hp_player1) {}
-function monsterheal(hp_monster1) {
+function monsterattack(hp_player1, alea1) {
+    let damage = 0;
+    //attack basic
+    if (alea1 <= 4) {
+        damage = (0, _allgoDefault.default)(10, defence_p, 0, false, false);
+        hp_player1.textContent -= damage;
+        return;
+    }
+}
+function monsterheal(alea1) {
     return;
 }
 function monsterdefence() {
     return;
 }
 function monsterturn(nbr) {
-    hp_player = document.getElementById("player_hp");
-    hp_monster = document.getElementById("monster_hp");
     alea = Math.floor(Math.random() * 10 + 1);
     switch(nbr){
         //attack
         case 1:
+        case 2:
+        case 3:
             monsterattack(hp_player, alea);
             break;
         //heal
-        case 2:
-            monsterheal(hp_monster, alea);
+        case 4:
+            monsterheal(alea);
             break;
         //defence
-        case 3:
+        case 5:
             monsterdefence();
             break;
     }
@@ -839,7 +844,7 @@ function monsterturn(nbr) {
 }
 function turngestion(activeCard) {
     if (turn === 1) playerturn(activeCard);
-    else if (turn === 2) monsterturn(Math.floor(Math.random() * 3 + 1));
+    else if (turn === 2) monsterturn(Math.floor(Math.random() * 5 + 1));
     else alert("error");
 }
 exports.default = turngestion;
