@@ -12,7 +12,7 @@
       rgb(0, 0, 0) 100%
     ),
     url(../assets/Background/Background_Night_City.png);
-  background-position-y: 90%;
+  background-position-y: 100%;
 }
 
 .top-bar {
@@ -92,18 +92,6 @@
   background-size: cover;
 }
 
-.player img {
-  width: 350px;
-  position: absolute;
-  bottom: 200px;
-  right: 300px;
-}
-
-#image {
-    height: 538px;
-    width: 538px;
-    background: url(../assets/Sprites/zombie_sprite.png);
-}
 .mana{
   width: 100px;
   height: 100px;

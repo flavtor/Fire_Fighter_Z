@@ -1,4 +1,6 @@
-import animateScript from "./animation";
+import Animate from "./animation";
+
+const animation = new Animate();
 
 // set up global variables
 let iturn = 1;
@@ -42,6 +44,10 @@ function manage_mana(Cost){
         mana_points.textContent = 4;
     return 0;
 }
+
+// gestion of player turn
+function playerturn(activeCard) {
+    animation.animateSprite('firefighter', 1750)
 
 // gestion attaque buff
 function manage_buff(activeCard) {
@@ -193,7 +199,7 @@ function monsterdefence() {
 
 // gestion of zombie turn
 function monsterturn(nbr) {
-    animateScript()
+    animation.animateSprite('zombie', 3500)
     alea = Math.floor(Math.random() * (10 - 1 + 1) + 1);
     manage_mana(0);
     

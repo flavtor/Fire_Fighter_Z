@@ -1,25 +1,32 @@
-let tID;
+export default class Animate {
+  constructor() {
+    this.position = 350; // Starting position for the animation, represent the first image
+    this.interval = 100; // Interval time for animation update
+    this.diff = 350; // Difference between each animation frame
+    this.tID = null;
+  }
 
-//stop animation
-export default function stopAnimate() {
-    clearInterval(tID); 
-}
+  // Function to stop the animation
 
-// animate script
-export default function animateScript() {
-    let position = 538;
-    const  interval = 100;
-    const diff = 538;
+  stopAnimate() {
+    clearInterval(this.tID);
+  }
 
-    tID = setInterval ( () => {
-        document.getElementById("image").style.backgroundPosition = 
-        `-${position}px 0px`;
-        if (position < 5380) {
-            position += diff;
-        } else {
-            position = 538;
-            stopAnimate();
-        }
-    }
-    , interval);
+  // Function to animate an sprite with the name in parameter and the imageSize of animation
+  // (interval parameter is as 100 by default)
+
+  animateSprite(sprite, imageSize, interval = this.interval) {
+    this.tID = setInterval(() => {
+      const spriteSelector = document.querySelector(`.${sprite}`);
+      spriteSelector.classList.add("animation");
+      spriteSelector.style.backgroundPosition = `-${this.position}px 0px`;
+      if (this.position < imageSize) {
+        this.position += this.diff;
+      } else {
+        this.position = 350;
+        spriteSelector.classList.remove("animation");
+        this.stopAnimate();
+      }
+    }, interval);
+  }
 }
