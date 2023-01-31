@@ -4,6 +4,9 @@ let defence_p = 0;
 let turndef_p = 0;
 let defence_m = 0;
 let turndef_m = 0;
+let buff = false;
+let turn_buff = 0;
+
 
 // recover html id
 hp_monster = document.getElementById("monster_hp");
@@ -42,17 +45,32 @@ function managestion(Cost){
     return 0;
 }
 
+// gestion attaque buff
+// function manage_buff(activeCard) {
+//     if (activeCard.Buff === true || buff === true) {
+//         buff = true;
+//         turn_buff += 1;
+//         if (turn_buff === 1) {
+//             buff = true;
+//         } else if (turn_buff === 3) {
+//          buff = false;
+//          turn_buff = 0;
+//         }
+//     }
+// }
+
 // gestion of player turn
 function playerturn(activeCard) {
     let hp_p = hp_player.textContent;
     
     console.log(activeCard);
-
+    
     if (managestion(activeCard.Cost) == 1) {
         return;
     }
-    
-    let nbr = allgo(activeCard.Attack, defence_m, activeCard.Heal, false, false);
+    //manage_buff(activeCard);
+
+    let nbr = allgo(activeCard.Attack, defence_m, activeCard.Heal, buff, false);
     defence_p += activeCard.Defence;
 
     if (defence_p > 0 && turndef_p == 0) {

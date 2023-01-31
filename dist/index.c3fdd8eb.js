@@ -578,7 +578,7 @@ function initGame() {
 }
 exports.default = initGame;
 
-},{"./menu":"frHky","./cards":"wDC3l","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./animation":"k5ez6"}],"frHky":[function(require,module,exports) {
+},{"./menu":"frHky","./cards":"wDC3l","./animation":"k5ez6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"frHky":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _intro = require("./intro");
@@ -616,7 +616,24 @@ class GameMenu {
 }
 exports.default = GameMenu;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./intro":"knEUC","./sound":"lGmhX"}],"gkKU3":[function(require,module,exports) {
+},{"./intro":"knEUC","./sound":"lGmhX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"knEUC":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _game = require("./game");
+var _gameDefault = parcelHelpers.interopDefault(_game);
+function intro() {
+    const introSection = document.querySelector(".intro");
+    const game = document.querySelector(".game-ui");
+    const eventButton = document.querySelector(".place button.visited");
+    eventButton.addEventListener("click", ()=>{
+        introSection.classList.add("appear");
+        game.classList.remove("disappear");
+        (0, _gameDefault.default)();
+    });
+}
+exports.default = intro;
+
+},{"./game":"g9e9u","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -646,24 +663,7 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"knEUC":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _game = require("./game");
-var _gameDefault = parcelHelpers.interopDefault(_game);
-function intro() {
-    const introSection = document.querySelector(".intro");
-    const game = document.querySelector(".game-ui");
-    const eventButton = document.querySelector(".place button.visited");
-    eventButton.addEventListener("click", ()=>{
-        introSection.classList.add("appear");
-        game.classList.remove("disappear");
-        (0, _gameDefault.default)();
-    });
-}
-exports.default = intro;
-
-},{"./game":"g9e9u","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lGmhX":[function(require,module,exports) {
+},{}],"lGmhX":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 class Sound {
@@ -758,7 +758,7 @@ class Card {
 }
 exports.default = Card;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./game":"g9e9u","./battle":"cHJbw"}],"cHJbw":[function(require,module,exports) {
+},{"./game":"g9e9u","./battle":"cHJbw","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cHJbw":[function(require,module,exports) {
 // set up global variables
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -769,6 +769,8 @@ let defence_p = 0;
 let turndef_p = 0;
 let defence_m = 0;
 let turndef_m = 0;
+let buff = false;
+let turn_buff = 0;
 // recover html id
 hp_monster = document.getElementById("monster_hp");
 hp_player = document.getElementById("player_hp");
@@ -797,12 +799,26 @@ function managestion(Cost) {
     }
     return 0;
 }
+// gestion attaque buff
+// function manage_buff(activeCard) {
+//     if (activeCard.Buff === true || buff === true) {
+//         buff = true;
+//         turn_buff += 1;
+//         if (turn_buff === 1) {
+//             buff = true;
+//         } else if (turn_buff === 3) {
+//          buff = false;
+//          turn_buff = 0;
+//         }
+//     }
+// }
 // gestion of player turn
 function playerturn(activeCard) {
     let hp_p1 = hp_player.textContent;
     console.log(activeCard);
     if (managestion(activeCard.Cost) == 1) return;
-    let nbr = (0, _allgoDefault.default)(activeCard.Attack, defence_m, activeCard.Heal, false, false);
+    //manage_buff(activeCard);
+    let nbr = (0, _allgoDefault.default)(activeCard.Attack, defence_m, activeCard.Heal, buff, false);
     defence_p += activeCard.Defence;
     if (defence_p > 0 && turndef_p == 0) turndef_p = 3;
     if (nbr >= 100) {
@@ -916,11 +932,11 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 const MIN_DAMAGE = 1.3;
 const MAX_DAMAGE = 0.7;
-const CRITICAL_HIT_CHANCE = 0.1;
-const MISS_CHANCE = 0.05;
 const BUFF_MULTIPLIER = 1.5;
 const DEBUFF_MULTIPLIER = 0.5;
-const ATTACK_RANGE = [
+let CRITICAL_HIT_CHANCE = 0.1;
+let MISS_CHANCE = 0.05;
+let ATTACK_RANGE = [
     1,
     1
 ];
