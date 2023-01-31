@@ -37,6 +37,7 @@ function finaledegat(attack, defence, isBuff, isDeBuff) {
     let attackCount = ATTACK_RANGE[1] - ATTACK_RANGE[0] + 1;
   
     for (let i = 0; i < attackCount; i++) {
+        console.log("nombre d'attaque : ", i);
         finalDamage += calculateDamage(attack, defence, isBuff, isDeBuff);
     }
     finalDamage = Math.floor(finalDamage / attackCount);
@@ -62,7 +63,11 @@ function healcalculate(heal) {
 }
 
 // check if is attack card or heal card
-export default function allgo(attack, defence, heal, isBuff, isDeBuff) {
+export default function allgo(attack, defence, heal, isBuff, isDeBuff, CC, Miss, Multi) {
+    CRITICAL_HIT_CHANCE = CC;
+    MISS_CHANCE = Miss;
+    ATTACK_RANGE = [1, Multi];
+
     if (heal > 0) {
         let nbrheal = healcalculate(heal)
         return (nbrheal);
