@@ -19,19 +19,39 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 50px;
-  font-size: 2rem;
+  padding: 30px 70px 0 70px;
   font-weight: bold;
+  font-size: 2rem;
 }
 
-.top-bar .area {
-  font-size: 3rem;
-}
-
-.area {
+.box-content {
+  font-size: 1rem;
+  background-image: url(../assets/Box/Action_Box.png);
+  background-size: cover;
+  width: 456px;
+  height: 100px;
+  padding: 20px 15px;
   position: absolute;
   left: 50%;
+  top: 0;
   transform: translate(-50%, 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.7s ease-in all;
+}
+
+.box-content.hidden{
+  top: -150px;
+}
+
+.turn-container{
+  font-size: 1.2rem;
+}
+
+.action-container{
+  margin-top: 10px;
+  padding: 0 50px;
 }
 
 .settings img {
@@ -41,7 +61,6 @@
 
 .heart {
   position: relative;
-  margin-left: -3100px;
   color: #E90000;
   -webkit-text-stroke: 1.7px #444444;
 }
@@ -58,8 +77,8 @@
 
 .heart-e {
   position: relative;
-  margin-left: 1500px;
   color: #E90000;
+  margin-right: -35px;
   -webkit-text-stroke: 1.7px #444444;
 }
 

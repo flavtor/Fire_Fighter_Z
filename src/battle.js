@@ -1,3 +1,5 @@
+import animateScript from "./animation";
+
 // set up global variables
 let iturn = 1;
 let defence_p = 0;
@@ -12,6 +14,7 @@ let turn_buff = 0;
 hp_monster = document.getElementById("monster_hp");
 hp_player = document.getElementById("player_hp");
 mana_points = document.getElementById("mana_p");
+const action = document.querySelector('.action')
 
 import allgo from "./allgo";
 
@@ -80,13 +83,13 @@ function playerturn(activeCard) {
     if (nbr >= 100) {
         hp_p = Math.floor((-hp_p - (nbr - 100)))*-1;
         hp_player.textContent = hp_p;
-        console.log("le pombier utilise une competence et se soigne de %i pv", nbr-100);
+        action.innerHTML = `You : uses a skill and heals ${nbr-100} hp`
       if (hp_p >= 180) {
         hp_player.textContent = 180;
       } 
     } else if (nbr <= 99) {
         hp_monster.textContent -= nbr;
-        console.log("le pombier utilise une competence et inflige %i de degat", nbr);
+        action.innerHTML = `You : uses a skill and inflicts ${nbr} damage`
         check_death();
     }
     turndef_m <= 0 ? defence_m = 0 : null;
@@ -105,13 +108,14 @@ function monsterattack(alea) {
         damage = allgo(10, defence_p, 0, false, false);
         hp_player.textContent -= damage;
         check_death();
-        console.log("zombie utilise attaque basique est fait %i damage", damage);
+        action.innerHTML = `Zombie :  uses basic attack and inflicts ${damage} damage`
+
     //strong attack
     } else if (alea >= 7 && alea <= 9) {
         damage = allgo(11, defence_p, 0, true, false);
         hp_player.textContent -= damage;
         check_death();
-        console.log("zombie utilise forte attack est fait %i damage", damage);
+        action.innerHTML = `Zombie :  uses strong attack and inflicts ${damage} damage`
     }
     //steal life attack
     else if (alea == 10) {
@@ -121,7 +125,7 @@ function monsterattack(alea) {
         hp_m >= 100 ? hp_monster.textContent = 100 : hp_monster.textContent = hp_m;
         hp_player.textContent -= damage;
         check_death();
-        console.log("zombie utilise steal life attack est fait %i dommage et recupere %i de vie", damage, regen);
+        action.innerHTML = `Zombie :  uses steal life attack and inflicts ${damage} damage and recover ${regen} hp`
     }
     
 }
@@ -136,7 +140,8 @@ function monsterheal(alea) {
         heal = allgo(0,0,10,false,false);
         hp_m = Math.floor((-hp_m - (heal - 100)))*-1;
         hp_monster.textContent = hp_m;
-        console.log("le zombie utilise une competence de soin basique et récupére %i pv", heal-100);
+
+        action.innerHTML = `Zombie :  uses a basic healing skill and recovers ${heal-100} hp`
         if (hp_m >= 100) {
             hp_monster.textContent = 100;
         }
@@ -145,7 +150,8 @@ function monsterheal(alea) {
         heal = allgo(0,0,13,false,false);
         hp_m = Math.floor((-hp_p - (heal - 100)))*-1;
         hp_monster.textContent = hp_m;
-        console.log("le zombie utilise une forte competence de soin et recupére %i pv", heal-100);
+        action.innerHTML = `Zombie :  uses a strong healing skill and recovers ${heal-100} hp`
+
         if (hp_p >= 180) {
             hp_player.textContent = 180;
             }
@@ -158,11 +164,13 @@ function monsterdefence() {
     defence_m += 15;
     turndef_m = 3;
     
-    console.log("le zombie se renforce et augmente sa defense");
+    action.innerHTML = `Zombie :  gets stronger and increases its defense`
+
 }
 
 // gestion of zombie turn
 function monsterturn(nbr) {
+    animateScript()
     alea = Math.floor(Math.random() * (10 - 1 + 1) + 1);
     managestion(0);
     
@@ -200,7 +208,11 @@ export default function turngestion(activeCard) {
     }
     else if (iturn %2 == 0) {
         console.log("Tour du zombie");
+        document.querySelector('.cards').classList.add('hidden')
         monsterturn(Math.floor(Math.random() * (5 - 1 + 1) + 1));
+        setTimeout(() => {
+            document.querySelector('.cards').classList.remove('hidden')
+        }, 1000);
     } else
     console.log("error");
 }
