@@ -793,7 +793,6 @@ function check_death() {
 // gestion of mana points
 function manage_mana(Cost) {
     mana_points.textContent -= Cost;
-    console.log("Mana: ", mana_points.textContent);
     if (mana_points.textContent < 0) {
         alert("vous n'avez plus assez de mana pour lanc\xe9 votre competence vous pass\xe9 votre tour");
         turndef_m = Math.abs(turndef_m - 1);
@@ -802,16 +801,12 @@ function manage_mana(Cost) {
         iturn += 1;
         return 1;
     }
-    console.log("Mana2: ", mana_points.textContent);
-    console.log("iturn%3: ", iturn % 3);
-    if (iturn % 4 == 1) {
-        console.log("gain en mana : 4");
-        mana_points.textContent = 4;
-    }
+    if (iturn % 4 == 1) mana_points.textContent = 4;
     return 0;
 }
 // gestion attaque buff
 function manage_buff(activeCard) {
+    console.log("Buff is :", buff);
     if (activeCard.Buff === true || buff === true) {
         buff = true;
         turn_buff += 1;
@@ -835,6 +830,7 @@ function manage_heal(activeCard, heal) {
 // gestion defence
 function manage_defence(activeCard) {
     defence_p += activeCard.Defence;
+    console.log("defence du perso :", defence_p);
     if (defence_p > 0 && turndef_p == 0) turndef_p = 3;
 }
 //gestion life left
@@ -844,9 +840,10 @@ function manage_LifeTheft(damage) {
     regen = damage * regen;
     hp_p = Math.floor((-regen - hp_p) * -1);
     hp_p >= 180 ? hp_player.textContent = 180 : hp_player.textContent = hp_p;
-    hp_player.textContent -= damage;
+    hp_monster.textContent -= damage;
     check_death();
-    action.innerHTML = `Pompier :  uses steal life attack and inflicts ${damage} damage and recover ${regen} hp`;
+    console.log("LifeTheft: dammage : %i, regen : %1", damage, regen);
+    action.innerHTML = `Pompier :  uses steal life attack and inflicts ${Math.floor(damage)} damage and recover ${Math.floor(regen)} hp`;
 }
 // gestion of player turn
 function playerturn(activeCard) {
@@ -854,11 +851,12 @@ function playerturn(activeCard) {
     console.log(activeCard);
     if (manage_mana(activeCard.Cost) == 1) return;
     manage_buff(activeCard);
-    nbr = (0, _allgoDefault.default)(activeCard.Attack, defence_m, activeCard.Heal, buff, false);
+    nbr = (0, _allgoDefault.default)(activeCard.Attack, defence_m, activeCard.Heal, buff, false, activeCard.CC, activeCard.Miss, activeCard.Multi);
     manage_defence(activeCard);
     manage_heal(activeCard, nbr);
-    if (activeCard.Attack > 0 /* && activeCard.LifeTheft === true */ ) {
+    if (activeCard.Attack > 0 && activeCard.LifeTheft != true) {
         hp_monster.textContent -= nbr;
+        console.log("Attack: ", nbr);
         action.innerHTML = `You : uses a skill and inflicts ${Math.floor(nbr)} damage`;
         check_death();
     } else if (activeCard.LifeTheft === true) manage_LifeTheft(nbr);
@@ -873,18 +871,19 @@ function monsterattack(alea1) {
     let hp_m = hp_monster.textContent;
     //attack basic
     if (alea1 >= 0 && alea1 <= 6) {
-        damage = (0, _allgoDefault.default)(10, defence_p, 0, false, false);
+        damage = (0, _allgoDefault.default)(10, defence_p, 0, false, false, 0.05, 0.02, 1);
         hp_player.textContent -= damage;
+        console.log("DamageZomvie: ", damage);
         check_death();
         action.innerHTML = `Zombie :  uses basic attack and inflicts ${damage} damage`;
     //strong attack
     } else if (alea1 >= 7 && alea1 <= 9) {
-        damage = (0, _allgoDefault.default)(11, defence_p, 0, true, false);
+        damage = (0, _allgoDefault.default)(11, defence_p, 0, true, false, 0.05, 0.02, 1);
         hp_player.textContent -= damage;
         check_death();
         action.innerHTML = `Zombie :  uses strong attack and inflicts ${damage} damage`;
     } else if (alea1 == 10) {
-        damage = (0, _allgoDefault.default)(10, defence_p, 0, false, false);
+        damage = (0, _allgoDefault.default)(10, defence_p, 0, false, false, 0.05, 0.02, 1);
         regen = damage * regen;
         hp_m = Math.floor((-regen - hp_m) * -1);
         hp_m >= 100 ? hp_monster.textContent = 100 : hp_monster.textContent = hp_m;
@@ -999,7 +998,10 @@ function calculateDamage(attack, defence, isBuff, isDeBuff) {
 function finaledegat(attack, defence, isBuff, isDeBuff) {
     let finalDamage = 0;
     let attackCount = ATTACK_RANGE[1] - ATTACK_RANGE[0] + 1;
-    for(let i = 0; i < attackCount; i++)finalDamage += calculateDamage(attack, defence, isBuff, isDeBuff);
+    for(let i = 0; i < attackCount; i++){
+        console.log("nombre d'attaque : ", i);
+        finalDamage += calculateDamage(attack, defence, isBuff, isDeBuff);
+    }
     finalDamage = Math.floor(finalDamage / attackCount);
     return finalDamage;
 }
@@ -1017,7 +1019,13 @@ function healcalculate(heal) {
         alert("miss!");
     } else return heal;
 }
-function allgo(attack, defence, heal, isBuff, isDeBuff) {
+function allgo(attack, defence, heal, isBuff, isDeBuff, CC, Miss, Multi) {
+    CRITICAL_HIT_CHANCE = CC;
+    MISS_CHANCE = Miss;
+    ATTACK_RANGE = [
+        1,
+        Multi
+    ];
     if (heal > 0) {
         let nbrheal = healcalculate(heal);
         return nbrheal;
