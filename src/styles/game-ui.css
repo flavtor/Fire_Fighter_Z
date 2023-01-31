@@ -1,0 +1,134 @@
+.game-ui {
+  color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) 70%,
+      rgb(0, 0, 0) 100%
+    ),
+    url(../assets/Background/Background_Night_City.png);
+  background-position-y: 90%;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 70px 0 70px;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.box-content {
+  font-size: 1rem;
+  background-image: url(../assets/Box/Action_Box.png);
+  background-size: cover;
+  width: 456px;
+  height: 100px;
+  padding: 20px 15px;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.7s ease-in all;
+}
+
+.box-content.hidden{
+  top: -150px;
+}
+
+.turn-container{
+  font-size: 1.2rem;
+}
+
+.action-container{
+  margin-top: 10px;
+  padding: 0 50px;
+}
+
+.settings img {
+  width: 35px;
+  cursor: pointer;
+}
+
+.heart {
+  position: relative;
+  color: #E90000;
+  -webkit-text-stroke: 1.7px #444444;
+}
+
+.heart::before {
+  content: "";
+  position: absolute;
+  left: -40px;
+  width: 30px;
+  height: 30px;
+  background-image: url(../assets//Icons/Icons_Heart.png);
+  background-size: cover;
+}
+
+.heart-e {
+  position: relative;
+  color: #E90000;
+  margin-right: -35px;
+  -webkit-text-stroke: 1.7px #444444;
+}
+
+.heart-e::before {
+  content: "";
+  position: absolute;
+  left: -40px;
+  width: 30px;
+  height: 30px;
+  background-image: url(../assets//Icons/Icons_Heart.png);
+  background-size: cover;
+}
+
+.player img {
+  width: 350px;
+  position: absolute;
+  bottom: 200px;
+  right: 300px;
+}
+
+#image {
+    height: 538px;
+    width: 538px;
+    background: url(../assets/Sprites/zombie_sprite.png);
+}
+.mana{
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  bottom: 30px;
+  left: 45px;
+  font-size: 2.4rem;
+  font-weight: bold;
+  -webkit-text-stroke: 1.7px #444444;
+  background: url(../assets/Icons/Icons_mana.png);
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.end-turn{
+  position: absolute;
+  bottom: 175px;
+  right: 45px;
+  z-index: 3;
+}
+
+.end-turn__button{
+  font-size: 1.7rem;
+  width: 180px;
+  height: 75px;
+}

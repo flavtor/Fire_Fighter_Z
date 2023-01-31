@@ -1,0 +1,40 @@
+.menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  color: white;
+  background: url(../assets/Banner/Cover.png);
+  background-size: cover;
+}
+
+.options {
+  position: absolute;
+  bottom: 80px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+}
+
+button {
+  border: none;
+  background-image: url(../assets/Button/Button_Classique.png);
+  background-size: cover;
+  background-color: transparent;
+  color: white;
+  width: 290px;
+  height: 120px;
+  cursor: pointer;
+  font-size: 3rem;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+button:hover {
+  background-image: url(../assets/Button/Button_Hover.png);
+  transform: scale(0.90);
+  transition: all 0.2s;
+}

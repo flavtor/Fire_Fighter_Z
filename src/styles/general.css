@@ -1,0 +1,21 @@
+body{
+  font-family: 'Montserrat';
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#game{
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+}
+
+.disappear{
+  display: none!important;
+}
+
+.appear{
+  display: block;
+}

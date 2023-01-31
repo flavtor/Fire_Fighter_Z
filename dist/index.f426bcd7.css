@@ -1,0 +1,118 @@
+.game-ui {
+  color: #fff;
+  width: 100%;
+  height: 100%;
+  background-color: #0000;
+  background-image: linear-gradient(0deg, #0000 0% 70%, #000 100%), url("Background_Night_City.052e8d3c.png");
+  background-position-x: 0%, 0%;
+  background-position-y: 90%;
+  background-repeat: repeat, repeat;
+  background-size: auto, auto;
+  background-attachment: scroll, scroll;
+  background-origin: padding-box, padding-box;
+  background-clip: border-box, border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.top-bar {
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  font-size: 2rem;
+  font-weight: bold;
+  display: flex;
+}
+
+.top-bar .area {
+  font-size: 3rem;
+}
+
+.area {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.settings img {
+  width: 35px;
+  cursor: pointer;
+}
+
+.heart {
+  color: #e90000;
+  -webkit-text-stroke: 1.7px #444;
+  margin-left: -3100px;
+  position: relative;
+}
+
+.heart:before {
+  content: "";
+  width: 30px;
+  height: 30px;
+  background-image: url("Icons_Heart.ec4ed2ef.png");
+  background-size: cover;
+  position: absolute;
+  left: -40px;
+}
+
+.heart-e {
+  color: #e90000;
+  -webkit-text-stroke: 1.7px #444;
+  margin-left: 1500px;
+  position: relative;
+}
+
+.heart-e:before {
+  content: "";
+  width: 30px;
+  height: 30px;
+  background-image: url("Icons_Heart.ec4ed2ef.png");
+  background-size: cover;
+  position: absolute;
+  left: -40px;
+}
+
+.player img {
+  width: 350px;
+  position: absolute;
+  bottom: 200px;
+  right: 300px;
+}
+
+#image {
+  height: 538px;
+  width: 538px;
+  background: url("zombie_sprite.4f7a1251.png");
+}
+
+.mana {
+  width: 100px;
+  height: 100px;
+  -webkit-text-stroke: 1.7px #444;
+  background: url("Icons_mana.f44df7e0.png") 0 0 / cover;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.4rem;
+  font-weight: bold;
+  display: flex;
+  position: absolute;
+  bottom: 30px;
+  left: 45px;
+}
+
+.end-turn {
+  z-index: 3;
+  position: absolute;
+  bottom: 175px;
+  right: 45px;
+}
+
+.end-turn__button {
+  width: 180px;
+  height: 75px;
+  font-size: 1.7rem;
+}
+
+/*# sourceMappingURL=index.f426bcd7.css.map */
