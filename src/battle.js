@@ -19,9 +19,9 @@ function managestion(Cost){
 
     mana_points.textContent -= Cost;
     
-    if (mana_points.textContent < -50) {
+    if (mana_points.textContent < -1) {
         alert("no more mana, you must end turn");
-        turndef_m -= 1;
+        turndef_m = Math.abs(turndef_m - 1);
         if (turndef_m <= 0) {
             defence_m = 0;
         }
@@ -46,7 +46,7 @@ function playerturn(activeCard) {
     defence_p += activeCard.Defence;
 
     if (defence_p > 0 && turndef_p == 0) {
-        turndef_p = 2;
+        turndef_p = 3;
     }
 
     if (nbr >= 100) {
@@ -61,7 +61,8 @@ function playerturn(activeCard) {
         console.log("le pombier utilise une competence et inflige %i de degat", nbr);
         check_death();
     }
-    turndef_m <= 0 ? defence_m = 0 : turndef_m;
+    turndef_m <= 0 ? defence_m = 0 : null;
+    turndef_m = Math.abs(turndef_m - 1);
     turn = 2;
     iturn += 1;
   }
@@ -125,7 +126,7 @@ function monsterheal(alea) {
 
 function monsterdefence() {
     defence_m += 15;
-    turndef_m = 2;
+    turndef_m = 3;
     
     console.log("le zombie se renforce et augmente sa defense");
 }
@@ -149,7 +150,7 @@ function monsterturn(nbr) {
             monsterdefence();
         break;
     }
-    turndef_p -= 1;
+    turndef_p = Math.abs(turndef_p -1);
     if (turndef_p <= 0) {
         defence_p = 0;
     }
@@ -158,6 +159,8 @@ function monsterturn(nbr) {
 }
 
 export default function turngestion(activeCard) {
+    console.log("tour avant la baisse de défense du joueur: %i", turndef_p);
+    console.log("tour avant la baisse de défense du zombie: %i", turndef_m);
     console.log("tour de jeu: %i", iturn);
     if (turn === 1) {
         console.log("Tour du joueur");
