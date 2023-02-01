@@ -67,18 +67,15 @@ function playerturn(activeCard) {
     let nbr = 0;
     
     animation.animateSprite('firefighter', 1750);
-    console.log(activeCard);
     if (manage_mana(activeCard.Cost) == 1)
         return;
     activeCard.Buff = manage_buff(activeCard.Buff);
-    console.log("card buff : ", activeCard.Buff);
     nbr = allgo(activeCard.Attack, defence_m, activeCard.Heal, activeCard.Buff, activeCard.CC, activeCard.Miss, activeCard.Multi);
     
     manage_defence(activeCard);
     manage_heal(activeCard, nbr);
     if (activeCard.Attack > 0 && activeCard.LifeTheft != true) {
         hp_monster.textContent -= nbr;
-        console.log("Attack: ", nbr);
         action.innerHTML = `You : uses a skill and inflicts ${Math.floor(nbr)} damage`
         check_death();
     } else if (activeCard.LifeTheft === true)
@@ -99,7 +96,6 @@ function monsterattack(alea) {
     if (alea >= 0 && alea <= 5) {
         damage = allgo(13, defence_p, 0, false, 0.1, 0.02, 1);
         hp_player.textContent -= damage;
-        console.log("DamageZomvie: ", damage);
         check_death();
         action.innerHTML = `Zombie :  uses basic attack and inflicts ${damage} damage`
 
@@ -161,10 +157,10 @@ function monsterdefence() {
 // gestion of zombie turn
 function monsterskill(nbr) {
     setTimeout(() => {
-        console.log('go')
         animation.animateSprite('zombie', 3500)
         alea = Math.floor(Math.random() * (10 - 1 + 1) + 1);
-
+        
+        // 60% chance to attack 20% to heal 20% to defence
         switch (nbr) {
             //attack
             case 1:
@@ -197,7 +193,6 @@ function monsterskill(nbr) {
 // gestion of zombie turn
 export function zombieturn() {
 
-    console.log("Tour du zombie");
     document.querySelector('.cards').classList.add('hidden')
     monsterskill(Math.floor(Math.random() * (10 - 1 + 1) + 1));
     setTimeout(() => {

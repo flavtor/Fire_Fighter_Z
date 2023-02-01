@@ -877,11 +877,10 @@ function manage_heal(activeCard, heal) {
 // gestion defence
 function manage_defence(activeCard) {
     defence_p += activeCard.Defence;
-    console.log("defence du perso :", defence_p);
     if (defence_p > 0 && turndef_p == 0) turndef_p = 3;
     return;
 }
-//gestion life left
+// gestion life left
 function manage_LifeTheft(damage) {
     let regen = Math.random() * 0.2 + 0.3;
     let hp_p = hp_player.textContent;
@@ -890,27 +889,21 @@ function manage_LifeTheft(damage) {
     hp_p >= 160 ? hp_player.textContent = 160 : hp_player.textContent = hp_p;
     hp_monster.textContent -= damage;
     check_death();
-    console.log("LifeTheft: dammage : %i, regen : %1", damage, regen);
     action.innerHTML = `You :  uses steal life attack and inflicts ${Math.floor(damage)} damage and recover ${Math.floor(regen)} hp`;
     return;
 }
 function playerturn(activeCard) {
     document.querySelector(".turn-def-firefighter").innerHTML = `turn before defense drop : ${turndef_p}`;
     document.querySelector(".turn-def-zombie").innerHTML = `turn before defense drop : ${turndef_m}`;
-    console.log("tour de jeu: %i", iturn);
-    console.log("Tour du joueur");
     let nbr = 0;
     animation.animateSprite("firefighter", 1750);
-    console.log(activeCard);
     if (manage_mana(activeCard.Cost) == 1) return;
     activeCard.Buff = manage_buff(activeCard.Buff);
-    console.log("card buff : ", activeCard.Buff);
     nbr = (0, _allgoDefault.default)(activeCard.Attack, defence_m, activeCard.Heal, activeCard.Buff, activeCard.CC, activeCard.Miss, activeCard.Multi);
     manage_defence(activeCard);
     manage_heal(activeCard, nbr);
     if (activeCard.Attack > 0 && activeCard.LifeTheft != true) {
         hp_monster.textContent -= nbr;
-        console.log("Attack: ", nbr);
         action.innerHTML = `You : uses a skill and inflicts ${Math.floor(nbr)} damage`;
         check_death();
     } else if (activeCard.LifeTheft === true) manage_LifeTheft(nbr);
@@ -928,7 +921,6 @@ function monsterattack(alea1) {
     if (alea1 >= 0 && alea1 <= 5) {
         damage = (0, _allgoDefault.default)(13, defence_p, 0, false, 0.1, 0.02, 1);
         hp_player.textContent -= damage;
-        console.log("DamageZomvie: ", damage);
         check_death();
         action.innerHTML = `Zombie :  uses basic attack and inflicts ${damage} damage`;
     //strong attack
@@ -977,9 +969,9 @@ function monsterdefence() {
 // gestion of zombie turn
 function monsterskill(nbr) {
     setTimeout(()=>{
-        console.log("go");
         animation.animateSprite("zombie", 3500);
         alea = Math.floor(Math.random() * 10 + 1);
+        // 60% chance to attack 20% to heal 20% to defence
         switch(nbr){
             //attack
             case 1:
@@ -1007,7 +999,6 @@ function monsterskill(nbr) {
     }, 1500);
 }
 function zombieturn() {
-    console.log("Tour du zombie");
     document.querySelector(".cards").classList.add("hidden");
     monsterskill(Math.floor(Math.random() * 10 + 1));
     setTimeout(()=>{
@@ -1060,11 +1051,10 @@ let ATTACK_RANGE = [
     1,
     1
 ];
-// calculate damage
+// calculate damage : damage can be from 30% less to 30% more
 function calculateDamage(attack, defence, isBuff) {
     let damage = (Math.random() * (MIN_DAMAGE - MAX_DAMAGE) + MIN_DAMAGE) * attack;
     let damageModifier = isBuff ? BUFF_MULTIPLIER : 1;
-    console.log("-------------------------------------------------------------------------------------------------- damageModifier:", damageModifier);
     damage = Math.floor(damage * damageModifier);
     // chance of critical hit
     let isCriticalHit = Math.random() < CRITICAL_HIT_CHANCE;
@@ -1083,13 +1073,10 @@ function calculateDamage(attack, defence, isBuff) {
 // finale degat gestion
 function finaledegat(attack, defence, isBuff) {
     let finalDamage = 0;
+    // random multi attack following variable ATTACK_RANGE 
     let attackCount = Math.floor(Math.random() * (ATTACK_RANGE[1] - ATTACK_RANGE[0] + 1) + ATTACK_RANGE[0]);
-    for(let i = 0; i < attackCount; i++){
-        console.log("nombre d'attaque : ", attackCount);
-        finalDamage += calculateDamage(attack, defence, isBuff);
-    }
+    for(let i = 0; i < attackCount; i++)finalDamage += calculateDamage(attack, defence, isBuff);
     finalDamage = Math.floor(finalDamage);
-    console.log("----------------------------------------------------------------\n Final damage: %i\n---------------------------------------------------------------- ", finalDamage);
     return finalDamage;
 }
 //  calculate health
@@ -1107,7 +1094,6 @@ function healcalculate(heal) {
     } else return heal;
 }
 function allgo(attack, defence, heal, isBuff, CC, Miss, Multi) {
-    console.log("allgo");
     CRITICAL_HIT_CHANCE = CC;
     MISS_CHANCE = Miss;
     ATTACK_RANGE = [
@@ -1120,8 +1106,7 @@ function allgo(attack, defence, heal, isBuff, CC, Miss, Multi) {
     } else if (attack > 0) {
         let nbrdegat = finaledegat(attack, defence, isBuff);
         return nbrdegat;
-    } else console.log("cards de defense ou cards inutile");
-    return 0;
+    } else return 0;
 }
 exports.default = allgo;
 
