@@ -143,8 +143,8 @@ function monsterheal(alea) {
         hp_monster.textContent = hp_m;
         action.innerHTML = `Zombie :  uses a strong healing skill and recovers ${Math.floor(heal)} hp`
 
-        if (hp_m >= 100) {
-            hp_monster.textContent = 100;
+        if (hp_m >= 115) {
+            hp_monster.textContent = 115;
             }
         }
     }
