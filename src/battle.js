@@ -96,23 +96,23 @@ function monsterattack(alea) {
     let hp_m = hp_monster.textContent;
 
     //attack basic
-    if (alea >= 0 && alea <= 6) {
-        damage = allgo(10, defence_p, 0, false, false, 0.05, 0.02, 1);
+    if (alea >= 0 && alea <= 5) {
+        damage = allgo(13, defence_p, 0, false, 0.1, 0.02, 1);
         hp_player.textContent -= damage;
         console.log("DamageZomvie: ", damage);
         check_death();
         action.innerHTML = `Zombie :  uses basic attack and inflicts ${damage} damage`
 
     //strong attack
-    } else if (alea >= 7 && alea <= 9) {
-        damage = allgo(11, defence_p, 0, true, false, 0.05, 0.02, 1);
+    } else if (alea >= 6 && alea <= 8) {
+        damage = allgo(20, defence_p, 0, true, 0.05, 0.02, 1);
         hp_player.textContent -= damage;
         check_death();
         action.innerHTML = `Zombie :  uses strong attack and inflicts ${damage} damage`
     }
     //steal life attack
-    else if (alea == 10) {
-        damage = allgo(10, defence_p, 0, false, false, 0.05, 0.02, 1);
+    else if (alea == 9) {
+        damage = allgo(17, defence_p, 0, false, 0.05, 0.02, 1);
         regen = damage*regen;
         hp_m = Math.floor((-regen - hp_m) * -1);
         hp_m >= 100 ? hp_monster.textContent = 100 : hp_monster.textContent = hp_m;
@@ -129,7 +129,7 @@ function monsterheal(alea) {
 
     //heal basic
     if (alea >= 0 && alea <= 8) {
-        heal = allgo(0,0,10,false,false);
+        heal = allgo(0,0,10,false, 0.05, 0.02, 1);
         hp_m = Math.floor((-hp_m - heal))*-1;
         hp_monster.textContent = hp_m;
         action.innerHTML = `Zombie :  uses a basic healing skill and recovers ${heal} hp`
@@ -138,7 +138,7 @@ function monsterheal(alea) {
         }
     //strong heal
     if (alea >= 9 && alea <= 10){
-        heal = allgo(0,0,13,false,false);
+        heal = allgo(0,0,13,false, 0.05, 0.02, 1);
         hp_m = Math.floor((-hp_m - heal))*-1;
         hp_monster.textContent = hp_m;
         action.innerHTML = `Zombie :  uses a strong healing skill and recovers ${Math.floor(heal)} hp`
@@ -170,14 +170,19 @@ function monsterskill(nbr) {
             case 1:
             case 2:
             case 3:
+            case 4:
+            case 5:
+            case 6:
                 monsterattack(alea);
             break;
             //heal
-            case 4:
+            case 7:
+            case 8:
                 monsterheal(alea);
             break;
             //defence
-            case 5:
+            case 9:
+            case 10:
                 monsterdefence();
             break;
         }
@@ -194,7 +199,7 @@ export function zombieturn() {
 
     console.log("Tour du zombie");
     document.querySelector('.cards').classList.add('hidden')
-    monsterskill(Math.floor(Math.random() * (5 - 1 + 1) + 1));
+    monsterskill(Math.floor(Math.random() * (10 - 1 + 1) + 1));
     setTimeout(() => {
         document.querySelector('.cards').classList.remove('hidden')
     }, 3000);
