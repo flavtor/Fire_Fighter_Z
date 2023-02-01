@@ -1,21 +1,36 @@
-body{
-  font-family: 'Montserrat';
+/* Import CSS files */
+@import url("./menu.css");
+@import url("./intro.css");
+@import url("./game-ui.css");
+@import url("./cards.css");
+@import url("./sprites.css");
+
+/* Set font family for the entire HTML document */
+html {
+  font-family: "Space Grotesk";
+}
+
+/* Remove margin and padding for the body element and set overflow to hidden */
+body {
   margin: 0;
   padding: 0;
   overflow: hidden;
 }
 
-#game{
+/* Set #game element to take up the entire viewport and have a black background */
+#game {
   position: relative;
   width: 100vw;
   height: 100vh;
   background-color: black;
 }
 
-.disappear{
-  display: none!important;
+/* Class to hide elements (used to navigate between different screens of the game) */
+.disappear {
+  display: none !important;
 }
 
-.appear{
+/* Class to show elements */
+.appear {
   display: block;
 }
