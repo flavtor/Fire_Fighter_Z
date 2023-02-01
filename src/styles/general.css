@@ -5,9 +5,12 @@
 @import url("./cards.css");
 @import url("./sprites.css");
 
-/* Set font family for the entire HTML document */
-html {
-  font-family: "Space Grotesk";
+/* Import font */
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap");
+
+/* Set font family for the entire HTML document and buttons */
+html, button {
+  font-family: "Space Grotesk", sans-serif;
 }
 
 /* Remove margin and padding for the body element and set overflow to hidden */

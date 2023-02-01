@@ -1,5 +1,12 @@
-/* Make the page use the entire screen */
+/* Import font */
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap");
 
+/* Set font family for the entire HTML document and buttons */
+html, button {
+  font-family: "Space Grotesk", sans-serif;
+}
+
+/* Make the page use the entire screen */
 body {
   height: 100vh;
   overflow: hidden;

@@ -62,13 +62,13 @@
 .heart {
   position: relative;
   color: #E90000;
-  -webkit-text-stroke: 1.7px #444444;
 }
 
 .heart::before {
   content: "";
   position: absolute;
   left: -40px;
+  bottom: 6px;
   width: 30px;
   height: 30px;
   background-image: url(../assets//Icons/Icons_Heart.png);
@@ -79,13 +79,13 @@
   position: relative;
   color: #E90000;
   margin-right: -35px;
-  -webkit-text-stroke: 1.7px #444444;
 }
 
 .heart-e::before {
   content: "";
   position: absolute;
   left: -40px;
+  bottom: 6px;
   width: 30px;
   height: 30px;
   background-image: url(../assets//Icons/Icons_Heart.png);
@@ -93,6 +93,8 @@
 }
 
 .mana{
+  -webkit-text-stroke: 0.2px #444444;
+  font-weight: bold;
   width: 100px;
   height: 100px;
   position: absolute;
@@ -100,7 +102,6 @@
   left: 45px;
   font-size: 2.4rem;
   font-weight: bold;
-  -webkit-text-stroke: 1.7px #444444;
   background: url(../assets/Icons/Icons_mana.png);
   background-size: cover;
   display: flex;
