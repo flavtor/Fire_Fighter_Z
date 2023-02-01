@@ -32,7 +32,9 @@ player_ref = db.collection('player')
 @cross_origin()
 def init():
     """
-        init() : create cards and get 5 random cards
+    init() : create cards and get 5 random cards
+    This function initializes the game by creating the "cards" and "player" collections in the user's database, 
+    and selecting 5 random cards to add to the "player" collection.
     """
     try:
        
@@ -42,7 +44,7 @@ def init():
             doc.delete()
         
 
-        #add cards
+        # Load the contents of the "cards.json" file into the "cards" collection
         with open("cards.json", "r") as f:
             file_contents = json.load(f)
         #print("file_contents", file_contents)
@@ -63,9 +65,16 @@ def init():
         #print("list_cards", list_cards)
         
         r_list = []
-        #print("----------------------------------------------------")
-        #print("r_list", r_list)
         
+        list_cards=[]
+        for col in doc_cardref.collections():
+            #print(f'Deleting doc card {doc.id} => {doc.get().to_dict()}')
+            for doc in col.list_documents():
+                list_cards.append(doc.get().to_dict())
+        
+        #print("list_cards",list_cards)
+                
+                       
         for i in range(1,6):
             #print("i",i)
             val = random.choice(list_cards)
@@ -79,12 +88,11 @@ def init():
                 else:
                     val = random.choice(list_cards)
         
-        #print("----------------------------------------------------")
-        #print("r_list", r_list)
-        
+        # Return the list of random cards
         return jsonify(r_list), 200
     except Exception as e:
-        return f"An Error Occurred: {e}"
+        return f
+
 
 
 # This function allows a user to draw one card randomly from the available cards.
@@ -126,11 +134,20 @@ def drawcards():
 @cross_origin()
 def get_listcards():
     try:
-        all_cards = [doc.to_dict() for doc in cards_ref.stream()]
+        username = request.args.get('username')
+        doc_cardref = db.collection(username).document("cards")
         
-        return jsonify(all_cards), 200
+        list_cards=[]
+        for col in doc_cardref.collections():
+            #print(f'Deleting doc card {doc.id} => {doc.get().to_dict()}')
+            for doc in col.list_documents():
+                list_cards.append(doc.get().to_dict())
+        
+        return jsonify(list_cards), 200
     except Exception as e:
+        # Return an error message with the exception message if an exception occurs
         return f"An Error Occurred: {e}"
+
 
 @app.route('/listplayercards', methods=['GET'])
 @cross_origin()
@@ -141,16 +158,6 @@ def get_listplayercards():
         return jsonify(all_cards), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
-
-
-
-#*****************************************************************************************************
-"""
-Example:
-http://localhost:8080/playcard?id=19
-
-
-"""
 
 
 @app.route('/playcard', methods=['GET', 'PUT'])
@@ -174,15 +181,28 @@ def play_drawcard():
         card_id = request.args.get('id')
         player_ref.document(str(card_id)).delete()
         
-        list_cards = [doc.to_dict() for doc in cards_ref.stream()]
-        if list_cards:
-            my_card = random.choice(list_cards)
-            cards_ref.document(str(my_card["id"])).delete()
-            player_ref.document(str(my_card["id"])).set(my_card)
+        list_cards=[]
+        for col in doc_cardref.collections():
+            #print(f'Deleting doc card {doc.id} => {doc.get().to_dict()}')
+            for doc in col.list_documents():
+                list_cards.append(doc.get().to_dict())
+                
+        my_card = random.choice(list_cards)
+        id = str(my_card["id"])
+        db.collection(username).document("player").collection(id).document(id).set(my_card)
+        db.collection(username).document("cards").collection(id).document(id).delete()
         
+        
+        
+        doc_playerref = db.collection(username).document("player")
+        list_player=[]
+        for col in doc_playerref.collections():
+            #print(f'Deleting doc card {doc.id} => {doc.get().to_dict()}')
+            for doc in col.list_documents():
+                list_player.append(doc.get().to_dict())
+    
 
-        all_cards = [doc.to_dict() for doc in player_ref.stream()]
-        return jsonify(all_cards), 200
+        return jsonify(list_player), 200
     except Exception as e:
         return f"An Error Occurred: {e}"
  
