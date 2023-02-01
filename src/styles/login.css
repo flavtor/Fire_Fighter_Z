@@ -1,0 +1,136 @@
+/* Make the page use the entire screen */
+
+body {
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  font-family: "Space Grotesk";
+  background-color: #0e1821;
+}
+
+.illustration img {
+  width: 60vh;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.global-container {
+  margin-top: 50px;
+  display: flex;
+  width: 600px;
+  justify-content: space-between;
+}
+
+.container {
+  width: 250px;
+  position: relative;
+}
+
+.container:first-child::after{
+  content: '';
+  width: 1px;
+  height: 100%;
+  position: absolute;
+  background-color: #c71100;
+  top: -20px;
+  right: -50px;
+}
+
+.container h1{
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+#main-holder {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 300px;
+  height: 100%;
+  margin-left: 200px;
+}
+
+form label{
+  font-size: 1.3rem;
+  font-weight: 100;
+  margin-top: 15px;
+}
+
+form input{
+  margin: 15px 0;
+  background-color: #6b858e;
+  height: 25px;
+  border: none;
+  border-bottom: 1px solid #3a3a3a;
+  border-radius: 3px;
+  outline: none;
+  padding: 5px 10px;
+}
+
+.form-button{
+  margin-top: 25px;
+  border-radius: 3px;
+  background-color: #a3cedd;
+  font-weight: bold;
+  font-size: 1.3rem;
+  cursor: pointer;
+  background-size: cover;
+  height: 50px;
+  transition: 0.2s all;
+}
+
+.form-button:hover{
+  background-color: #6b858e;
+  transition: 0.2s all;
+}
+
+
+/* -------------------------------------------------------------- */
+
+/* Adjust the positioning of the login form inside the last row of the
+main grid */
+
+#login-form, #register-form {
+  align-self: flex-start;
+  display: grid;
+  align-items: center;
+}
+
+/* Style the login form fields' placeholders */
+
+.login-form-field::placeholder, .register-form-field::placeholder {
+  color: #3a3a3a;
+}
+
+/* Error message for registration form. By default it's transparent, but the opacity is controlled by JavaScript */
+.msg-box {
+  width: 100%;
+  height: 100%;
+}
+
+.error-msg {
+  text-align: center;
+  margin: 0;
+  padding: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #8a0000;
+  border: 1px solid #8a0000;
+  background-color: #e58f8f;
+  opacity: 0;
+}
+
+.success-msg {
+  text-align: center;
+  margin: 0;
+  padding: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #008a12;
+  border: 1px solid #008a39;
+  background-color: #b1e58f;
+  opacity: 0;
+}

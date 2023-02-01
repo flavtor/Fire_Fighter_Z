@@ -1,0 +1,127 @@
+body {
+  height: 100vh;
+  background-color: #0e1821;
+  margin: 0;
+  font-family: Space Grotesk;
+  overflow: hidden;
+}
+
+.illustration img {
+  width: 60vh;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.global-container {
+  width: 600px;
+  justify-content: space-between;
+  margin-top: 50px;
+  display: flex;
+}
+
+.container {
+  width: 250px;
+  position: relative;
+}
+
+.container:first-child:after {
+  content: "";
+  width: 1px;
+  height: 100%;
+  background-color: #c71100;
+  position: absolute;
+  top: -20px;
+  right: -50px;
+}
+
+.container h1 {
+  text-transform: uppercase;
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+#main-holder {
+  color: #fff;
+  width: 300px;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 200px;
+  display: flex;
+}
+
+form label {
+  margin-top: 15px;
+  font-size: 1.3rem;
+  font-weight: 100;
+}
+
+form input {
+  height: 25px;
+  background-color: #6b858e;
+  border: none;
+  border-bottom: 1px solid #3a3a3a;
+  border-radius: 3px;
+  outline: none;
+  margin: 15px 0;
+  padding: 5px 10px;
+}
+
+.form-button {
+  cursor: pointer;
+  height: 50px;
+  background-color: #a3cedd;
+  background-size: cover;
+  border-radius: 3px;
+  margin-top: 25px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  transition: all .2s;
+}
+
+.form-button:hover {
+  background-color: #6b858e;
+  transition: all .2s;
+}
+
+#login-form, #register-form {
+  align-self: flex-start;
+  align-items: center;
+  display: grid;
+}
+
+.login-form-field::placeholder, .register-form-field::placeholder {
+  color: #3a3a3a;
+}
+
+.msg-box {
+  width: 100%;
+  height: 100%;
+}
+
+.error-msg {
+  text-align: center;
+  color: #8a0000;
+  opacity: 0;
+  background-color: #e58f8f;
+  border: 1px solid #8a0000;
+  margin: 0;
+  padding: 5px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.success-msg {
+  text-align: center;
+  color: #008a12;
+  opacity: 0;
+  background-color: #b1e58f;
+  border: 1px solid #008a39;
+  margin: 0;
+  padding: 5px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/*# sourceMappingURL=login.241ae0f4.css.map */

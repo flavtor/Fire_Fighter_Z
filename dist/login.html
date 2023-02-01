@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login & Register</title>
+  <link rel="stylesheet" href="/login.241ae0f4.css">
+  <script defer="" src="/login.795b4621.js"></script>
+</head>
+
+<body>
+  <main id="main-holder">
+    <div class="logo">
+      <img src="/Logo.f3998bd1.png" alt="Logo of Fire Fighter Z">
+    </div>
+    <div class="global-container">
+      <div class="container">
+        <h1 id="register-header">Register</h1>
+
+        <form method="post" id="register-form">
+          <label for="register-username-field">Pseudo</label>
+          <input type="text" name="username" id="register-username-field" class="register-form-field" placeholder="firemichel_43">
+          <label for="register-password-field">Password</label>
+          <input type="password" name="password" id="register-password-field" class="register-form-field" placeholder="amazingPwd12*">
+          <input class="form-button" type="button" value="Register" onclick="register();">
+        </form>
+
+        <div class="msg-box">
+          <p id="register-error-msg" class="error-msg">Registration failed</p>
+          <p id="register-success-msg" class="success-msg">Registration succesfull. <span id="success-msg-second-line">You can now login
+            </span></p>
+        </div>
+      </div>
+
+      <div class="container">
+        <h1 id="login-header">Login</h1>
+
+        <form id="login-form">
+          <label for="username-field">Pseudo</label>
+          <input type="text" name="username" id="username-field" class="login-form-field" placeholder="firemichel_43">
+          <label for="password-field">Password</label>
+          <input type="password" name="password" id="password-field" class="login-form-field" placeholder="amazingPwd12">
+          <input class="form-button" type="button" value="Login" onclick="login();">
+        </form>
+
+        <div class="msg-box">
+          <p id="login-error-msg" class="error-msg">Invalid username <span id="error-msg-second-line">and/or password</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="illustration">
+      <img src="/Zombie.bc2cc03d.png" alt="Illustration of Zombie">
+    </div>
+  </main>
+
+<script src="/login.355e69e6.js"></script></body>
+
+</html>
