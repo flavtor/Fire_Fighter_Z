@@ -1,6 +1,6 @@
 export default class Sound {
   constructor() {
-    this.music = new Audio("./Audio/Music.wav");
+    this.music = new Audio("./Audio/Music.mp3");
   }
 
   PlayMusic() {
