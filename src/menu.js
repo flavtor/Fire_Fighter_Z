@@ -27,7 +27,7 @@ export default class GameMenu {
       menu.classList.add("disappear");
       intro.classList.remove("disappear");
       const audio = new Sound();
-      //audio.PlayMusic();
+      audio.PlayMusic();
       Intro();
     });
   }
