@@ -1,6 +1,20 @@
 # Fire_Fighter_Z Database
 
-The database will connect to Firebase and store all the information about the cards and players in the game, using the credentials in the key.json file.
+Fire Fighter Z is a turn-based card game where players choose from a deck of 20 different cards with unique abilities, including attack, defense, healing, and more. Players must manage their mana to play cards, as each card has a mana cost. Each turn starts with drawing a card and playing it. The enemies attack with their own sets of abilities. The game ends when a player's or the opponent's life points reach 0.
+
+## Technology Stack:
+
+This project is built with the Flask framework for Python, and uses Firebase for database management. The project uses Cross-Origin Resource Sharing (CORS) to handle cross-domain requests. The front-end of the project is built using Parcel, a fast, zero-configuration web application bundler.
+
+## Features:
+
+- User authentication system: Users can log in using their username and password.
+- Database: Store all the information about the cards and players in the game.
+- Draw Cards: Users can draw cards from the deck and store them in their personal collection.
+- Combat System: You can use your cards to defeat zombies.
+- Rest API
+
+# Getting Started
 
 ## Requirements
 To run the database, you need the following:
@@ -34,3 +48,23 @@ You can generate the key.json file by following these steps:
 4. Navigate to the "Service Accounts" tab.
 5. Click on the "Generate new private key" button.
 6. A key.json file will be downloaded. Save this file in the same directory as the database code.
+
+## Running the Application
+
+To run the application, follow these steps:
+
+1. Navigate to the root directory of the project in your terminal.
+2. Run the following command to install the dependencies:
+```
+npm install
+```
+3. Start the Flask server by running:
+```
+python server/app.py
+```
+4. Start the frontend by running:
+```
+npm start
+```
+
+Now you should be able to access the application in your browser at http://localhost:1234. Note that it might be running on a different port.
