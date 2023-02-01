@@ -1,3 +1,4 @@
+@import "https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap";
 .menu {
   width: 100%;
   height: 100%;
@@ -200,7 +201,6 @@ button:hover {
 
 .heart {
   color: #e90000;
-  -webkit-text-stroke: 1.7px #444;
   position: relative;
 }
 
@@ -211,12 +211,12 @@ button:hover {
   background-image: url("Icons_Heart.ec4ed2ef.png");
   background-size: cover;
   position: absolute;
+  bottom: 6px;
   left: -40px;
 }
 
 .heart-e {
   color: #e90000;
-  -webkit-text-stroke: 1.7px #444;
   margin-right: -35px;
   position: relative;
 }
@@ -228,13 +228,14 @@ button:hover {
   background-image: url("Icons_Heart.ec4ed2ef.png");
   background-size: cover;
   position: absolute;
+  bottom: 6px;
   left: -40px;
 }
 
 .mana {
+  -webkit-text-stroke: .2px #444;
   width: 100px;
   height: 100px;
-  -webkit-text-stroke: 1.7px #444;
   background: url("Icons_mana.f44df7e0.png") 0 0 / cover;
   justify-content: center;
   align-items: center;
@@ -395,8 +396,8 @@ button#logout {
   left: 60%;
 }
 
-html {
-  font-family: Space Grotesk;
+html, button {
+  font-family: Space Grotesk, sans-serif;
 }
 
 body {

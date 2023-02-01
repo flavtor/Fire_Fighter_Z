@@ -6,7 +6,7 @@ let MISS_CHANCE = 0.05;
 let ATTACK_RANGE = [1, 1];
 
 // calculate damage
-function calculateDamage(attack, defence, isBuff, isDeBuff) {
+function calculateDamage(attack, defence, isBuff) {
     let damage = (Math.random() * (MIN_DAMAGE- MAX_DAMAGE) + MIN_DAMAGE)*attack;
     let damageModifier = (isBuff ? BUFF_MULTIPLIER : 1);
    
@@ -33,12 +33,12 @@ function calculateDamage(attack, defence, isBuff, isDeBuff) {
 }
 
 // finale degat gestion
-function finaledegat(attack, defence, isBuff, isDeBuff) {
+function finaledegat(attack, defence, isBuff) {
     let finalDamage = 0;
     let attackCount = Math.floor(Math.random() * (ATTACK_RANGE[1] - ATTACK_RANGE[0] + 1) + ATTACK_RANGE[0]);
     for (let i = 0; i < attackCount; i++) {
         console.log("nombre d'attaque : ", attackCount);
-        finalDamage += calculateDamage(attack, defence, isBuff, isDeBuff);
+        finalDamage += calculateDamage(attack, defence, isBuff);
     }
     finalDamage = Math.floor(finalDamage);
     console.log("----------------------------------------------------------------\n Final damage: %i\n---------------------------------------------------------------- ", finalDamage);
@@ -64,7 +64,7 @@ function healcalculate(heal) {
 }
 
 // check if is attack card or heal card
-export default function allgo(attack, defence, heal, isBuff, isDeBuff, CC, Miss, Multi) {
+export default function allgo(attack, defence, heal, isBuff, CC, Miss, Multi) {
   console.log("allgo");
     CRITICAL_HIT_CHANCE = CC;
     MISS_CHANCE = Miss;
@@ -74,7 +74,7 @@ export default function allgo(attack, defence, heal, isBuff, isDeBuff, CC, Miss,
         let nbrheal = healcalculate(heal)
         return (nbrheal);
     } else if (attack > 0) {
-        let nbrdegat = finaledegat(attack, defence, isBuff, isDeBuff)
+        let nbrdegat = finaledegat(attack, defence, isBuff)
         return (nbrdegat);
     } else
     console.log("cards de defense ou cards inutile");

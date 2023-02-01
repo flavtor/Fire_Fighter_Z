@@ -1,3 +1,8 @@
+@import "https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap";
+html, button {
+  font-family: Space Grotesk, sans-serif;
+}
+
 body {
   height: 100vh;
   background-color: #0e1821;
