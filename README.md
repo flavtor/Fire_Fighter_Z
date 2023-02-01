@@ -1,6 +1,6 @@
-# Fire_Fighter_Z Database
+# Fire Fighter Z
 
-Fire Fighter Z is a turn-based card game where players choose from a deck of 20 different cards with unique abilities, including attack, defense, healing, and more. Players must manage their mana to play cards, as each card has a mana cost. Each turn starts with drawing a card and playing it. The enemies attack with their own sets of abilities. The game ends when a player's or the opponent's life points reach 0.
+Fire Fighter Z is a web game application that was created as a school project within one week. Players take turns using cards with various abilities to combat enemies. The project was built using Flask for Python and Firebase for database management.
 
 ## Technology Stack:
 
