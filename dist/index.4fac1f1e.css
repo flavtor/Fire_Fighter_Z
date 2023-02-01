@@ -199,9 +199,28 @@ button:hover {
   cursor: pointer;
 }
 
+.info-container {
+  flex-direction: column;
+  display: flex;
+}
+
+.turn-def-container {
+  width: 150px;
+  margin-left: -35px;
+  font-size: 1rem;
+  font-weight: 300;
+}
+
 .heart {
   color: #e90000;
   position: relative;
+}
+
+.player-name {
+  color: #fff;
+  margin-left: -35px;
+  font-size: 1.2rem;
+  font-weight: 300;
 }
 
 .heart:before {

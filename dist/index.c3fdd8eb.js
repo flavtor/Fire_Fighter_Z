@@ -595,6 +595,7 @@ class GameMenu {
         this.createMenu();
         this.gameLaunch();
     }
+    // Function to create all options of the menu
     createMenu() {
         this.optionsList = document.querySelector(".options");
         for(let i = 0; i < this.options.length; i++){
@@ -604,6 +605,7 @@ class GameMenu {
             this.optionsList.appendChild(option);
         }
     }
+    // Function that detects when you click on play and lunch game intro
     gameLaunch() {
         const playButton = document.querySelector(".play");
         const menu = document.querySelector(".menu");
@@ -612,7 +614,7 @@ class GameMenu {
             menu.classList.add("disappear");
             intro.classList.remove("disappear");
             const audio = new (0, _soundDefault.default)();
-            //audio.PlayMusic();
+            audio.PlayMusic();
             (0, _introDefault.default)();
         });
     }
@@ -671,7 +673,14 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 class Sound {
     constructor(){
-        this.music = new Audio("./Audio/Music.wav");
+        this.music = new Audio("./Audio/Music.mp3");
+    }
+    PlayMusic() {
+        this.music.play();
+        this.music.addEventListener("ended", ()=>{
+            this.music.currentTime = 0;
+            this.music.play();
+        });
     }
 }
 exports.default = Sound;
@@ -878,16 +887,16 @@ function manage_LifeTheft(damage) {
     let hp_p = hp_player.textContent;
     regen = damage * regen;
     hp_p = Math.floor((-regen - hp_p) * -1);
-    hp_p >= 180 ? hp_player.textContent = 180 : hp_player.textContent = hp_p;
+    hp_p >= 160 ? hp_player.textContent = 160 : hp_player.textContent = hp_p;
     hp_monster.textContent -= damage;
     check_death();
     console.log("LifeTheft: dammage : %i, regen : %1", damage, regen);
-    action.innerHTML = `Pompier :  uses steal life attack and inflicts ${Math.floor(damage)} damage and recover ${Math.floor(regen)} hp`;
+    action.innerHTML = `You :  uses steal life attack and inflicts ${Math.floor(damage)} damage and recover ${Math.floor(regen)} hp`;
     return;
 }
 function playerturn(activeCard) {
-    console.log("tour avant la baisse de d\xe9fense du joueur: %i", turndef_p);
-    console.log("tour avant la baisse de d\xe9fense du zombie: %i", turndef_m);
+    document.querySelector(".turn-def-firefighter").innerHTML = `turn before defense drop : ${turndef_p}`;
+    document.querySelector(".turn-def-zombie").innerHTML = `turn before defense drop : ${turndef_m}`;
     console.log("tour de jeu: %i", iturn);
     console.log("Tour du joueur");
     let nbr = 0;
@@ -932,7 +941,7 @@ function monsterattack(alea1) {
         damage = (0, _allgoDefault.default)(17, defence_p, 0, false, 0.05, 0.02, 1);
         regen = damage * regen;
         hp_m = Math.floor((-regen - hp_m) * -1);
-        hp_m >= 100 ? hp_monster.textContent = 100 : hp_monster.textContent = hp_m;
+        hp_m >= 115 ? hp_monster.textContent = 115 : hp_monster.textContent = hp_m;
         hp_player.textContent -= damage;
         check_death();
         action.innerHTML = `Zombie :  uses steal life attack and inflicts ${Math.floor(damage)} damage and recover ${Math.floor(regen)} hp`;
@@ -948,7 +957,7 @@ function monsterheal(alea1) {
         hp_m = Math.floor(-hp_m - heal) * -1;
         hp_monster.textContent = hp_m;
         action.innerHTML = `Zombie :  uses a basic healing skill and recovers ${Math.floor(heal)} hp`;
-        if (hp_m >= 115) hp_monster.textContent = 115;
+        if (hp_m >= 100) hp_monster.textContent = 100;
         //strong heal
         if (alea1 >= 9 && alea1 <= 10) {
             heal = (0, _allgoDefault.default)(0, 0, 13, false, 0.05, 0.02, 1);

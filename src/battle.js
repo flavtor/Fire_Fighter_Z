@@ -115,7 +115,7 @@ function monsterattack(alea) {
         damage = allgo(17, defence_p, 0, false, 0.05, 0.02, 1);
         regen = damage*regen;
         hp_m = Math.floor((-regen - hp_m) * -1);
-        hp_m >= 100 ? hp_monster.textContent = 100 : hp_monster.textContent = hp_m;
+        hp_m >= 115 ? hp_monster.textContent = 115 : hp_monster.textContent = hp_m;
         hp_player.textContent -= damage;
         check_death();
         action.innerHTML = `Zombie :  uses steal life attack and inflicts ${Math.floor(damage)} damage and recover ${Math.floor(regen)} hp`
@@ -143,8 +143,8 @@ function monsterheal(alea) {
         hp_monster.textContent = hp_m;
         action.innerHTML = `Zombie :  uses a strong healing skill and recovers ${Math.floor(heal)} hp`
 
-        if (hp_m >= 100) {
-            hp_monster.textContent = 100;
+        if (hp_m >= 115) {
+            hp_monster.textContent = 115;
             }
         }
     }
