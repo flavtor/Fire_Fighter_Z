@@ -8,6 +8,7 @@ export default class GameMenu {
     this.gameLaunch();
   }
 
+  // Function to create all options of the menu
   createMenu() {
     this.optionsList = document.querySelector(".options");
     for (let i = 0; i < this.options.length; i++) {
@@ -19,6 +20,7 @@ export default class GameMenu {
     }
   }
 
+  // Function that detects when you click on play and lunch game intro
   gameLaunch() {
     const playButton = document.querySelector(".play");
     const menu = document.querySelector(".menu");
