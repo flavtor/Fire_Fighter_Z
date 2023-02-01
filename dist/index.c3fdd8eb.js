@@ -142,7 +142,7 @@
       this[globalName] = mainExports;
     }
   }
-})({"8HAIT":[function(require,module,exports) {
+})({"5LTrL":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -565,7 +565,13 @@ var _menuDefault = parcelHelpers.interopDefault(_menu);
 var _cards = require("./cards");
 var _cardsDefault = parcelHelpers.interopDefault(_cards);
 const API_URL = "http://localhost:8080";
-const menu = new (0, _menuDefault.default)([
+if (!sessionStorage.getItem("username")) window.location.href = "./login.html";
+const logoutButton = document.querySelector("#logout");
+logoutButton.addEventListener("click", ()=>{
+    sessionStorage.removeItem("username");
+    window.location.href = "./login.html";
+});
+new (0, _menuDefault.default)([
     "Play"
 ]);
 function initGame() {
@@ -575,7 +581,7 @@ function initGame() {
 }
 exports.default = initGame;
 
-},{"./menu":"frHky","./cards":"wDC3l","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"frHky":[function(require,module,exports) {
+},{"./menu":"frHky","./cards":"wDC3l","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"frHky":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _intro = require("./intro");
@@ -613,7 +619,7 @@ class GameMenu {
 }
 exports.default = GameMenu;
 
-},{"./intro":"knEUC","./sound":"lGmhX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"knEUC":[function(require,module,exports) {
+},{"./intro":"knEUC","./sound":"lGmhX","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"knEUC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _game = require("./game");
@@ -630,7 +636,7 @@ function intro() {
 }
 exports.default = intro;
 
-},{"./game":"g9e9u","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+},{"./game":"g9e9u","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"4F77b":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -670,12 +676,11 @@ class Sound {
 }
 exports.default = Sound;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"wDC3l":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"wDC3l":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _game = require("./game");
 var _battle = require("./battle");
-let iturn = 0;
 class Card {
     constructor(){
         this.cards = [];
@@ -689,7 +694,7 @@ class Card {
                 const card_id = card.getAttribute("card_id");
                 const activeCard = data[tab_id];
                 data.splice(tab_id, 1);
-                (0, _battle.turngestion)(activeCard);
+                (0, _battle.playerturn)(activeCard);
                 card.classList.add("selected");
                 setTimeout(()=>{
                     card.parentNode.removeChild(card);
@@ -736,8 +741,7 @@ class Card {
         this.createCards(data);
     }
     async playDrawcard(id) {
-        console.log("55555555555555555555555555555555555555555555555555555555");
-        (0, _battle.manage_monster)();
+        (0, _battle.zombieturn)();
         let username = sessionStorage.getItem("username");
         let response = await fetch(`${(0, _game.API_URL)}/play_drawcard?id=` + id + "&username=" + username, {
             method: "GET",
@@ -770,12 +774,13 @@ class Card {
 }
 exports.default = Card;
 
-},{"./game":"g9e9u","./battle":"cHJbw","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cHJbw":[function(require,module,exports) {
+},{"./game":"g9e9u","./battle":"cHJbw","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"cHJbw":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "manage_monster", ()=>manage_monster);
-// turn by turn gestion
-parcelHelpers.export(exports, "turngestion", ()=>turngestion);
+// gestion of player turn
+parcelHelpers.export(exports, "playerturn", ()=>playerturn);
+// gestion of zombie turn
+parcelHelpers.export(exports, "zombieturn", ()=>zombieturn);
 var _animation = require("./animation");
 var _animationDefault = parcelHelpers.interopDefault(_animation);
 var _allgo = require("./allgo");
@@ -857,11 +862,13 @@ function manage_LifeTheft(damage) {
     action.innerHTML = `Pompier :  uses steal life attack and inflicts ${Math.floor(damage)} damage and recover ${Math.floor(regen)} hp`;
     return;
 }
-// gestion of player turn
 function playerturn(activeCard) {
-    animation.animateSprite("firefighter", 1750);
+    // console.log("tour avant la baisse de défense du joueur: %i", turndef_p);
+    // console.log("tour avant la baisse de défense du zombie: %i", turndef_m);
+    // console.log("tour de jeu: %i", iturn);
+    // console.log("Tour du joueur");
     let nbr = 0;
-    console.log("222222222222222222222222222");
+    animation.animateSprite("firefighter", 1750);
     console.log(activeCard);
     if (manage_mana(activeCard.Cost) == 1) return;
     manage_buff(activeCard);
@@ -935,49 +942,43 @@ function monsterdefence() {
     action.innerHTML = `Zombie :  gets stronger and increases its defense`;
 }
 // gestion of zombie turn
-function monsterturn(nbr) {
-    animation.animateSprite("zombie", 3500);
-    alea = Math.floor(Math.random() * 10 + 1);
-    switch(nbr){
-        //attack
-        case 1:
-        case 2:
-        case 3:
-            monsterattack(alea);
-            break;
-        //heal
-        case 4:
-            monsterheal(alea);
-            break;
-        //defence
-        case 5:
-            monsterdefence();
-            break;
-    }
-    turndef_p = Math.abs(turndef_p - 1);
-    if (turndef_p <= 0) defence_p = 0;
-    iturn += 1;
+function monsterskill(nbr) {
+    setTimeout(()=>{
+        console.log("go");
+        animation.animateSprite("zombie", 3500);
+        alea = Math.floor(Math.random() * 10 + 1);
+        switch(nbr){
+            //attack
+            case 1:
+            case 2:
+            case 3:
+                monsterattack(alea);
+                break;
+            //heal
+            case 4:
+                monsterheal(alea);
+                break;
+            //defence
+            case 5:
+                monsterdefence();
+                break;
+        }
+        turndef_p = Math.abs(turndef_p - 1);
+        if (turndef_p <= 0) defence_p = 0;
+        iturn += 1;
+    }, 1500);
 }
-function manage_monster() {
-    console.log("11111111111111111111111111111");
+function zombieturn() {
     console.log("Tour du zombie");
     document.querySelector(".cards").classList.add("hidden");
-    monsterturn(Math.floor(Math.random() * 5 + 1));
+    monsterskill(Math.floor(Math.random() * 5 + 1));
     setTimeout(()=>{
         document.querySelector(".cards").classList.remove("hidden");
-    }, 1000);
-    return;
-}
-function turngestion(activeCard) {
-    console.log("tour avant la baisse de d\xe9fense du joueur: %i", turndef_p);
-    console.log("tour avant la baisse de d\xe9fense du zombie: %i", turndef_m);
-    console.log("tour de jeu: %i", iturn);
-    console.log("Tour du joueur");
-    playerturn(activeCard);
+    }, 3000);
     return;
 }
 
-},{"./animation":"k5ez6","./allgo":"hRUZT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5ez6":[function(require,module,exports) {
+},{"./animation":"k5ez6","./allgo":"hRUZT","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"k5ez6":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 class Animate {
@@ -1009,7 +1010,7 @@ class Animate {
 }
 exports.default = Animate;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hRUZT":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"hRUZT":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 const MIN_DAMAGE = 1.3;
@@ -1085,6 +1086,6 @@ function allgo(attack, defence, heal, isBuff, isDeBuff, CC, Miss, Multi) {
 }
 exports.default = allgo;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["8HAIT","g9e9u"], "g9e9u", "parcelRequire4c95")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}]},["5LTrL","g9e9u"], "g9e9u", "parcelRequire4c95")
 
 //# sourceMappingURL=index.c3fdd8eb.js.map

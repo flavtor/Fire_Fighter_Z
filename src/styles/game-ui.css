@@ -120,3 +120,13 @@
   width: 180px;
   height: 75px;
 }
+
+button#logout{
+  position: absolute;
+  z-index: 2;
+  bottom: 20px;
+  right: 20px;
+  font-size: 1rem;
+  width: 130px;
+  height: 53px;
+}

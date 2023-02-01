@@ -121,4 +121,14 @@
   font-size: 1.7rem;
 }
 
+button#logout {
+  z-index: 2;
+  width: 130px;
+  height: 53px;
+  font-size: 1rem;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
 /*# sourceMappingURL=index.f426bcd7.css.map */

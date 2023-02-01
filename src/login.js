@@ -7,6 +7,10 @@ const registerButton = document.getElementById("register-form-submit");
 const registerErrorMsg = document.getElementById("register-error-msg");
 const registerSuccessMsg = document.getElementById("register-success-msg");
 
+if (sessionStorage.getItem("username")) {
+  window.location.href = "./index.html";
+}
+
 // Service REST /login parameter username, password 
 async function login(){
 	const username = loginForm.username.value;
