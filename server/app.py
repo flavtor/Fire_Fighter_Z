@@ -1,23 +1,30 @@
 # app.py
 
-# Required imports
+# Import necessary libraries for Flask application
 import os
-from flask import Flask, request, jsonify
-from flask_cors import CORS, cross_origin
-from firebase_admin import credentials, firestore, initialize_app
-import json
-import random
+from flask import Flask, request, jsonify  # Import libraries for Flask, HTTP requests and JSON responses
+from flask_cors import CORS, cross_origin  # Import library for Cross-Origin Resource Sharing (CORS)
+from firebase_admin import credentials, firestore, initialize_app  # Import libraries for Firebase Admin and Firestore
+import json  # Import library for handling JSON data
+import random  # Import library for generating random numbers
 
-# Initialize Flask app
+# Initialize Flask application
 app = Flask(__name__)
+# Enable CORS for the Flask application
 cors = CORS(app)
+# Set the header for CORS to "Content-Type"
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-# Initialize Firestore DB
+# Initialize Firestore database
+# Load the certificate for accessing Firestore from 'server/key.json'
 cred = credentials.Certificate('server/key.json')
+# Initialize the Firebase Admin library using the certificate
 default_app = initialize_app(cred)
+# Connect to the Firestore database using the Firebase Admin library
 db = firestore.client()
+# Reference the 'cards' collection in the Firestore database
 cards_ref = db.collection('cards')
+# Reference the 'player' collection in the Firestore database
 player_ref = db.collection('player')
 
 
@@ -80,10 +87,12 @@ def init():
         return f"An Error Occurred: {e}"
 
 
+# This function allows a user to draw one card randomly from the available cards.
+# The drawn card is then added to the user's player card collection and removed from the available card collection.
+# The function returns the drawn card in JSON format.
 @app.route('/drawcard', methods=['GET'])
 @cross_origin()
 def drawcard():
-
     try:
         list_cards = [doc.to_dict() for doc in cards_ref.stream()]
         my_card = random.choice(list_cards)
@@ -91,12 +100,16 @@ def drawcard():
         player_ref.document(str(my_card["id"])).set(my_card)
         return jsonify(my_card), 200
     except Exception as e:
+        # Return an error message if an exception occurs
         return f"An Error Occurred: {e}"
 
+
+# This function retrieves a list of all cards from the "cards" collection of the user, chooses a random card from the list,
+# adds it to the "player" collection of the user, deletes it from the "cards" collection of the user,
+# and returns the list of all cards in the "player" collection of the user.
 @app.route('/drawcards', methods=['GET'])
 @cross_origin()
 def drawcards():
-
     try:
         list_cards = [doc.to_dict() for doc in cards_ref.stream()]
         my_card = random.choice(list_cards)
@@ -105,7 +118,9 @@ def drawcards():
         list_player = [doc.to_dict() for doc in player_ref.stream()]
         return jsonify(list_player), 200
     except Exception as e:
+        # Return an error message if an exception occurs
         return f"An Error Occurred: {e}"
+
 
 @app.route('/listcards', methods=['GET'])
 @cross_origin()
