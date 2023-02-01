@@ -2,6 +2,8 @@
 
 Fire Fighter Z is a web game application that was created as a school project within one week. Players take turns using cards with various abilities to combat enemies. The project was built using Flask for Python and Firebase for database management.
 
+![fire fighter z demo](https://user-images.githubusercontent.com/74910872/216054259-23a2b3e1-1873-4b09-8a87-6768ca80541e.png)
+
 ## Technology Stack:
 
 This project is built with the Flask framework for Python, and uses Firebase for database management. The project uses Cross-Origin Resource Sharing (CORS) to handle cross-domain requests. The front-end of the project is built using Parcel, a fast, zero-configuration web application bundler.
