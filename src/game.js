@@ -3,13 +3,13 @@ import Card from "./cards";
 
 export const API_URL = "http://localhost:8080";
 
-if (!sessionStorage.getItem("username")) {
+if (!localStorage.getItem("username")) {
   window.location.href = "./login.html";
 }
 const logoutButton = document.querySelector('#logout')
 
 logoutButton.addEventListener('click', () => {
-  sessionStorage.removeItem('username');
+  localStorage.removeItem('username');
   window.location.href = './login.html';
 });
 

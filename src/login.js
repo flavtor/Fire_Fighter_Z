@@ -7,7 +7,7 @@ const registerButton = document.getElementById("register-form-submit");
 const registerErrorMsg = document.getElementById("register-error-msg");
 const registerSuccessMsg = document.getElementById("register-success-msg");
 
-if (sessionStorage.getItem("username")) {
+if (localStorage.getItem("username")) {
   window.location.href = "./index.html";
 }
 
@@ -29,7 +29,7 @@ async function login(){
 	console.log("data", data);
 	
 	if (data["status"] == "ok"){
-		sessionStorage.setItem("username", data["username"]);
+		localStorage.setItem("username", data["username"]);
 		window.location.href = "./index.html";
 	}
 	else {
