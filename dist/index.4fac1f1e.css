@@ -1,0 +1,423 @@
+.menu {
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  background: url("Cover.3b062d0a.png") 0 0 / cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.options {
+  width: 100%;
+  justify-content: center;
+  gap: 35px;
+  display: flex;
+  position: absolute;
+  bottom: 80px;
+}
+
+button {
+  color: #fff;
+  width: 290px;
+  height: 120px;
+  cursor: pointer;
+  background-color: #0000;
+  background-image: url("Button_Classique.80b117d4.png");
+  background-size: cover;
+  border: none;
+  font-size: 3rem;
+  font-weight: bold;
+  transition: all .2s;
+}
+
+button:hover {
+  background-image: url("Button_Hover.d60fd290.png");
+  transition: all .2s;
+  transform: scale(.9);
+}
+
+.intro {
+  width: 100%;
+  height: 100%;
+  background: url("map.8cb51828.jpg") 100% 100%;
+  position: relative;
+}
+
+.info-box {
+  position: absolute;
+  bottom: 104px;
+  left: 78px;
+}
+
+.info-box img {
+  width: 300px;
+}
+
+.place button {
+  box-sizing: border-box;
+  width: 70px;
+  height: 70px;
+  color: #191919;
+  background-image: none;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  padding: 3px;
+  font-weight: bold;
+  transition: all .3s ease-in;
+  display: flex;
+  position: relative;
+}
+
+.place button.visited {
+  background-color: #db1b0a;
+}
+
+.place button.unknow {
+  background-color: #191919;
+}
+
+.place button.unknow, .place button.mistery {
+  cursor: not-allowed;
+}
+
+.place button.unknow:hover, .place button.mistery:hover {
+  transform: scale(1);
+}
+
+.place {
+  position: absolute;
+}
+
+.place-1 {
+  bottom: 231px;
+  right: 528px;
+}
+
+.place-2 {
+  bottom: 473px;
+  right: 468px;
+}
+
+.place-3 {
+  bottom: 477px;
+  right: 773px;
+}
+
+.place button:after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: #0000;
+  border: 5px solid #191919;
+  border-radius: 50%;
+  position: absolute;
+  transform: scale(1.2);
+}
+
+.place button.visited:after {
+  border: 5px solid #db1b0a;
+  animation: 1.7s ease-in-out infinite button-blink-anim;
+}
+
+@keyframes button-blink-anim {
+  0% {
+  }
+
+  50% {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.game-ui {
+  color: #fff;
+  width: 100%;
+  height: 100%;
+  background-color: #0000;
+  background-image: linear-gradient(0deg, #0000 0% 70%, #000 100%), url("Background_Night_City.052e8d3c.png");
+  background-position-x: 0%, 0%;
+  background-position-y: 100%;
+  background-repeat: repeat, repeat;
+  background-size: auto, auto;
+  background-attachment: scroll, scroll;
+  background-origin: padding-box, padding-box;
+  background-clip: border-box, border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.top-bar {
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 70px 0;
+  font-size: 2rem;
+  font-weight: bold;
+  display: flex;
+}
+
+.box-content {
+  width: 456px;
+  height: 100px;
+  background-image: url("Action_Box.fc4b6dad.png");
+  background-size: cover;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 15px;
+  font-size: 1rem;
+  transition: all .7s ease-in;
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.box-content.hidden {
+  top: -150px;
+}
+
+.turn-container {
+  font-size: 1.2rem;
+}
+
+.action-container {
+  margin-top: 10px;
+  padding: 0 50px;
+}
+
+.settings img {
+  width: 35px;
+  cursor: pointer;
+}
+
+.heart {
+  color: #e90000;
+  -webkit-text-stroke: 1.7px #444;
+  position: relative;
+}
+
+.heart:before {
+  content: "";
+  width: 30px;
+  height: 30px;
+  background-image: url("Icons_Heart.ec4ed2ef.png");
+  background-size: cover;
+  position: absolute;
+  left: -40px;
+}
+
+.heart-e {
+  color: #e90000;
+  -webkit-text-stroke: 1.7px #444;
+  margin-right: -35px;
+  position: relative;
+}
+
+.heart-e:before {
+  content: "";
+  width: 30px;
+  height: 30px;
+  background-image: url("Icons_Heart.ec4ed2ef.png");
+  background-size: cover;
+  position: absolute;
+  left: -40px;
+}
+
+.mana {
+  width: 100px;
+  height: 100px;
+  -webkit-text-stroke: 1.7px #444;
+  background: url("Icons_mana.f44df7e0.png") 0 0 / cover;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.4rem;
+  font-weight: bold;
+  display: flex;
+  position: absolute;
+  bottom: 30px;
+  left: 45px;
+}
+
+.end-turn {
+  z-index: 3;
+  position: absolute;
+  bottom: 175px;
+  right: 45px;
+}
+
+.end-turn__button {
+  width: 180px;
+  height: 75px;
+  font-size: 1.7rem;
+}
+
+button#logout {
+  z-index: 2;
+  width: 130px;
+  height: 53px;
+  font-size: 1rem;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.cards {
+  width: 100%;
+  z-index: 2;
+  justify-content: center;
+  transition: all .7s ease-in;
+  display: flex;
+  position: absolute;
+  bottom: -150px;
+}
+
+.cards.hidden {
+  transition: all .7s ease-in;
+  transform: translateY(80%);
+}
+
+.cards__item {
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.cards__item img {
+  width: 300px;
+}
+
+.cards__item:not(:first-child) {
+  margin-left: -100px;
+}
+
+.card-1 {
+  transform: translate(0, 45px)rotate(-12deg);
+}
+
+.card-2 {
+  transform: translate(0, 10px)rotate(-6deg);
+}
+
+.card-3 {
+  transform: rotate(0);
+}
+
+.card-4 {
+  transform: translate(0, 10px)rotate(6deg);
+}
+
+.card-5 {
+  transform: translate(0, 45px)rotate(12deg);
+}
+
+.cards__item:hover {
+  z-index: 1;
+  transition: all .2s;
+  transform: translateY(-140px)scale3d(1.2, 1.2, 1);
+}
+
+.cards__item.selected {
+  opacity: 0;
+  transform: translate(0%, -80%)rotate(0)scale3d(1.8, 1.8, 1);
+}
+
+.loading {
+  align-items: center;
+  font-size: 3rem;
+  font-weight: bold;
+  display: flex;
+  position: absolute;
+  bottom: 80px;
+  right: 50%;
+  transform: translate(50%, 50%);
+}
+
+.loader {
+  width: 60px;
+  height: 60px;
+  box-sizing: border-box;
+  border: 5px solid #db1b0a;
+  border-color: #db1b0a #0000;
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-left: 25px;
+  font-size: 1.3rem;
+  font-weight: 300;
+  animation: 1s linear infinite rotation;
+  display: flex;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.zombie {
+  height: 350px;
+  width: 350px;
+  background: url("zombie_sprite.4f7a1251.png");
+  transition: right .7s ease-in-out;
+  position: absolute;
+  bottom: 230px;
+  right: 300px;
+}
+
+.firefighter {
+  height: 350px;
+  width: 350px;
+  background: url("firefighter_sprite.aae9672c.png");
+  transition: left .9s ease-in-out;
+  position: absolute;
+  bottom: 230px;
+  left: 300px;
+}
+
+.zombie.animation {
+  transition: right .7s ease-in-out;
+  right: 50%;
+}
+
+.firefighter.animation {
+  transition: left .7s ease-in-out;
+  left: 60%;
+}
+
+html {
+  font-family: Space Grotesk;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#game {
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  position: relative;
+}
+
+.disappear {
+  display: none !important;
+}
+
+.appear {
+  display: block;
+}
+
+/*# sourceMappingURL=index.4fac1f1e.css.map */

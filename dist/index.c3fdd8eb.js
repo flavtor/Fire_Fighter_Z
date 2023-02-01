@@ -142,7 +142,7 @@
       this[globalName] = mainExports;
     }
   }
-})({"5LTrL":[function(require,module,exports) {
+})({"8HAIT":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -581,7 +581,7 @@ function initGame() {
 }
 exports.default = initGame;
 
-},{"./menu":"frHky","./cards":"wDC3l","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"frHky":[function(require,module,exports) {
+},{"./menu":"frHky","./cards":"wDC3l","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"frHky":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _intro = require("./intro");
@@ -619,7 +619,7 @@ class GameMenu {
 }
 exports.default = GameMenu;
 
-},{"./intro":"knEUC","./sound":"lGmhX","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"knEUC":[function(require,module,exports) {
+},{"./intro":"knEUC","./sound":"lGmhX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"knEUC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _game = require("./game");
@@ -636,7 +636,7 @@ function intro() {
 }
 exports.default = intro;
 
-},{"./game":"g9e9u","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"4F77b":[function(require,module,exports) {
+},{"./game":"g9e9u","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -676,54 +676,66 @@ class Sound {
 }
 exports.default = Sound;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"wDC3l":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"wDC3l":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _game = require("./game");
 var _battle = require("./battle");
 class Card {
     constructor(){
-        this.cards = [];
-        this.json_obj = [];
-        this.loading = false;
+        this.cards = []; // Array to store cards elements
+        this.json_obj = []; // Array to store JSON data fetched from the API
+        this.loading = false; // Boolean to check if cards are loaded or not
     }
+    // Initialize click event on the card element
     initClickEvent(data) {
+        // Loop through the cards array and add event listener to each card
         this.cards.forEach((card)=>{
             card.addEventListener("click", ()=>{
+                // Get the tab_id and card_id attributes of the clicked card
                 const tab_id = card.getAttribute("tab_id");
                 const card_id = card.getAttribute("card_id");
                 const activeCard = data[tab_id];
+                // Remove the selected card from the data array
                 data.splice(tab_id, 1);
                 (0, _battle.playerturn)(activeCard);
                 card.classList.add("selected");
                 setTimeout(()=>{
+                    // Remove the card element from the DOM
                     card.parentNode.removeChild(card);
                     this.playDrawcard(card_id);
                 }, 700);
             });
         });
     }
+    // Fetch the cards from the API
     async fetchCards() {
         let username = sessionStorage.getItem("username");
+        // Make a GET request to the API to fetch the cards
         let response = await fetch(`${(0, _game.API_URL)}/init?username=` + username, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
             }
         });
+        // Call showLoading method which displays cards once loaded
         this.showLoading();
         let data = await response.json();
         sessionStorage.setItem("listCards", JSON.stringify(data));
         const listCards = sessionStorage.getItem("listCards");
         this.json_obj = JSON.parse(listCards);
+        // Retrun data into json object
         return this.json_obj;
     }
+    // Create the card elements and display them
     createCards(data) {
         const cardsContainer = document.querySelector(".cards");
         cardsContainer.innerHTML = "";
+        // Loop through the cards data and create card elements
         for(let i = 0; i < data.length; i++){
             const cardsData = data[i];
             const cardElement = document.createElement("div");
+            // Set the tab_id and card_id attributes for each card
             cardElement.setAttribute("tab_id", i);
             cardElement.setAttribute("card_id", cardsData.id);
             cardElement.classList.add("cards__item");
@@ -736,13 +748,18 @@ class Card {
         this.cards = document.querySelectorAll(".cards__item");
         this.initClickEvent(data);
     }
+    // Asynchronously retrieve cards data from API
     async getCards() {
+        // Fetch data
         const data = await this.fetchCards();
+        // Create cards from fetched data
         this.createCards(data);
     }
+    // Asynchronously play a draw card data from API
     async playDrawcard(id) {
         (0, _battle.zombieturn)();
         let username = sessionStorage.getItem("username");
+        // Send a GET request to the API to play a draw card
         let response = await fetch(`${(0, _game.API_URL)}/play_drawcard?id=` + id + "&username=" + username, {
             method: "GET",
             headers: {
@@ -752,9 +769,12 @@ class Card {
         let data = await response.json();
         sessionStorage.setItem("listPlayerCards", JSON.stringify(data));
         const listCards = sessionStorage.getItem("listPlayerCards");
+        // Parse the list of cards from JSON to an object
         this.json_obj = JSON.parse(listCards);
+        // Create the cards from the updated data
         this.createCards(this.json_obj);
     }
+    // Element to appear when maps are loaded
     showLoading() {
         this.loading = true;
         const loadingElement = document.querySelector(".loading");
@@ -766,6 +786,7 @@ class Card {
             boxElement
         ]);
     }
+    // Show a list of elements by removing their hidden class
     showElements(elements) {
         elements.forEach((element)=>{
             element.classList.remove("hidden");
@@ -774,7 +795,7 @@ class Card {
 }
 exports.default = Card;
 
-},{"./game":"g9e9u","./battle":"cHJbw","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"cHJbw":[function(require,module,exports) {
+},{"./game":"g9e9u","./battle":"cHJbw","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cHJbw":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 // gestion of player turn
@@ -792,7 +813,7 @@ let defence_p = 0;
 let turndef_p = 0;
 let defence_m = 0;
 let turndef_m = 0;
-let buff = false;
+let buff = true;
 let turn_buff = 0;
 // recover html id
 hp_monster = document.getElementById("monster_hp");
@@ -810,7 +831,7 @@ function manage_mana(Cost) {
         alert("vous n'avez plus assez de mana pour lanc\xe9 votre competence vous pass\xe9 votre tour");
         turndef_m = Math.abs(turndef_m - 1);
         if (turndef_m <= 0) defence_m = 0;
-        mana_points.textContent = 3;
+        mana_points.textContent = 4;
         iturn += 1;
         return 1;
     }
@@ -863,10 +884,10 @@ function manage_LifeTheft(damage) {
     return;
 }
 function playerturn(activeCard) {
-    // console.log("tour avant la baisse de défense du joueur: %i", turndef_p);
-    // console.log("tour avant la baisse de défense du zombie: %i", turndef_m);
-    // console.log("tour de jeu: %i", iturn);
-    // console.log("Tour du joueur");
+    console.log("tour avant la baisse de d\xe9fense du joueur: %i", turndef_p);
+    console.log("tour avant la baisse de d\xe9fense du zombie: %i", turndef_m);
+    console.log("tour de jeu: %i", iturn);
+    console.log("Tour du joueur");
     let nbr = 0;
     animation.animateSprite("firefighter", 1750);
     console.log(activeCard);
@@ -978,7 +999,7 @@ function zombieturn() {
     return;
 }
 
-},{"./animation":"k5ez6","./allgo":"hRUZT","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"k5ez6":[function(require,module,exports) {
+},{"./animation":"k5ez6","./allgo":"hRUZT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5ez6":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 class Animate {
@@ -1010,13 +1031,12 @@ class Animate {
 }
 exports.default = Animate;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"hRUZT":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hRUZT":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 const MIN_DAMAGE = 1.3;
 const MAX_DAMAGE = 0.7;
 const BUFF_MULTIPLIER = 1.5;
-const DEBUFF_MULTIPLIER = 0.5;
 let CRITICAL_HIT_CHANCE = 0.1;
 let MISS_CHANCE = 0.05;
 let ATTACK_RANGE = [
@@ -1026,26 +1046,27 @@ let ATTACK_RANGE = [
 // calculate damage
 function calculateDamage(attack, defence, isBuff, isDeBuff) {
     let damage = (Math.random() * (MIN_DAMAGE - MAX_DAMAGE) + MIN_DAMAGE) * attack;
-    let damageModifier = (isBuff ? BUFF_MULTIPLIER : 1) * (isDeBuff ? DEBUFF_MULTIPLIER : 1);
+    let damageModifier = isBuff ? BUFF_MULTIPLIER : 1;
+    console.log("-------------------------------------------------------------------------------------------------- damageModifier:", damageModifier);
     damage = Math.floor(damage * damageModifier);
     // chance of critical hit
     let isCriticalHit = Math.random() < CRITICAL_HIT_CHANCE;
     if (isCriticalHit) {
-        damage = damage * 2;
         alert("critical hit!");
+        damage = damage * 2;
     }
     //chance of miss
     let isMiss = Math.random() < MISS_CHANCE;
     if (isMiss) {
         damage = 0;
         alert("miss!");
-    } else damage = Math.max(Math.floor(damage - defence * 0.7), 1);
+    } else if (!isCriticalHit) return damage = Math.max(Math.floor(damage - defence * 0.6), 1);
     return damage;
 }
 // finale degat gestion
 function finaledegat(attack, defence, isBuff, isDeBuff) {
     let finalDamage = 0;
-    let attackCount = ATTACK_RANGE[1] - ATTACK_RANGE[0] + 1;
+    let attackCount = Math.floor(Math.random() * (ATTACK_RANGE[1] - ATTACK_RANGE[0] + 1) + ATTACK_RANGE[0]);
     for(let i = 0; i < attackCount; i++){
         console.log("nombre d'attaque : ", attackCount);
         finalDamage += calculateDamage(attack, defence, isBuff, isDeBuff);
@@ -1069,6 +1090,7 @@ function healcalculate(heal) {
     } else return heal;
 }
 function allgo(attack, defence, heal, isBuff, isDeBuff, CC, Miss, Multi) {
+    console.log("allgo");
     CRITICAL_HIT_CHANCE = CC;
     MISS_CHANCE = Miss;
     ATTACK_RANGE = [
@@ -1086,6 +1108,6 @@ function allgo(attack, defence, heal, isBuff, isDeBuff, CC, Miss, Multi) {
 }
 exports.default = allgo;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}]},["5LTrL","g9e9u"], "g9e9u", "parcelRequire4c95")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["8HAIT","g9e9u"], "g9e9u", "parcelRequire4c95")
 
 //# sourceMappingURL=index.c3fdd8eb.js.map

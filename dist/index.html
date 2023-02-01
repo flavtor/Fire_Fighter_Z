@@ -1,29 +1,39 @@
+<!-- Start of the Document -->
 <!DOCTYPE html>
 <html lang="en">
+
+<!-- Start of the Head -->
 
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fire Fighter Z</title>
-  <link rel="stylesheet" href="/index.b9654202.css">
-  <link rel="stylesheet" href="/index.e0a973c1.css">
-  <link rel="stylesheet" href="/index.a66f4812.css">
-  <link rel="stylesheet" href="/index.f426bcd7.css">
-  <link rel="stylesheet" href="/index.90a603c1.css">
-  <link rel="stylesheet" href="/index.3f4ae5f0.css">
+
+  <!-- Linking CSS File -->
+  <link rel="stylesheet" href="/index.4fac1f1e.css">
 </head>
+<!-- End of the Head -->
+
+<!-- Start of the Body -->
 
 <body>
   <section id="game">
+    <!-- Start of the Menu -->
     <div class="menu">
       <div class="options">
       </div>
     </div>
+    <!-- End of the Menu -->
+
+    <!-- Start of the Introduction map (hidden by default with .disappear) -->
     <div class="intro disappear">
+      <!-- Legend image for the map  -->
       <div class="info-box">
-        <img src="/Legend.35fc8cd6.png"> 
+        <img src="/Legend.35fc8cd6.png">
       </div>
+
+      <!-- Different place to visited -->
       <div class="place place-1">
         <button class="visited">
         </button>
@@ -39,42 +49,60 @@
         </button>
       </div>
     </div>
+    <!-- End of the Introduction -->
+
+    <!-- Start of the Game User Interface (hidden by default with .disappear) -->
     <div class="game-ui disappear">
       <div class="top-bar">
+
+        <!-- Life of the player -->
         <div class="heart">
           <span id="player_hp">180</span><span>/180</span>
         </div>
+
+        <!-- Life of the enemie -->
         <div class="heart-e">
           <span id="monster_hp">100</span><span>/100</span>
         </div>
+
+        <!-- Box that contains the different actions of the fight generated in js -->
         <div class="box-content hidden">
           <div class="action-container">
             <span class="action">It's up to you, I'm counting on you to kill this zombie !
             </span>
           </div>
         </div>
+
       </div>
+
+      <!-- Cards are generated in js in this .cards div. Is hidden by default to animate it -->
       <div class="cards hidden">
       </div>
 
+      <!-- Loading visible as long as cards do not exist -->
       <div class="loading">distribution of cards
         <span class="loader"></span>
       </div>
 
+      <!-- Displays player's mana -->
       <div class="mana">
         <span id="mana_p"> 4</span><span>/4</span>
       </div>
 
-      <span class="firefighter"></span>
+      <!-- Sprite display (generated in background-image with css) -->
+      <div class="firefighter"></div>
       <div class="zombie"></div>
 
     </div>
+    <!-- End of the Game User Interface -->
 
+    <!-- Logout Button (dispaly on all screens of the game) -->
     <button id="logout">
       logout
     </button>
-  </section>
-  <script src="/index.c3fdd8eb.js" defer=""></script>
-</body>
+
+    <!-- Linking JS file -->
+    <script src="/index.c3fdd8eb.js" defer=""></script>
+</section></body>
 
 </html>
