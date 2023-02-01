@@ -161,30 +161,33 @@ function monsterdefence() {
 
 // gestion of zombie turn
 function monsterskill(nbr) {
-    animation.animateSprite('zombie', 3500)
-    alea = Math.floor(Math.random() * (10 - 1 + 1) + 1);
+    setTimeout(() => {
+        console.log('go')
+        animation.animateSprite('zombie', 3500)
+        alea = Math.floor(Math.random() * (10 - 1 + 1) + 1);
 
-    switch (nbr) {
-        //attack
-        case 1:
-        case 2:
-        case 3:
-            monsterattack(alea);
-        break;
-        //heal
-        case 4:
-            monsterheal(alea);
-        break;
-        //defence
-        case 5:
-            monsterdefence();
-        break;
-    }
+        switch (nbr) {
+            //attack
+            case 1:
+            case 2:
+            case 3:
+                monsterattack(alea);
+            break;
+            //heal
+            case 4:
+                monsterheal(alea);
+            break;
+            //defence
+            case 5:
+                monsterdefence();
+            break;
+        }
     turndef_p = Math.abs(turndef_p -1);
     if (turndef_p <= 0) {
         defence_p = 0;
     }
     iturn += 1;
+    }, 1500);
 }
 
 // gestion of zombie turn
@@ -195,6 +198,6 @@ export function zombieturn() {
     monsterskill(Math.floor(Math.random() * (5 - 1 + 1) + 1));
     setTimeout(() => {
         document.querySelector('.cards').classList.remove('hidden')
-    }, 1000);
+    }, 3000);
     return;
 }
