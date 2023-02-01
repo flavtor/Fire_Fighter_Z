@@ -12,7 +12,7 @@
 
   <!-- favicon -->
   <link rel="icon" type="image/png" href="./assets/Logo/icon.png" />
-  
+
   <!-- Linking CSS File -->
   <link rel="stylesheet" href="styles/General.css">
 </head>
@@ -58,14 +58,34 @@
     <div class="game-ui disappear">
       <div class="top-bar">
 
-        <!-- Life of the player -->
-        <div class="heart">
-          <span id="player_hp">160</span><span>/160</span>
+        <!-- Infos of the player -->
+        <div class="info-container">
+          <span class="player-name">You</span>
+          <div class="hp-container">
+            <div class="heart">
+              <span id="player_hp">160</span><span>/160</span>
+            </div>
+          </div>
+          <div class="turn-def-container">
+            <span class="turn-def-firefighter">
+            </span>
+          </div>
+
         </div>
 
-        <!-- Life of the enemie -->
-        <div class="heart-e">
-          <span id="monster_hp">115</span><span>/115</span>
+        <!-- Infos of the enemie -->
+        <div class="info-container">
+          <span class="player-name">Zombie</span>
+          <div class="hp-container">
+            <div class="heart-e">
+              <span id="monster_hp">115</span><span>/115</span>
+            </div>
+          </div>
+          <div class="turn-def-container">
+            <span class="turn-def-zombie">
+            </span>
+          </div>
+
         </div>
 
         <!-- Box that contains the different actions of the fight generated in js -->
