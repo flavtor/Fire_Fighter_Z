@@ -142,7 +142,7 @@
       this[globalName] = mainExports;
     }
   }
-})({"5LTrL":[function(require,module,exports) {
+})({"8HAIT":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -581,7 +581,7 @@ function initGame() {
 }
 exports.default = initGame;
 
-},{"./menu":"frHky","./cards":"wDC3l","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"frHky":[function(require,module,exports) {
+},{"./menu":"frHky","./cards":"wDC3l","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"frHky":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _intro = require("./intro");
@@ -619,7 +619,7 @@ class GameMenu {
 }
 exports.default = GameMenu;
 
-},{"./intro":"knEUC","./sound":"lGmhX","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"knEUC":[function(require,module,exports) {
+},{"./intro":"knEUC","./sound":"lGmhX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"knEUC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _game = require("./game");
@@ -636,7 +636,7 @@ function intro() {
 }
 exports.default = intro;
 
-},{"./game":"g9e9u","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"4F77b":[function(require,module,exports) {
+},{"./game":"g9e9u","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -676,7 +676,7 @@ class Sound {
 }
 exports.default = Sound;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"wDC3l":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"wDC3l":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _game = require("./game");
@@ -774,7 +774,7 @@ class Card {
 }
 exports.default = Card;
 
-},{"./game":"g9e9u","./battle":"cHJbw","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"cHJbw":[function(require,module,exports) {
+},{"./game":"g9e9u","./battle":"cHJbw","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cHJbw":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 // gestion of player turn
@@ -943,30 +943,27 @@ function monsterdefence() {
 }
 // gestion of zombie turn
 function monsterskill(nbr) {
-    setTimeout(()=>{
-        console.log("go");
-        animation.animateSprite("zombie", 3500);
-        alea = Math.floor(Math.random() * 10 + 1);
-        switch(nbr){
-            //attack
-            case 1:
-            case 2:
-            case 3:
-                monsterattack(alea);
-                break;
-            //heal
-            case 4:
-                monsterheal(alea);
-                break;
-            //defence
-            case 5:
-                monsterdefence();
-                break;
-        }
-        turndef_p = Math.abs(turndef_p - 1);
-        if (turndef_p <= 0) defence_p = 0;
-        iturn += 1;
-    }, 1500);
+    animation.animateSprite("zombie", 3500);
+    alea = Math.floor(Math.random() * 10 + 1);
+    switch(nbr){
+        //attack
+        case 1:
+        case 2:
+        case 3:
+            monsterattack(alea);
+            break;
+        //heal
+        case 4:
+            monsterheal(alea);
+            break;
+        //defence
+        case 5:
+            monsterdefence();
+            break;
+    }
+    turndef_p = Math.abs(turndef_p - 1);
+    if (turndef_p <= 0) defence_p = 0;
+    iturn += 1;
 }
 function zombieturn() {
     console.log("Tour du zombie");
@@ -974,11 +971,11 @@ function zombieturn() {
     monsterskill(Math.floor(Math.random() * 5 + 1));
     setTimeout(()=>{
         document.querySelector(".cards").classList.remove("hidden");
-    }, 3000);
+    }, 1000);
     return;
 }
 
-},{"./animation":"k5ez6","./allgo":"hRUZT","@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"k5ez6":[function(require,module,exports) {
+},{"./animation":"k5ez6","./allgo":"hRUZT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5ez6":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 class Animate {
@@ -1010,7 +1007,7 @@ class Animate {
 }
 exports.default = Animate;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}],"hRUZT":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hRUZT":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 const MIN_DAMAGE = 1.3;
@@ -1086,6 +1083,6 @@ function allgo(attack, defence, heal, isBuff, isDeBuff, CC, Miss, Multi) {
 }
 exports.default = allgo;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"4F77b"}]},["5LTrL","g9e9u"], "g9e9u", "parcelRequire4c95")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["8HAIT","g9e9u"], "g9e9u", "parcelRequire4c95")
 
 //# sourceMappingURL=index.c3fdd8eb.js.map
